@@ -1,0 +1,297 @@
+@import './Variables.scss';
+
+// General page
+@mixin page {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Laptop page container
+@mixin laptopPageContainer {
+  width: $laptop;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+// Tablet page container
+@mixin tabletPageContainer {
+  width: $laptop;
+  margin: 1rem auto;
+}
+
+// Mobile page container
+@mixin mobilePageContainer {
+  width: $laptop;
+  margin: 1rem auto;
+}
+
+// Page title
+@mixin title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $aafs;
+  font-weight: $aafw;
+  padding: $textPadding;
+  margin: 0.5rem 0;
+  text-transform: uppercase;
+}
+
+@mixin subTitle {
+  font-size: $afs;
+  font-weight: $aafw;
+  padding: $textPadding;
+  margin: 0.5rem 0;
+}
+
+// Three variety of Shadows
+@mixin shadow1 {
+  padding: 1rem;
+  box-shadow: #43475545 0px 0px 0.25em, #5a7dbc0d 0px 0.25em 1em;
+  border-radius: $radius;
+  line-height: 1.5rem;
+}
+
+@mixin shadow2 {
+  box-shadow: #63636333 0px 2px 8px 0px;
+  padding: 1rem;
+  border-radius: $radius;
+  line-height: 1.5rem;
+}
+
+@mixin shadow3 {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 1rem;
+  border-radius: $radius;
+  line-height: 1.5rem;
+}
+
+// Fielsset, legend and form
+
+@mixin fieldset {
+  padding: 1rem;
+  border: none;
+}
+
+@mixin legend {
+  font-size: $afs;
+  font-weight: $aafw;
+  text-align: center;
+}
+
+@mixin inputContainer {
+  width: 100%;
+  @include flexCenter;
+  margin: 0.5rem 0;
+}
+
+@mixin inputField {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border: 1px solid $field-bg;
+  outline: none;
+  background-color: transparent;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: $radius;
+}
+
+// Four types of buttons
+@mixin googleButton {
+  width: 100%;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid $yellow;
+  font-weight: $aafs;
+  font-size: $afs;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: $button-hover;
+    color: $red;
+  }
+}
+
+@mixin button1 {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: $button-bg;
+  font-weight: $aafs;
+  font-size: $afs;
+  color: $white;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: $button-hover;
+    color: $red;
+  }
+}
+
+@mixin button2 {
+  @include flexCenter;
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: $green;
+  font-weight: $aafs;
+  font-size: $afs;
+  color: $white;
+  border-radius: $radius;
+  cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    background-color: $button-hover2;
+    color: $red;
+  }
+}
+
+@mixin button3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
+  background-image: linear-gradient(to top, #d8d9db 0%, #fff 80%, #fdfdfd 100%);
+  border-radius: 30px;
+  border: 1px solid #8f9092;
+  transition: all 0.2s ease;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #606060;
+  text-shadow: 0 1px #fff;
+
+  &:hover {
+    box-shadow: 0 4px 3px 1px #fcfcfc, 0 6px 8px #d6d7d9, 0 -4px 4px #cecfd1,
+      0 -6px 4px #fefefe, inset 0 0 3px 3px #cecfd1;
+  }
+
+  &:active {
+    box-shadow: 0 4px 3px 1px #fcfcfc, 0 6px 8px #d6d7d9, 0 -4px 4px #cecfd1,
+      0 -6px 4px #fefefe, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+  }
+
+  &:focus {
+    box-shadow: 0 4px 3px 1px #fcfcfc, 0 6px 8px #d6d7d9, 0 -4px 4px #cecfd1,
+      0 -6px 4px #fefefe, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+  }
+
+  &:hover {
+    color: $red;
+  }
+}
+
+@mixin button4 {
+  width: fit-content;
+  min-width: 60px;
+  height: 45px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 2.5px solid #e0e1e4;
+  box-shadow: 0px 0px 20px -20px;
+  cursor: pointer;
+  background-color: white;
+  transition: all 0.2s ease-in-out 0ms;
+  user-select: none;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: #f2f2f2;
+    box-shadow: 0px 0px 20px -18px;
+    color: $red;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// edit button
+@mixin edit {
+  color: $green;
+  cursor: pointer;
+  font-size: $afs;
+  font-weight: $aafw;
+  border: 1px solid $green;
+  padding: 0.5rem;
+  border-radius: $radius;
+  background-color: $editbg-bg;
+
+  &:hover {
+    background-color: $edit-hover;
+    color: $blue;
+  }
+}
+
+// Delete button
+@mixin delete {
+  cursor: pointer;
+  font-size: $afs;
+  font-weight: $aafw;
+  border: 1px solid $tomato;
+  padding: 0.5rem;
+  border-radius: $radius;
+  background-color: $delete-bg;
+
+  &:hover {
+    background-color: $delete-hover;
+    color: $red;
+  }
+}
+
+// Search
+@mixin search {
+  font-family: inherit;
+  font-size: inherit;
+  background-color: #f4f2f2;
+  border: none;
+  color: #646464;
+  padding: 0.7rem 1rem;
+  border-radius: 30px;
+  transition: all ease-in-out 0.5s;
+  margin-right: -2rem;
+}
+
+// Paragraph
+@mixin paragraph {
+  font-size: $afs;
+  line-height: 2rem;
+  padding: $textPadding;
+}
+
+// Placing center
+@mixin flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Steps
+@mixin step {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: #090909;
+  padding: 0.7em 1.7em;
+  margin: 1rem 0;
+  font-size: 18px;
+  border-radius: 0.5em;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s;
+  box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+}
