@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
@@ -8,11 +8,12 @@ import Contact from './views/contactPage/Contact';
 import Register from './views/registerPage/Register';
 import Login from './views/loginPage/Login';
 import NotFound from './views/notFound/NotFound';
+import Activation from './views/activationPage/Activation';
 
 const App = () => {
   return (
     <div>
-        <Router>
+      <Router>
         <ToastContainer
           position="top-right"
           limit={1}
@@ -26,18 +27,18 @@ const App = () => {
           pauseOnHover
           theme="light"
         />
-      
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/activation/:activation_token" element={<Activation />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-   
       </Router>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

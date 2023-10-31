@@ -9,6 +9,7 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
+import ButtonLoader from '../../components/loader/ButtonLoader';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -74,6 +75,7 @@ const Register = () => {
     // }
 
     try {
+      setLoading(true);
       // Image validation
       const userPhoto = new FormData();
       userPhoto.append('file', image);
@@ -103,9 +105,11 @@ const Register = () => {
       localStorage.setItem('user', JSON.stringify(data));
       resetVariables();
       navigate('/login');
-      return toast.success('You have successfully logged in!');
+      setLoading(false);
+      return toast.success('Open your email to activate your account!');
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -229,7 +233,7 @@ const Register = () => {
               disabled={loading}
               className="register-button"
             >
-              {/* {loading && <ButtonSpinner />} */}
+              {loading && <ButtonLoader />}
               {loading && <span>Loading...</span>}
               {!loading && <span>Sign Up</span>}
             </button>
