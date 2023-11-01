@@ -23,6 +23,7 @@ const Register = () => {
   const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   console.log(agree);
 
@@ -101,8 +102,12 @@ const Register = () => {
         newUser
       );
 
-      //& 1. Save user in the local storage
-      localStorage.setItem('user', JSON.stringify(data));
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
+
       resetVariables();
       navigate('/login');
       setLoading(false);
@@ -110,6 +115,7 @@ const Register = () => {
     } catch (err) {
       console.log(err);
       setLoading(false);
+      toast.error(err.response.data.message);
     }
   };
 

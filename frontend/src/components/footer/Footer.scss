@@ -1,0 +1,89 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.footer {
+  background-color: $blue;
+  .subscription {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    .subtTitle {
+      @include subTitle;
+      color: $white;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+
+      .input-container {
+        position: relative;
+        @include inputContainer;
+
+        .input-field {
+          @include inputField;
+          margin-bottom: $radius;
+          padding-left: 2rem;
+          background-color: $white;
+
+          &::placeholder {
+            color: gray;
+          }
+        }
+
+        .input-label {
+          position: absolute;
+          top: 0;
+          left: 2rem;
+          color: rgba(204, 204, 204, 0);
+        }
+
+        .input-highlight {
+          position: absolute;
+          bottom: 0.2rem;
+          left: 0;
+          height: 2px;
+          width: 0;
+          background-color: $green;
+          transition: all 0.3s ease;
+        }
+
+        .input-field:focus + .input-label {
+          top: -20px;
+          font-size: 12px;
+        }
+
+        .input-field:focus + .input-label + .input-highlight {
+          width: 100%;
+        }
+
+        .icon {
+          position: absolute;
+          top: 1.1rem;
+          left: 0.5rem;
+          font-size: 1rem;
+          color: $green;
+        }
+
+        // displaying password
+        .password-display {
+          position: absolute;
+          top: 50%;
+          right: 1rem;
+          transform: translatey(-50%);
+          font-size: 1.3rem;
+          cursor: pointer;
+        }
+      }
+
+      .subscribe-btn {
+        @include button4;
+      }
+    }
+  }
+}

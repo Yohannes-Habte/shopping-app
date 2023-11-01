@@ -9,6 +9,10 @@ import Register from './views/registerPage/Register';
 import Login from './views/loginPage/Login';
 import NotFound from './views/notFound/NotFound';
 import Activation from './views/activationPage/Activation';
+import Products from './views/productsPage/Products';
+import Sellers from './views/sellersPage/Sellers';
+import Events from './views/eventsPage/Events';
+import BestSellings from './views/bestSellingpage/BestSellings';
 
 const App = () => {
   return (
@@ -34,6 +38,10 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/activation/:activation_token" element={<Activation />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/best-sellings" element={<BestSellings />} />
+          <Route path="/seller" element={<Sellers />} />
+          <Route path="/events" element={<Events />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

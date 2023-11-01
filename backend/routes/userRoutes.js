@@ -1,11 +1,13 @@
 import express from "express"
-import { createAccount } from "../controllers/authController.js";
+import { getUser, getUsers } from "../controllers/userController.js";
+import { authAdmin, authUser } from "../middleware/auth.js";
 
 // Auth Router
 const userRouter = express.Router()
 
 // Auth routes
-userRouter.get("/", createAccount)
+userRouter.get("/user/:id", authUser, getUser)
+userRouter.get("/", authAdmin, getUsers)
 
 
 // Export auth Router

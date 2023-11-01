@@ -1,0 +1,18 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.blog-container {
+@include laptopPageContainer;
+
+  .blog-title {
+    @include title;
+  }
+
+  .pargraph {
+    @include paragraph;
+  }
+
+  .blog-btn {
+    @include button5;
+  }
+}

@@ -19,6 +19,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   // Update input data
   const updateChange = (e) => {
@@ -58,6 +59,7 @@ const Login = () => {
     // }
 
     try {
+      setLoading(false);
       // The body
       const loginUser = {
         email: email,
@@ -69,13 +71,17 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      //& 1. Save user in the local storage
-      localStorage.setItem('user', JSON.stringify(data));
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
       resetVariables();
       navigate('/');
+
       return toast.success('You have successfully logged in!');
     } catch (err) {
-      console.log(err);
+      toast.error(err.response.data.message);
     }
   };
 
@@ -84,6 +90,7 @@ const Login = () => {
       <Helmet>
         <title> Log In </title>
       </Helmet>
+      {error && <p> {error} </p>}
 
       <section className="login-container">
         <h1 className="login-title"> Login To Your Account </h1>
@@ -170,6 +177,7 @@ const Login = () => {
             </p>
           </form>
         </fieldset>
+
       </section>
     </main>
   );

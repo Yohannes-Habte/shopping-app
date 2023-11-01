@@ -197,14 +197,13 @@
 
 @mixin button4 {
   width: fit-content;
-  min-width: 60px;
   height: 45px;
   padding: 8px;
   border-radius: 5px;
-  border: 2.5px solid #e0e1e4;
+  border: 2.5px solid $white;
   box-shadow: 0px 0px 20px -20px;
   cursor: pointer;
-  background-color: white;
+  background-color:  $white;
   transition: all 0.2s ease-in-out 0ms;
   user-select: none;
   font-family: 'Poppins', sans-serif;
@@ -213,6 +212,30 @@
     background-color: #f2f2f2;
     box-shadow: 0px 0px 20px -18px;
     color: $red;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+@mixin button5 {
+  width: fit-content;
+  min-width: 60px;
+  height: 45px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 2.5px solid $button-bg5;
+  box-shadow: 0px 0px 20px -20px;
+  cursor: pointer;
+  background-color: $button-bg5;
+  transition: all 0.2s ease-in-out 0ms;
+  user-select: none;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: $button-hover5;
+    box-shadow: 0px 0px 20px -18px;
   }
 
   &:active {

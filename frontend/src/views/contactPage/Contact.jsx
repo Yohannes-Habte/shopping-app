@@ -1,9 +1,15 @@
-import React from 'react'
+import React from 'react';
+import Header from '../../components/header/Header';
 
 const Contact = () => {
   return (
-    <div>Contact</div>
-  )
-}
+    <main className="home-page">
+      <Header />
+      <section className="home-page-container">
+        <h1 className="home-page-title">Contact Page</h1>
+      </section>
+    </main>
+  );
+};
 
-export default Contact
+export default Contact;

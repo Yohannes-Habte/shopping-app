@@ -1,0 +1,166 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.header {
+  display: flex;
+  flex-direction: column;
+  // top header wrapper
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: $header-bg;
+
+    // Logo
+    .logo {
+      @include title;
+
+      .shopping {
+        color: $blue;
+        &:hover {
+          color: $green;
+        }
+      }
+
+      &:hover {
+        color: $tomato;
+      }
+    }
+
+    // Search bar
+    .search {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 40%;
+      position: relative;
+      margin-top: 0.5rem;
+
+      .input-container {
+        @include inputContainer;
+
+        .input-field {
+          @include inputField;
+          @include shadow3;
+          background-color: $search-bg5;
+          border: 1px solid $gray;
+
+          &::placeholder {
+            font-size: $afs;
+          }
+        }
+
+        .input-highlight {
+          position: absolute;
+          bottom: 1rem;
+          left: 0;
+          height: 2px;
+          width: 0;
+          background-color: $yellow;
+          transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+          font-size: $afs;
+          font-weight: $afw;
+        }
+
+        .input-field:focus + .input-highlight {
+          width: 100%;
+        }
+      }
+
+      .search-btn {
+        position: absolute;
+        right: 1rem;
+        border: none;
+        background-color: $search-bg5;
+
+        .search-icon {
+          font-size: $afs;
+          cursor: pointer;
+
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+    }
+
+    // Become seller
+    .become-seller {
+      @include flexCenter;
+      @include button5;
+
+      .icon {
+        font-size: $aafs;
+      }
+    }
+  }
+
+  // Navbar, cat and user
+  .navbar-cart-user-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: $blue;
+    padding: 0 2rem;
+
+    // categories
+    .categories {
+      background-color: $white;
+      width: 13rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem 0.5rem 0 0;
+     
+
+      .top-icon {
+        font-size: $afs;
+      }
+
+      .btn {
+        font-size: $afs;
+        border: none;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .bottom-icon {
+        font-size: $aafs;
+      }
+    }
+
+    // Car and logged in user
+    .cart-user-wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+ 
+
+      .icon-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        .size {
+          position: absolute;
+          top: -0.6rem;
+          right: 0;
+          color: $white;
+        }
+      }
+
+      .icon {
+        font-size: $aafs;
+        color: $white;
+      }
+    }
+  }
+}
