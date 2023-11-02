@@ -196,6 +196,12 @@
       margin: auto;
       @include shadow3;
 
+      .error-message {
+        @include paragraph;
+        color: $red;
+        background-color: #f1b7ad;
+      }
+
       .login-title {
         @include title;
         color: $green;

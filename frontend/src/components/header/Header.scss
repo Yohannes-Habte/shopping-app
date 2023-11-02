@@ -104,7 +104,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: $blue;
+    background-color: $navbar-bg5;
     padding: 0 2rem;
 
     // categories
@@ -118,7 +118,6 @@
       gap: 0.5rem;
       padding: 0.5rem;
       border-radius: 0.5rem 0.5rem 0 0;
-     
 
       .top-icon {
         font-size: $afs;
@@ -142,7 +141,6 @@
       flex-direction: row;
       align-items: center;
       gap: 1rem;
- 
 
       .icon-wrapper {
         position: relative;
@@ -154,6 +152,46 @@
           top: -0.6rem;
           right: 0;
           color: $white;
+        }
+      }
+
+      .logged-in-user {
+        position: relative;
+
+        .image {
+          width: 2rem;
+          height: 2rem;
+          border-radius: 50%;
+          object-fit: cover;
+          cursor: pointer;
+        }
+
+        .user-history {
+          position: absolute;
+          right: -2rem;
+          top: 3rem;
+          width: 200px;
+          height: fit-content;
+          background-color: $navbar-bg5;
+          padding: 1rem 2rem;
+          border-radius: 0 0 0 $radius;
+
+          .list-item {
+            @include paragraph;
+            color: $white;
+            cursor: pointer;
+
+            &:hover {
+              background-color: $navbar-hover5;
+              color: $tomato;
+            }
+            .link {
+              color: $white;
+              &:hover {
+                color: $tomato;
+              }
+            }
+          }
         }
       }
 

@@ -7,17 +7,32 @@ import { BiUserCircle } from 'react-icons/bi';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { BsCart } from 'react-icons/bs';
 import './Header.scss';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import DropDown from '../dropDown/DropDown';
 import Navbar from '../navbar/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  userLogoutFailure,
+  userLogoutStart,
+  userLogoutSuccess,
+} from '../../redux/reducers/userReducer';
 
 const Header = () => {
   const navigate = useNavigate();
 
+  // Global state variables using redux
+  const { currentUser, isAuthenticated, loading, error } = useSelector(
+    (state) => state.user
+  );
+
+  const dispatch = useDispatch();
+
   // Local state variables
   const [searchItem, setSearchItem] = useState('');
   const [dropDown, setDropDown] = useState(false);
-  const [currentUser, setCurrentUser] = useState(false);
   const [open, setOpen] = useState(false);
   const categoriesData = 'categoriesData';
 
@@ -42,24 +57,33 @@ const Header = () => {
     }
   }, [window.location.search]);
 
-  // Delete user account
-  const handleDeleteAccount = async () => {
+  // Log out user function
+  const handleLogout = async () => {
     try {
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/users/delete`
+      dispatch(userLogoutStart());
+      const { data } = await axios.get(
+        `http://localhost:5000/api/auths/logout/${currentUser.rest._id}`
       );
-    } catch (error) {}
+
+      dispatch(userLogoutSuccess());
+
+      navigate('/login');
+    } catch (error) {
+      dispatch(userLogoutFailure(error.response.data.message));
+    }
   };
 
   // Delete user account
-  const handleLogout = async () => {
+  const handleDeleteAccount = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/auths/logout`
+      dispatch(deleteUserStart());
+      const { data } = await axios.delete(
+        `http://localhost:5000/api/auths/delete-account/${currentUser.rest._id}`
       );
-
-      navigate('/login');
-    } catch (error) {}
+      dispatch(deleteUserSuccess());
+    } catch (error) {
+      dispatch(deleteUserFailure(error.response.data.message));
+    }
   };
 
   return (
@@ -133,11 +157,44 @@ const Header = () => {
             <span className="size">0</span>
           </div>
 
-          <div className="icon-wrappe">
-            <Link to={'/login'} className="link">
-              <BiUserCircle className="icon" />
-            </Link>
-            <span></span>
+          <div className="logged-in-user">
+            {currentUser ? (
+              <React.Fragment>
+                <img
+                  className="image"
+                  src={currentUser.rest.image}
+                  alt={currentUser.rest.name}
+                  onClick={() => setOpen(!open)}
+                />
+
+                {open && (
+                  <ul className="user-history">
+                    <li className="list-item">
+                      <NavLink to={`/profile`} className={'link'}>
+                        Profile
+                      </NavLink>
+                    </li>
+
+                    <li className="list-item">
+                      <NavLink to={`/orders`} className={'link'}>
+                        Orders
+                      </NavLink>
+                    </li>
+
+                    <li onClick={handleLogout} className="list-item">
+                      Log Out
+                    </li>
+                    <li onClick={handleDeleteAccount} className="list-item">
+                      Delete Account
+                    </li>
+                  </ul>
+                )}
+              </React.Fragment>
+            ) : (
+              <Link to={'/login'} className="link">
+                <BiUserCircle className="icon" />
+              </Link>
+            )}
           </div>
         </div>
       </div>

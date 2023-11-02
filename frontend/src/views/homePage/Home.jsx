@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './Home.scss';
-import Store from '../../redux/store';
-import { loadUser } from '../../redux/actions/user';
 import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import Blog from '../../components/blog/Blog';
@@ -12,9 +10,6 @@ import CountDown from '../../components/countDown/CountDown';
 import FeaturedProduct from '../../components/featuredProduct/FeaturedProduct';
 
 const Home = () => {
-  useEffect(() => {
-    Store.dispatch(loadUser);
-  });
   return (
     <main className="home-page">
       <Header />

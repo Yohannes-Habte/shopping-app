@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FaUser, FaUserAlt } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';

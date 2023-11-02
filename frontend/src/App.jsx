@@ -13,6 +13,8 @@ import Products from './views/productsPage/Products';
 import Sellers from './views/sellersPage/Sellers';
 import Events from './views/eventsPage/Events';
 import BestSellings from './views/bestSellingpage/BestSellings';
+import Orders from './views/ordersPage/Orders';
+import Profile from './views/profilePage/Profile';
 
 const App = () => {
   return (
@@ -39,6 +41,8 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/activation/:activation_token" element={<Activation />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/seller" element={<Sellers />} />
           <Route path="/events" element={<Events />} />

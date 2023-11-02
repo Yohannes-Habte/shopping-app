@@ -2,7 +2,6 @@
 @import '../../styles/Mixins.scss';
 
 .navbar {
-    background-color: $blue;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -19,6 +18,10 @@
 
       .list-item {
         padding: 0.5rem 1rem;
+
+        &:hover {
+          background-color: $navbar-hover5;
+        }
         .active {
           color: $red;
           font-size: $afs;

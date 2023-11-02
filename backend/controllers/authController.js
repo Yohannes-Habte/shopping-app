@@ -189,3 +189,57 @@ export const loginUser = async (req, res, next) => {
     next(createError(500, 'User could not login. Please try again!'));
   }
 };
+
+//=========================================================================
+// Login user
+//=========================================================================
+
+export const userLogout = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      next(createError(400, 'User not found!'));
+    }
+
+    // First Option to log out a user
+    res.clearCookie('access_token');
+    res.status(200).json(`You have successfully logged out`);
+
+    // Second option to log out a user:
+    /** 
+    res.cookie('access_token', '', {
+      httpOnly: true,
+      expires: new Date(0), // cookie is expired
+      sameSite: 'none',
+      secure: true,
+    });
+   res.status(200).json(`${user.name} has successfully logged out`);
+    */
+  } catch (error) {
+    next(createError(500, 'User could not logout. Please try again!'));
+  }
+};
+
+//=========================================================================
+// Login user
+//=========================================================================
+
+export const deleteAccount = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.account);
+
+    if (user) {
+      await User.findByIdAndDelete(req.params.account);
+
+      res.clearCookie('access_token');
+      res.status(200).json(`User has been successfully deleted!`);
+    } else {
+      return next(createError(404, 'User not found!'));
+    }
+  } catch (error) {
+    return next(
+      createError(500, 'User could not delete account. Please try again!')
+    );
+  }
+};

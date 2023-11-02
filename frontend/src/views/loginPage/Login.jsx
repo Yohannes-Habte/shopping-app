@@ -7,19 +7,24 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
-import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+} from '../../redux/reducers/userReducer';
 
 const Login = () => {
   const navigate = useNavigate();
-  // Global state variables
+  // Global state variables using redux
+  const { loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   // Local State variables
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   // Update input data
   const updateChange = (e) => {
@@ -59,7 +64,7 @@ const Login = () => {
     // }
 
     try {
-      setLoading(false);
+      dispatch(loginStart());
       // The body
       const loginUser = {
         email: email,
@@ -72,16 +77,16 @@ const Login = () => {
       );
 
       if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
+        dispatch(loginSuccess(data.message));
         return;
       }
+
+      dispatch(loginSuccess(data));
+
       resetVariables();
       navigate('/');
-
-      return toast.success('You have successfully logged in!');
     } catch (err) {
-      toast.error(err.response.data.message);
+      dispatch(loginFailure(err.response.data.message));
     }
   };
 
@@ -90,9 +95,9 @@ const Login = () => {
       <Helmet>
         <title> Log In </title>
       </Helmet>
-      {error && <p> {error} </p>}
 
       <section className="login-container">
+        {error?  <p className="error-message"> {error} </p> : null}
         <h1 className="login-title"> Login To Your Account </h1>
         <figure className="login-icon-container">
           <FaUserAlt className="login-icon" />
@@ -177,7 +182,6 @@ const Login = () => {
             </p>
           </form>
         </fieldset>
-
       </section>
     </main>
   );

@@ -20,6 +20,8 @@ export const authUser = async (req, res, next) => {
     // Find user using the decoded token
     const user = await User.findById(decodedToken.id);
 
+    console.log('The logged in user is', user);
+
     // If user does not exist, it is unauthorized
     if (!user) {
       return next(createError(403, 'User is not authorized.'));
