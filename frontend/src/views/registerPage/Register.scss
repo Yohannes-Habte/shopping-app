@@ -9,6 +9,12 @@
     margin: 1rem auto;
     @include shadow3;
 
+    .error-message {
+      color: $tomato;
+      background-color: $error-bg;
+      @include paragraph;
+    }
+
     .register-title {
       @include title;
     }

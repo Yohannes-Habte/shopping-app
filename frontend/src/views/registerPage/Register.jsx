@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Register.scss';
 import axios from 'axios';
 import { FaUser, FaUserAlt } from 'react-icons/fa';
@@ -10,10 +10,21 @@ import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
 import ButtonLoader from '../../components/loader/ButtonLoader';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Register = () => {
   const navigate = useNavigate();
   // Global state variables
+  const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  // If user is logged in, uer will not access the forgot password page
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [navigate, currentUser]);
 
   // Local State variables
   const [image, setImage] = useState('');
@@ -102,16 +113,12 @@ const Register = () => {
         newUser
       );
 
-      if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
-        return;
-      }
-
       resetVariables();
       navigate('/login');
       setLoading(false);
+
       return toast.success('Open your email to activate your account!');
+      
     } catch (err) {
       console.log(err);
       setLoading(false);
@@ -126,6 +133,7 @@ const Register = () => {
       </Helmet>
 
       <section className="register-container">
+        {error ? <p className="error-message"> {error} </p> : null}
         <h1 className="register-title"> Create Free Account </h1>
 
         <figure className="image-container">

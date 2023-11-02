@@ -15,6 +15,8 @@ import Events from './views/eventsPage/Events';
 import BestSellings from './views/bestSellingpage/BestSellings';
 import Orders from './views/ordersPage/Orders';
 import Profile from './views/profilePage/Profile';
+import Forgotpassword from './views/passwordPage/Forgotpassword';
+import ResetPassword from './views/passwordPage/ResetPassword';
 
 const App = () => {
   return (
@@ -39,7 +41,12 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/activation/:activation_token" element={<Activation />} />
+          <Route path="/forgot-password" element={<Forgotpassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route
+            path="/activation/:activation_token"
+            element={<Activation />}
+          />
           <Route path="/products" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />

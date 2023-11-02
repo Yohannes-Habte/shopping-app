@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Login.scss';
 import axios from 'axios';
 import { FaUserAlt } from 'react-icons/fa';
@@ -18,13 +18,20 @@ import {
 const Login = () => {
   const navigate = useNavigate();
   // Global state variables using redux
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, error, currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // Local State variables
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  // If user is logged in, uer will not see the login page
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/');
+    }
+  }, [navigate, currentUser]);
 
   // Update input data
   const updateChange = (e) => {
@@ -97,7 +104,7 @@ const Login = () => {
       </Helmet>
 
       <section className="login-container">
-        {error?  <p className="error-message"> {error} </p> : null}
+        {error ? <p className="error-message"> {error} </p> : null}
         <h1 className="login-title"> Login To Your Account </h1>
         <figure className="login-icon-container">
           <FaUserAlt className="login-icon" />
