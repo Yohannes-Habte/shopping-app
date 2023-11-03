@@ -8,7 +8,6 @@ import Contact from './views/contactPage/Contact';
 import Register from './views/registerPage/Register';
 import Login from './views/loginPage/Login';
 import NotFound from './views/notFound/NotFound';
-import Activation from './views/activationPage/Activation';
 import Products from './views/productsPage/Products';
 import Sellers from './views/sellersPage/Sellers';
 import Events from './views/eventsPage/Events';
@@ -17,6 +16,7 @@ import Orders from './views/ordersPage/Orders';
 import Profile from './views/profilePage/Profile';
 import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
+import SingleProduct from './views/productPage/SingleProduct';
 
 const App = () => {
   return (
@@ -43,11 +43,8 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<Forgotpassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
-          <Route
-            path="/activation/:activation_token"
-            element={<Activation />}
-          />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:name" element={<SingleProduct />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/best-sellings" element={<BestSellings />} />
