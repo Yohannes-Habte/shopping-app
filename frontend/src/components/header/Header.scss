@@ -39,12 +39,14 @@
 
       .input-container {
         @include inputContainer;
+     
 
         .input-field {
           @include inputField;
           @include shadow3;
           background-color: $search-bg5;
           border: 1px solid $gray;
+      
 
           &::placeholder {
             font-size: $afs;
@@ -135,26 +137,26 @@
       }
     }
 
-    // Car and logged in user
-    .cart-user-wrapper {
+    // Wish list, Car and logged in user
+    .wish-list-cart-user-wrapper {
       display: flex;
       flex-direction: row;
       align-items: center;
       gap: 1rem;
 
-      .icon-wrapper {
-        position: relative;
+      // Wish List
+      .wish-list-wrapper {
         display: flex;
         align-items: center;
-
-        .size {
-          position: absolute;
-          top: -0.6rem;
-          right: 0;
-          color: $white;
-        }
       }
 
+      // Cart
+      .cart-wrapper {
+        display: flex;
+        align-items: center;
+      }
+
+      // Logged in user
       .logged-in-user {
         position: relative;
 

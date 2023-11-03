@@ -7,7 +7,7 @@ import { BiUserCircle } from 'react-icons/bi';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { BsCart } from 'react-icons/bs';
 import './Header.scss';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import DropDown from '../dropDown/DropDown';
 import Navbar from '../navbar/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,8 @@ import {
   userLogoutStart,
   userLogoutSuccess,
 } from '../../redux/reducers/userReducer';
+import Cart from '../cart/Cart';
+import WishList from '../wishList/WishList';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -33,7 +35,10 @@ const Header = () => {
   // Local state variables
   const [searchItem, setSearchItem] = useState('');
   const [dropDown, setDropDown] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openUser, setOpenUser] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
+  const [openWishList, setOpenWishList] = useState(false);
+
   const categoriesData = 'categoriesData';
 
   // Handle search submit
@@ -142,21 +147,25 @@ const Header = () => {
           ) : null}
         </div>
 
-        {/* Navbar items*/}
+        {/* Navbar Component*/}
         <Navbar />
 
-        {/* Cart and Logged in User*/}
-        <div className="cart-user-wrapper">
-          <div className="icon-wrapper">
+        {/* Wish list, Cart and Logged in User*/}
+        <div className="wish-list-cart-user-wrapper">
+          {/* Wish List Popup */}
+          <div
+            onClick={() => setOpenWishList(true)}
+            className="wish-list-wrapper"
+          >
             <AiOutlineHeart className="icon" />
-            <span className="size">0</span>
           </div>
 
-          <div className="icon-wrapper">
+          {/* Cart Popup */}
+          <div onClick={() => setOpenCart(true)} className="cart-wrapper">
             <BsCart className="icon" />
-            <span className="size">0</span>
           </div>
 
+          {/* Logged in user details */}
           <div className="logged-in-user">
             {currentUser ? (
               <React.Fragment>
@@ -164,10 +173,10 @@ const Header = () => {
                   className="image"
                   src={currentUser.rest.image}
                   alt={currentUser.rest.name}
-                  onClick={() => setOpen(!open)}
+                  onClick={() => setOpenUser(!openUser)}
                 />
 
-                {open && (
+                {openUser && (
                   <ul className="user-history">
                     <li className="list-item">
                       <NavLink to={`/profile`} className={'link'}>
@@ -196,6 +205,10 @@ const Header = () => {
               </Link>
             )}
           </div>
+          
+          {/* Open cart and open wish list */}
+          {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+          {openWishList ? <WishList setOpenWishList={setOpenWishList} /> : null}
         </div>
       </div>
     </header>

@@ -13,10 +13,10 @@ const DropDown = ({ categoriesData, setDropDown }) => {
   return (
     <div>
       {categoriesData &&
-        categoriesData.map((product) => {
+        categoriesData.map((product, index) => {
           return (
             <div
-              key={product.id}
+              key={index}
               onClick={() => hanleSubmit(product)}
               className="product"
             >
