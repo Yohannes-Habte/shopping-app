@@ -260,7 +260,7 @@ export const navItems = [
     },
   ];
   
-  // product Data
+  // product data
   export const productData = [
     {
       id: 1,
@@ -591,6 +591,7 @@ export const navItems = [
     },
   ];
   
+   // footer data
   export const footerProductLinks = [
     {
       name: "About us",

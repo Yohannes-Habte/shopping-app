@@ -69,7 +69,7 @@ const userReducer = createSlice({
   },
 });
 
-// Destructure keys
+// Destructure user reducer methods
 export const {
   signInStart,
   loginStart,

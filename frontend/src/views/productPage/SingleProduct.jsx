@@ -9,9 +9,9 @@ import { MdAddBox } from 'react-icons/md';
 import { TbSquareMinusFilled } from 'react-icons/tb';
 import productImage from '../../assets/product.png';
 import { AiOutlineMessage } from 'react-icons/ai';
-import Ratings from '../../components/ratings/Ratings';
-import FeaturedProduct from '../../components/featuredProduct/FeaturedProduct';
-import RelatedProducts from '../../components/relatedProducts/RelatedProducts';
+import RelatedProducts from '../../components/product/relatedProducts/RelatedProducts';
+import Ratings from '../../components/product/ratings/Ratings';
+
 
 const SingleProduct = () => {
   const navigate = useNavigate();

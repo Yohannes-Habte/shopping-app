@@ -185,8 +185,38 @@ const Header = () => {
                     </li>
 
                     <li className="list-item">
+                      <NavLink to={`/address`} className={'link'}>
+                        Address
+                      </NavLink>
+                    </li>
+
+                    <li className="list-item">
                       <NavLink to={`/orders`} className={'link'}>
                         Orders
+                      </NavLink>
+                    </li>
+
+                    <li className="list-item">
+                      <NavLink to={`/track-orders`} className={'link'}>
+                        Orders
+                      </NavLink>
+                    </li>
+
+                    <li className="list-item">
+                      <NavLink to={`/refunds`} className={'link'}>
+                        Refunds
+                      </NavLink>
+                    </li>
+
+                    <li className="list-item">
+                      <NavLink to={`/refunds`} className={'link'}>
+                        Inbox
+                      </NavLink>
+                    </li>
+
+                    <li className="list-item">
+                      <NavLink to={`/payment`} className={'link'}>
+                        Payment Methods
                       </NavLink>
                     </li>
 
@@ -205,7 +235,7 @@ const Header = () => {
               </Link>
             )}
           </div>
-          
+
           {/* Open cart and open wish list */}
           {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
           {openWishList ? <WishList setOpenWishList={setOpenWishList} /> : null}

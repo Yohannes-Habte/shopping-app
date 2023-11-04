@@ -118,7 +118,6 @@ const Register = () => {
       setLoading(false);
 
       return toast.success('Open your email to activate your account!');
-      
     } catch (err) {
       console.log(err);
       setLoading(false);
