@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,7 +14,6 @@ import Register from './views/registerPage/Register';
 import Login from './views/loginPage/Login';
 import NotFound from './views/notFound/NotFound';
 import Products from './views/productsPage/Products';
-import Sellers from './views/sellersPage/Sellers';
 import Events from './views/eventsPage/Events';
 import BestSellings from './views/bestSellingpage/BestSellings';
 import Orders from './views/ordersPage/Orders';
@@ -18,8 +22,21 @@ import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
 import UserInbox from './views/inboxPage/UserInbox';
 import Product from './views/productPage/Product';
+import { useSelector } from 'react-redux';
+import ShopCreatePage from './views/sellersPage/ShopCreatePage';
+import Cart from './views/cartPage/Cart';
 
 const App = () => {
+  // Global state variables using redux
+  const { currentUser } = useSelector((state) => state.user);
+  // Protected route
+  const ProtectedRoute = ({ children }) => {
+    if (!currentUser) {
+      return <Navigate to={'/login'} />;
+    }
+    return children;
+  };
+
   return (
     <div>
       <Router>
@@ -47,11 +64,35 @@ const App = () => {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:name" element={<Product />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
-          <Route path="/seller" element={<Sellers />} />
           <Route path="/events" element={<Events />} />
+
+          <Route
+            path="/create-shop"
+            element={
+              <ProtectedRoute>
+                <ShopCreatePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

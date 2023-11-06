@@ -10,9 +10,9 @@ const userSchema = new Schema(
     password: { type: String, required: true },
     image: { type: String, default: 'https://i.ibb.co/4pDNDk1/avatar.png' },
     role: { type: String, default: 'customer', enum: ['customer', 'admin'] },
-    agree: { type: Boolean, default: false},
+    agree: { type: Boolean, default: false },
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
 
 // Pre save

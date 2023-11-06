@@ -8,7 +8,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { BsCart } from 'react-icons/bs';
 import './Header.scss';
 import axios from 'axios';
-import DropDown from '../dropDown/DropDown';
+import DropDown from '../../dropDown/DropDown';
 import Navbar from '../navbar/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -18,9 +18,9 @@ import {
   userLogoutFailure,
   userLogoutStart,
   userLogoutSuccess,
-} from '../../redux/reducers/userReducer';
-import Cart from '../cart/Cart';
-import WishList from '../wishList/WishList';
+} from '../../../redux/reducers/userReducer';
+import Cart from '../../../views/cartPage/Cart';
+import WishList from '../../wishList/WishList';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -121,7 +121,7 @@ const Header = () => {
 
         {/* Become Seller */}
         <article className="become-seller">
-          <Link to={'/seller'} className="link">
+          <Link to={'/create-shop'} className="link">
             <h3 className="sub-title">Become Seller</h3>
           </Link>
           <RiArrowRightSLine className="icon" />

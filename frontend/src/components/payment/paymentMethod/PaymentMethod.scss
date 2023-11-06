@@ -1,0 +1,17 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.payment-methods-wrapper {
+  width: 100%;
+  min-height: 100vh;
+
+  .title-wrapper {
+    .title {
+      @include title;
+    }
+
+    .add-new {
+      @include button1;
+    }
+  }
+}

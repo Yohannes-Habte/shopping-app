@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Product.scss';
-import Header from '../../components/header/Header';
-import Footer from '../../components/footer/Footer';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProductDtails from '../../components/products/productDetails/ProductDtails';
 import RelatedProducts from '../../components/products/relatedProducts/RelatedProducts';
+import Header from '../../components/layout/header/Header';
+import Footer from '../../components/layout/footer/Footer';
 
 const Product = () => {
   const navigate = useNavigate();

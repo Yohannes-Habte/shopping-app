@@ -1,5 +1,5 @@
 import React from 'react';
-import "./ProfileSidebar.scss"
+import './ProfileSidebar.scss';
 import { AiOutlineLogin, AiOutlineMessage } from 'react-icons/ai';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { HiOutlineReceiptRefund, HiOutlineShoppingBag } from 'react-icons/hi';
@@ -14,7 +14,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUserFailure, deleteUserSuccess, userLogoutFailure, userLogoutStart, userLogoutSuccess } from '../../../redux/reducers/userReducer';
+import {
+  deleteUserFailure,
+  deleteUserSuccess,
+  userLogoutFailure,
+  userLogoutStart,
+  userLogoutSuccess,
+} from '../../../redux/reducers/userReducer';
 
 const ProfileSidebar = ({ active, setActive }) => {
   const navigate = useNavigate();
@@ -116,14 +122,22 @@ const ProfileSidebar = ({ active, setActive }) => {
         <span className={active === 7 ? 'active' : 'passive'}>Address</span>
       </div>
 
+      {/* Payment Method section */}
+      <div className="tab-box address" onClick={() => setActive(8)}>
+        <TbAddressBook className={active === 8 ? 'active' : 'passive'} />
+        <span className={active === 8 ? 'active' : 'passive'}>
+          Payment Methods
+        </span>
+      </div>
+
       {/* Admin dashboar section */}
       {currentUser && currentUser?.role === 'admin' && (
         <Link to="/admin/dashboard">
           <div className="tab-box dashboard" onClick={() => setActive(8)}>
             <MdOutlineAdminPanelSettings
-              className={active === 8 ? 'active' : 'passive'}
+              className={active === 9 ? 'active' : 'passive'}
             />
-            <span className={active === 8 ? 'active' : 'passive'}>
+            <span className={active === 9 ? 'active' : 'passive'}>
               Admin Dashboard
             </span>
           </div>
@@ -132,14 +146,14 @@ const ProfileSidebar = ({ active, setActive }) => {
 
       {/* Log out  section */}
       <div className="tab-box logout" onClick={handleLogout}>
-        <AiOutlineLogin className={active === 9 ? 'active' : 'passive'} />
-        <span className={active === 9 ? 'active' : 'passive'}>Log out</span>
+        <AiOutlineLogin className={active === 10 ? 'active' : 'passive'} />
+        <span className={active === 10 ? 'active' : 'passive'}>Log out</span>
       </div>
 
       {/* Delete Account section */}
       <div className="tab-box address" onClick={handleDeleteAccount}>
-        <MdDelete className={active === 10 ? 'active' : 'passive'} />
-        <span className={active === 10 ? 'active' : 'passive'}>
+        <MdDelete className={active === 11 ? 'active' : 'passive'} />
+        <span className={active === 11 ? 'active' : 'passive'}>
           Delete Account
         </span>
       </div>

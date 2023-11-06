@@ -7,10 +7,10 @@ import { MdAddBox } from 'react-icons/md';
 import { TbSquareMinusFilled } from 'react-icons/tb';
 import { AiOutlineMessage } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
-import Header from '../../header/Header';
-import Footer from '../../footer/Footer';
 import RelatedProducts from '../relatedProducts/RelatedProducts';
 import Ratings from '../ratings/Ratings';
+import Header from '../../layout/header/Header';
+import Footer from '../../layout/footer/Footer';
 
 const ProductDtails = ({ data }) => {
   const navigate = useNavigate();

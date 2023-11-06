@@ -21,6 +21,7 @@ import AllRefundOrders from '../refunds/AllRefundOrders';
 import ChangePassword from '../changePassword/ChangePassword';
 import TrackOrderTable from '../trackOrderTable/TrackOrderTable';
 import Address from '../address/Address';
+import PaymentMethod from '../../payment/paymentMethod/PaymentMethod';
 
 const UserProfile = ({ active }) => {
   const navigate = useNavigate();
@@ -297,6 +298,7 @@ const UserProfile = ({ active }) => {
         {active === 6 && <ChangePassword />}
 
         {active === 7 && <Address />}
+        {active === 8 && <PaymentMethod />}
       </section>
     </main>
   );

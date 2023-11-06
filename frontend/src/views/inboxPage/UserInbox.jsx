@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './UserInbox.scss';
-import Header from '../../components/header/Header';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import MessageList from '../../components/chat/messageList/MessageList';
 import SellerInbox from '../../components/chat/sellerInbox/SellerInbox';
+import Header from '../../components/layout/header/Header';
 
 const UserInbox = () => {
   // Global state variables

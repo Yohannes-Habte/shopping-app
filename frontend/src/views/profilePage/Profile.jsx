@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './Profile.scss';
 import { useSelector } from 'react-redux';
-import Header from '../../components/header/Header';
 import ProfileSidebar from '../../components/profile/profileSidebar/ProfileSidebar';
 import UserProfile from '../../components/profile/userProfile/UserProfile';
+import Header from '../../components/layout/header/Header';
 
 const Profile = () => {
   // State  variables

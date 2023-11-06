@@ -208,7 +208,7 @@ export const userLogout = async (req, res, next) => {
 
     // Second option to log out a user:
     /** 
-    res.cookie('access_token', '', {
+    res.cookie('access_token', null, {
       httpOnly: true,
       expires: new Date(0), // cookie is expired
       sameSite: 'none',
