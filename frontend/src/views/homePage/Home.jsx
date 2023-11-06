@@ -7,7 +7,7 @@ import BestDeals from '../../components/bestDeals/BestDeals';
 import Event from '../../components/event/Event';
 import CountDown from '../../components/countDown/CountDown';
 import Categories from '../../components/categories/Categories';
-import FeaturedProduct from '../../components/product/featuredProduct/FeaturedProduct';
+import FeaturedProducts from '../../components/products/featuredProducts/FeaturedProducts';
 
 
 const Home = () => {
@@ -25,7 +25,7 @@ const Home = () => {
 
         <Event />
 
-        <FeaturedProduct />
+        <FeaturedProducts />
       </section>
 
       <Footer />

@@ -16,7 +16,8 @@ import Orders from './views/ordersPage/Orders';
 import Profile from './views/profilePage/Profile';
 import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
-import SingleProduct from './views/productPage/SingleProduct';
+import UserInbox from './views/inboxPage/UserInbox';
+import Product from './views/productPage/Product';
 
 const App = () => {
   return (
@@ -44,9 +45,10 @@ const App = () => {
           <Route path="/forgot-password" element={<Forgotpassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/products/:name" element={<SingleProduct />} />
+          <Route path="/products/:name" element={<Product />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/seller" element={<Sellers />} />
           <Route path="/events" element={<Events />} />

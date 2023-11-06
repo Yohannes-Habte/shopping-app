@@ -1,48 +1,67 @@
-import React, { useState } from 'react';
-import './SingleProduct.scss';
-import Header from '../../components/header/Header';
-import Footer from '../../components/footer/Footer';
+import React, { useEffect, useState } from 'react';
+import "./ProductDtails.scss"
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { MdAddBox } from 'react-icons/md';
 import { TbSquareMinusFilled } from 'react-icons/tb';
-import productImage from '../../assets/product.png';
 import { AiOutlineMessage } from 'react-icons/ai';
-import RelatedProducts from '../../components/product/relatedProducts/RelatedProducts';
-import Ratings from '../../components/product/ratings/Ratings';
+import { useDispatch, useSelector } from 'react-redux';
+import Header from '../../header/Header';
+import Footer from '../../footer/Footer';
+import RelatedProducts from '../relatedProducts/RelatedProducts';
+import Ratings from '../ratings/Ratings';
 
-
-const SingleProduct = () => {
+const ProductDtails = ({ data }) => {
   const navigate = useNavigate();
+
+  // Global state variables
+  const { currentUser, isAuthenticated } = useSelector((state) => state.user);
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { cart } = useSelector((state) => state.cart);
+  const { products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+
   // Local variables
-  const [data, setData] = useState(null);
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
 
+  // Display all products for a shop
+  useEffect(() => {
+    dispatch('getAllProductsShop'(data && data?.shop._id));
+    if (wishlist && wishlist.find((i) => i._id === data?._id)) {
+      setClick(true);
+    } else {
+      setClick(false);
+    }
+  }, [data, wishlist]);
+
+  // Increasing count by one
   const incrementCount = () => {
     setCount(count + 1);
   };
 
+  // Decreasing count by one
   const decrementCount = () => {
     if (count > 1) {
       setCount(count - 1);
     }
   };
 
-  const removeFromWishlistHandler = () => {
+  const removeFromWishlistHandler = (data) => {
     setClick(!click);
-    setData(data);
+    dispatch('removeFromWishlist'(data));
   };
 
   const addToWishlistHandler = (data) => {
     setClick(!click);
-    setData(data);
+    dispatch('addToWishlist'(data));
   };
 
+  // Add to cart
   const addToCartHandler = (id) => {
-    const isItemExists = data.find((i) => i._id === id);
+    const isItemExists = cart && cart.find((i) => i._id === id);
     if (isItemExists) {
       toast.error('Item already in cart!');
     } else {
@@ -50,13 +69,13 @@ const SingleProduct = () => {
         toast.error('Product stock limited!');
       } else {
         const cartData = { ...data, qty: count };
-
+        dispatch('addTocart'(cartData));
         toast.success('Item added to cart successfully!');
       }
     }
   };
 
-  /** 
+  
   const totalReviewsLength =
     products &&
     products.reduce((acc, product) => acc + product.reviews.length, 0);
@@ -72,7 +91,7 @@ const SingleProduct = () => {
   const avg = totalRatings / totalReviewsLength || 0;
 
   const averageRating = avg.toFixed(2);
-  */
+
 
   const handleMessageSubmit = async () => {
     if ('isAuthenticated') {
@@ -95,6 +114,7 @@ const SingleProduct = () => {
       toast.error('Please login to create a conversation');
     }
   };
+
   return (
     <main className="single-product-page">
       <Header />
@@ -105,7 +125,7 @@ const SingleProduct = () => {
         <article className="product-details">
           {/* Product image */}
           <figure className="image-container">
-            <img className="image" src={productImage} alt="" />
+            <img className="image" src={"productImage"} alt="" />
           </figure>
 
           {/* Product Description and add to cart */}
@@ -141,7 +161,12 @@ const SingleProduct = () => {
           </section>
         </article>
 
-        <ProductInfos data={data} />
+        <ProductInfos
+          data={data}
+          products={products}
+          totalReviewsLength={totalReviewsLength}
+          averageRating={averageRating}
+        />
 
         {/* Include related Products */}
         <RelatedProducts />
@@ -152,7 +177,7 @@ const SingleProduct = () => {
   );
 };
 
-const ProductInfos = ({ data }) => {
+const ProductInfos = ({ data, product, totalReviewsLength, averageRating }) => {
   const [active, setActive] = useState(1);
 
   return (
@@ -266,4 +291,5 @@ const ProductInfos = ({ data }) => {
     </div>
   );
 };
-export default SingleProduct;
+
+export default ProductDtails;
