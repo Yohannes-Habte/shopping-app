@@ -10,6 +10,14 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import globalErrorHandler from './middleware/globalErrorHandler.js';
+import shopRouter from './routes/shopeRoutes.js';
+import conversationRouter from './routes/conversationRoutes.js';
+import couponRouter from './routes/couponRoutes.js';
+import eventRouter from './routes/eventRoutes.js';
+import messageRouter from './routes/messageRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
+import productRouter from './routes/productRoutes.js';
+import withdrawRouter from './routes/withdrawRoutes.js';
 
 
 // Express app
@@ -46,6 +54,15 @@ app.use(morgan('tiny'));
 // End points
 app.use('/api/auths',  authRouter);
 app.use('/api/users', userRouter);
+app.use('/api/shops', shopRouter);
+app.use('/api/products', productRouter);
+app.use('/api/coupons', couponRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/wthdraws', withdrawRouter);
+app.use('/api/conversations', conversationRouter);
+app.use('/api/messages', messageRouter);
+app.use('/api/events', eventRouter);
+
 
 // Global error handler
 app.use(globalErrorHandler);
