@@ -8,7 +8,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import { BsCart } from 'react-icons/bs';
 import './Header.scss';
 import axios from 'axios';
-import DropDown from '../../dropDown/DropDown';
+import DropDown from '../dropDown/DropDown';
 import Navbar from '../navbar/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
