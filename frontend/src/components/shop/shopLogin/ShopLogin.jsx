@@ -3,7 +3,6 @@ import './ShopLogin.scss';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { HiOutlineEye } from 'react-icons/hi';
@@ -86,6 +85,8 @@ const ShopLogin = () => {
     <section className="shop-login-wrapper">
       <h2 className="title">Login to your Shop</h2>
 
+      {error ? <p className="error-message"> {error} </p> : null}
+
       <form className="seller-login-form" onSubmit={handleSubmit}>
         <figure className="image-container">
           <img
@@ -95,10 +96,12 @@ const ShopLogin = () => {
                 ? currentSeller.image
                 : 'https://i.ibb.co/4pDNDk1/avatar.png'
             }
-            alt={currentSeller.name}
+            alt="Profile"
           />
         </figure>
-        <p className='seller-name'> {currentSeller.name} </p>
+        <p className="seller-name">
+          {currentSeller ? currentSeller.name : 'Seller Profile'}{' '}
+        </p>
         {/* email */}
         <div className="input-container">
           <MdEmail className="icon" />
@@ -166,8 +169,8 @@ const ShopLogin = () => {
         </button>
 
         <p className="haveNoAccount">
-          Don't have an account?{' '}
-          <NavLink to="/create-shop" className={'link-to'}>
+          Don't have an account?
+          <NavLink to="/create-shop" className={'link'}>
             Sign Up
           </NavLink>
         </p>

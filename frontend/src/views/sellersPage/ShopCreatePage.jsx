@@ -10,7 +10,7 @@ const ShopCreatePage = () => {
   useEffect(() => {
     if (currentSeller) {
       // navigate(`/shop/${currentSeller._id}`);
-      navigate('/shop');
+      navigate('/create-shop');
     }
   }, []);
   return <ShopCreate />;

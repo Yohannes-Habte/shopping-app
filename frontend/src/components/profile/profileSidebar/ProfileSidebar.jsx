@@ -35,7 +35,7 @@ const ProfileSidebar = ({ active, setActive }) => {
     try {
       dispatch(userLogoutStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/auths/logout/${currentUser.rest._id}`,
+        `http://localhost:5000/api/auths/logout/${currentUser._id}`,
         { withCredentials: true }
       );
 
@@ -53,7 +53,7 @@ const ProfileSidebar = ({ active, setActive }) => {
     try {
       dispatch(deleteUserFailure());
       const { data } = await axios.delete(
-        `http://localhost:5000/api/auths/delete-account/${currentUser.rest._id}`,
+        `http://localhost:5000/api/auths/delete-account/${currentUser._id}`,
         { withCredentials: true }
       );
       dispatch(deleteUserSuccess());

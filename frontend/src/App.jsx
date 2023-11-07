@@ -30,7 +30,7 @@ import ShopLoginPage from './views/shopLoginPage/ShopLoginPage';
 const App = () => {
   // Global state variables using redux
   const { currentUser } = useSelector((state) => state.user);
-  // Protected route
+  // User Protected route
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to={'/login'} />;
@@ -68,7 +68,14 @@ const App = () => {
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<Events />} />
-          <Route path="/login-shop" element={<ShopLoginPage />} />
+          <Route
+            path="/login-shop"
+            element={
+              <ProtectedRoute>
+                <ShopLoginPage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/create-shop"
@@ -78,6 +85,8 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
+          
           <Route
             path="/profile"
             element={

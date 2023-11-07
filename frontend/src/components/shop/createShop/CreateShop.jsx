@@ -115,6 +115,18 @@ const ShopCreate = () => {
       <h1 className="title">Register as a Seller</h1>
 
       <form className="seller-signup-form" onSubmit={handleSubmit}>
+        <figure className="image-container">
+          <img
+            className="image"
+            src={
+              image
+                ? URL.createObjectURL(image)
+                : 'https://i.ibb.co/4pDNDk1/avatar.png'
+            }
+            alt="Profile"
+          />
+        </figure>
+        <p className="seller-profile"> Seller Profile </p>
         {/* name */}
         <div className="input-container">
           <FaUserTie className="icon" />
@@ -239,7 +251,7 @@ const ShopCreate = () => {
           <label htmlFor="file-input" className="input-label">
             <label htmlFor="image" className="image-label">
               <RxAvatar className="icon" />
-              Upload Photo 
+              Upload Photo
             </label>
             <input
               type="file"
@@ -256,7 +268,7 @@ const ShopCreate = () => {
         </button>
 
         <article className={`already-have-account`}>
-          <h4>Already have an account?</h4>
+          <h4 className='subTitle'>Already have an account?</h4>
           <p className="sign-in">
             <Link to="/login-shop" className="link">
               Sign in

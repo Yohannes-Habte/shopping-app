@@ -182,7 +182,7 @@ export const loginUser = async (req, res, next) => {
           secure: true,
         })
         .status(201)
-        .json({ rest, loginToken });
+        .json(rest);
     }
   } catch (error) {
     console.log(error);

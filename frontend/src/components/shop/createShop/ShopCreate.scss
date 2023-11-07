@@ -6,13 +6,31 @@
   min-height: 100vh;
   margin: 1rem auto;
 
-  .subTitle {
+  .title {
     @include title;
   }
 
   .seller-signup-form {
     width: 50%;
     margin: auto;
+    @include shadow3;
+
+    // Seller image
+    .image-container {
+      @include flexCenter;
+      .image {
+        width: 4rem;
+        height: 4rem;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+
+    // Seller profile
+    .seller-profile {
+      @include flexCenter;
+      padding: 0.2rem 0;
+    }
 
     // Inpute container
     .input-container {
@@ -52,7 +70,7 @@
 
       .icon {
         position: absolute;
-        top: 0.1;
+        top: 1rem;
         left: 0.5rem;
         font-size: 1rem;
         color: $green;
@@ -76,7 +94,14 @@
       .image-label {
         @include inputField;
         display: flex;
+        flex-direction: row;
+        align-items: center;
         gap: 0.5rem;
+
+        .icon {
+          color: $green;
+          font-size: 1rem;
+        }
       }
 
       .input-field {
@@ -95,13 +120,19 @@
       flex-direction: row;
       gap: 0.5rem;
       font-weight: $afw;
+      .subTitle {
+        font-size: $afs;
+      }
 
-      .link-to {
-        font-weight: $aafw;
-        color: $blue;
+      .sign-in {
+        .link {
+          font-weight: $aafw;
+          font-size: $afs;
+          color: $blue;
 
-        &:hover {
-          color: $tomato;
+          &:hover {
+            color: $tomato;
+          }
         }
       }
     }

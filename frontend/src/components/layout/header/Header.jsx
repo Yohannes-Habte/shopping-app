@@ -67,7 +67,7 @@ const Header = () => {
     try {
       dispatch(userLogoutStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/auths/logout/${currentUser.rest._id}`
+        `http://localhost:5000/api/auths/logout/${currentUser._id}`
       );
 
       dispatch(userLogoutSuccess());
@@ -83,7 +83,7 @@ const Header = () => {
     try {
       dispatch(deleteUserStart());
       const { data } = await axios.delete(
-        `http://localhost:5000/api/auths/delete-account/${currentUser.rest._id}`
+        `http://localhost:5000/api/auths/delete-account/${currentUser._id}`
       );
       dispatch(deleteUserSuccess());
     } catch (error) {
@@ -171,8 +171,8 @@ const Header = () => {
               <React.Fragment>
                 <img
                   className="image"
-                  src={currentUser.rest.image}
-                  alt={currentUser.rest.name}
+                  src={currentUser.image}
+                  alt="Profile"
                   onClick={() => setOpenUser(!openUser)}
                 />
 

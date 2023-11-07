@@ -10,6 +10,15 @@
     @include title;
   }
 
+  .error-message {
+    @include shadow3;
+    width: 50%;
+    margin: auto;
+    @include paragraph;
+    color: $red;
+    background-color: #f1b7ad;
+  }
+
   .seller-login-form {
     @include shadow3;
     width: 50%;
@@ -29,6 +38,7 @@
     // Seller name
     .seller-name {
       @include flexCenter;
+      padding: 0.2rem 0;
     }
 
     // Input container
@@ -142,10 +152,13 @@
 
     // Have no account
     .haveNoAccount {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
       font-size: $afs;
       margin-top: 1rem;
 
-      .link-to {
+      .link {
         font-weight: $afw;
         color: $blue;
 

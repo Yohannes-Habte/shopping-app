@@ -33,9 +33,9 @@ const UserProfile = ({ active }) => {
   const [image, setImage] = useState('');
   const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState(currentUser.rest.name || '');
-  const [email, setEmail] = useState(currentUser.rest.email || '');
-  const [phone, setPhone] = useState(currentUser.rest.phoneNumber || '');
+  const [name, setName] = useState(currentUser.Addressname || '');
+  const [email, setEmail] = useState(currentUser.email || '');
+  const [phone, setPhone] = useState(currentUser.phoneNumber || '');
   const [password, setPassword] = useState('');
 
   // If user is not logged in, user will not access profile page
@@ -149,11 +149,11 @@ const UserProfile = ({ active }) => {
               <img
                 className="image"
                 src={
-                  currentUser.rest.image
-                    ? currentUser.rest.image
+                  currentUser.image
+                    ? currentUser.image
                     : URL.createObjectURL(image)
                 }
-                alt={currentUser.rest.name}
+                alt={currentUser.name}
               />
             ) : (
               <FaUser className="image" />
@@ -163,7 +163,7 @@ const UserProfile = ({ active }) => {
           <fieldset className="profile-fieldset">
             <legend className="profile-legend">
               {' '}
-              {currentUser ? currentUser.rest.name : 'User Profile'}{' '}
+              {currentUser ? currentUser.name : 'User Profile'}{' '}
             </legend>
             <form onSubmit={submitprofileUser} className="profile-form">
               <div className="input-container">

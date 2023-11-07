@@ -14,7 +14,7 @@ const Profile = () => {
     <main className="profile-page">
       <Header />
       <section className="profile-container">
-        <h1 className="profile-title"> Details of {currentUser.rest.name} </h1>
+        <h1 className="profile-title"> Details of {currentUser.name} </h1>
 
         <div className="sidebar-form-wrapper">
           <ProfileSidebar active={active} setActive={setActive} />
