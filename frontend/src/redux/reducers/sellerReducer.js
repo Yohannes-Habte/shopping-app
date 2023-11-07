@@ -66,6 +66,20 @@ const sellerReducer = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+
+    // Get seller
+    getSellerStart: (state) => {
+      state.error = true;
+    },
+    getSellerSuccess: (state, action) => {
+      state.currentSeller = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    getSellerFailer: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
   },
 });
 
@@ -86,6 +100,10 @@ export const {
   deleteSellerStart,
   deleteSellerSuccess,
   deleteSellerFailure,
+
+  getSellerStart,
+  getSellerSuccess,
+  getSellerFailer,
 } = sellerReducer.actions;
 
 // exoirt userSlice

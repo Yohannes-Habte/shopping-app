@@ -15,6 +15,7 @@ const shopSchema = new Schema(
     },
     phoneNumber: { type: Number, required: true },
     zipCode: { type: Number, required: true },
+    role: { type: String, default: 'seller', enum: ['seller', 'admin'] },
     description: { type: String },
     withdrawMethod: { type: Object },
     availableBalance: { type: Number, default: 0 },
@@ -34,16 +35,15 @@ const shopSchema = new Schema(
 
 // Pre save
 shopSchema.pre('save', async function (next) {
-    try {
-      if (!this.isModified('password')) return next();
-      const hashedPassword = await bcrypt.hash(this.password, 12);
-      this.password = hashedPassword;
-      return next();
-    } catch (error) {
-      return next(err);
-    }
-  });
-  
+  try {
+    if (!this.isModified('password')) return next();
+    const hashedPassword = await bcrypt.hash(this.password, 12);
+    this.password = hashedPassword;
+    return next();
+  } catch (error) {
+    return next(err);
+  }
+});
 
 const Shop = mongoose.model('Shop', shopSchema);
 export default Shop;

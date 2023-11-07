@@ -26,16 +26,27 @@ import { useSelector } from 'react-redux';
 import ShopCreatePage from './views/sellersPage/ShopCreatePage';
 import Cart from './views/cartPage/Cart';
 import ShopLoginPage from './views/shopLoginPage/ShopLoginPage';
+import ShopPage from './views/shopPage/ShopPage';
 
 const App = () => {
   // Global state variables using redux
   const { currentUser } = useSelector((state) => state.user);
+  const { currentSeller } = useSelector((state) => state.seller);
   // User Protected route
-  const ProtectedRoute = ({ children }) => {
+  const UserProtectedRoute = ({ children }) => {
     if (!currentUser) {
       return <Navigate to={'/login'} />;
     }
     return children;
+  };
+
+  // User Protected route
+  const SellerProtectedRoute = ({ children }) => {
+    if (!currentSeller) {
+      return <Navigate to={`/`} />;
+    } else {
+      return children;
+    }
   };
 
   return (
@@ -69,39 +80,46 @@ const App = () => {
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<Events />} />
           <Route
+            path="/shop/:id"
+            element={
+              <SellerProtectedRoute>
+                <ShopPage />
+              </SellerProtectedRoute>
+            }
+          />
+          <Route
             path="/login-shop"
             element={
-              <ProtectedRoute>
+              <UserProtectedRoute>
                 <ShopLoginPage />
-              </ProtectedRoute>
+              </UserProtectedRoute>
             }
           />
 
           <Route
             path="/create-shop"
             element={
-              <ProtectedRoute>
+              <UserProtectedRoute>
                 <ShopCreatePage />
-              </ProtectedRoute>
+              </UserProtectedRoute>
             }
           />
 
-          
           <Route
             path="/profile"
             element={
-              <ProtectedRoute>
+              <UserProtectedRoute>
                 <Profile />
-              </ProtectedRoute>
+              </UserProtectedRoute>
             }
           />
 
           <Route
             path="/checkout"
             element={
-              <ProtectedRoute>
+              <UserProtectedRoute>
                 <Cart />
-              </ProtectedRoute>
+              </UserProtectedRoute>
             }
           />
           <Route path="*" element={<NotFound />} />

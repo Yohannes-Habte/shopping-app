@@ -7,12 +7,13 @@ const ShopCreatePage = () => {
   const navigate = useNavigate();
   const { currentSeller } = useSelector((state) => state.seller);
 
+  // If seller is logged in, seller will not see the shop login page
   useEffect(() => {
     if (currentSeller) {
-      // navigate(`/shop/${currentSeller._id}`);
-      navigate('/create-shop');
+      navigate(`/shop/${currentSeller._id}`);
     }
-  }, []);
+  }, [navigate, currentSeller]);
+
   return <ShopCreate />;
 };
 

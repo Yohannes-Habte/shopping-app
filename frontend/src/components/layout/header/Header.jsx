@@ -26,9 +26,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   // Global state variables using redux
-  const { currentUser, isAuthenticated, loading, error } = useSelector(
-    (state) => state.user
-  );
+  const { currentUser, loading, error } = useSelector((state) => state.user);
+
 
   const dispatch = useDispatch();
 
@@ -67,7 +66,7 @@ const Header = () => {
     try {
       dispatch(userLogoutStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/auths/logout/${currentUser._id}`
+        `http://localhost:5000/api/auths/logout/${currentUser.rest._id}`
       );
 
       dispatch(userLogoutSuccess());

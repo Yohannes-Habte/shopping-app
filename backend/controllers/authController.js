@@ -181,7 +181,7 @@ export const loginUser = async (req, res, next) => {
           sameSite: 'none',
           secure: true,
         })
-        .status(201)
+        .status(200)
         .json(rest);
     }
   } catch (error) {

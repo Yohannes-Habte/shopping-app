@@ -35,7 +35,7 @@ export const createShop = async (req, res, next) => {
     const saveSeller = await newSeller.save();
     const sellerToken = generateToken(saveSeller._id);
     return res
-      .cookie('access_token', sellerToken, {
+      .cookie('seller_token', sellerToken, {
         path: '/',
         httpOnly: true,
         expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -81,7 +81,7 @@ export const loginSeller = async (req, res, next) => {
       const shopLoginToken = generateToken(seller._id);
 
       return res
-        .cookie('access_token', shopLoginToken, {
+        .cookie('seller_token', shopLoginToken, {
           path: '/',
           httpOnly: true,
           expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -94,5 +94,51 @@ export const loginSeller = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(createError(500, 'User could not login. Please try again!'));
+  }
+};
+
+//====================================================================
+// Get a Seller
+//====================================================================
+export const getSeller = async (req, res, next) => {
+  if (req.params.id === req.seller.id) {
+    try {
+      const seller = await Shop.findById(req.params.id);
+      if (seller) {
+        res.status(200).json(seller);
+      } else {
+        return next(
+          createError(404, 'Seller does not found! Please try again!')
+        );
+      }
+    } catch (error) {
+      next(createError(500, 'Database could not query!'));
+      console.log(error);
+    }
+  } else {
+    return next(
+      createError(403, 'You are autherized only to get your own data!')
+    );
+  }
+};
+
+//====================================================================
+// Get all sellers
+//====================================================================
+export const getSellers = async (req, res, next) => {
+  
+  if ( req.seller.role !== "admin") {
+    return next(createError(403, 'Unauthorized user!'));
+  }
+
+  try {
+    const sellers = await Shop.find();
+    if (sellers) {
+      res.status(200).json(sellers);
+    } else {
+      return next(createError(404, 'Sellers do not found!'));
+    }
+  } catch (error) {
+    next(createError(500, 'Database could not query!'));
   }
 };
