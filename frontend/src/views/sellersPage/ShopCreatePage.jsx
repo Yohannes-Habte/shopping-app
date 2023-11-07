@@ -5,11 +5,12 @@ import ShopCreate from '../../components/shop/createShop/CreateShop';
 
 const ShopCreatePage = () => {
   const navigate = useNavigate();
-  const { isSeller, seller } = useSelector((state) => state.seller);
+  const { currentSeller } = useSelector((state) => state.seller);
 
   useEffect(() => {
-    if (isSeller === true) {
-      navigate(`/shop/${seller._id}`);
+    if (currentSeller) {
+      // navigate(`/shop/${currentSeller._id}`);
+      navigate('/shop');
     }
   }, []);
   return <ShopCreate />;

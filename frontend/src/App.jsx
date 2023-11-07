@@ -25,6 +25,7 @@ import Product from './views/productPage/Product';
 import { useSelector } from 'react-redux';
 import ShopCreatePage from './views/sellersPage/ShopCreatePage';
 import Cart from './views/cartPage/Cart';
+import ShopLoginPage from './views/shopLoginPage/ShopLoginPage';
 
 const App = () => {
   // Global state variables using redux
@@ -67,6 +68,7 @@ const App = () => {
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/login-shop" element={<ShopLoginPage />} />
 
           <Route
             path="/create-shop"

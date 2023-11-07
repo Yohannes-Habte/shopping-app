@@ -36,8 +36,6 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  console.log(agree);
-
   // Update image
   const updateImage = (e) => {
     setImage(e.target.files[0]);

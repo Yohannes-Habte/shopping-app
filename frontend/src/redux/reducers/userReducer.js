@@ -71,7 +71,6 @@ const userReducer = createSlice({
 
 // Destructure user reducer methods
 export const {
-  signInStart,
   loginStart,
   loginSuccess,
   loginFailure,

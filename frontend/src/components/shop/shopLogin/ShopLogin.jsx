@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+import './ShopLogin.scss';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,49 +7,98 @@ import { toast } from 'react-toastify';
 import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { HiOutlineEye } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  loginSellerFailure,
+  loginSellerStart,
+  loginSellerSuccess,
+} from '../../../redux/reducers/sellerReducer';
 
 const ShopLogin = () => {
   const navigate = useNavigate();
 
+  // Global state variales
+  const { loading, error, currentSeller } = useSelector(
+    (state) => state.seller
+  );
+  const dispatch = useDispatch();
+
+  console.log('The logged in seller is', currentSeller);
   // Local state variables
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { loading, setLoading } = useState(false);
 
   // Function to show/hide password
   const displayPassword = () => {
     setShowPassword((prevState) => !prevState);
   };
 
+  // Update input data
+  const updateChange = (e) => {
+    switch (e.target.name) {
+      case 'email':
+        setEmail(e.target.value);
+        break;
+      case 'password':
+        setPassword(e.target.value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Reset all state variables for the login form
+  const reset = () => {
+    setEmail('');
+    setPassword('');
+  };
+
   // Hanlde submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios
-      .post(
-        `$/shop/login-shop`,
-        {
-          email,
-          password,
-        },
+    try {
+      dispatch(loginSellerStart());
+      // The body
+      const loginUser = {
+        email: email,
+        password: password,
+      };
+      const { data } = await axios.post(
+        'http://localhost:5000/api/shops/login-shop',
+        loginUser,
         { withCredentials: true }
-      )
-      .then((res) => {
-        toast.success('Login Success!');
-        navigate('/dashboard');
-        window.location.reload(true);
-      })
-      .catch((err) => {
-        toast.error(err.response.data.message);
-      });
+      );
+      if (data.success === false) {
+        dispatch(loginSellerFailure(data.message));
+        return;
+      }
+      dispatch(loginSellerSuccess(data));
+      // Reset
+      reset();
+    } catch (error) {
+      dispatch(loginSellerFailure(error.response.data.message));
+    }
   };
 
   return (
-    <section className="create-shop-wrapper">
-      <h2 className="subTitle">Login to your Shop</h2>
+    <section className="shop-login-wrapper">
+      <h2 className="title">Login to your Shop</h2>
 
       <form className="seller-login-form" onSubmit={handleSubmit}>
+        <figure className="image-container">
+          <img
+            className="image"
+            src={
+              currentSeller
+                ? currentSeller.image
+                : 'https://i.ibb.co/4pDNDk1/avatar.png'
+            }
+            alt={currentSeller.name}
+          />
+        </figure>
+        <p className='seller-name'> {currentSeller.name} </p>
         {/* email */}
         <div className="input-container">
           <MdEmail className="icon" />
@@ -59,7 +109,7 @@ const ShopLogin = () => {
             autoComplete="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={updateChange}
             placeholder="Enter Email"
             className="input-field"
           />
@@ -79,7 +129,7 @@ const ShopLogin = () => {
             autoComplete="current-password"
             required
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={updateChange}
             placeholder="Enter Password"
             className="input-field"
           />
@@ -92,19 +142,24 @@ const ShopLogin = () => {
           </span>
         </div>
 
-        <div className="login-checkbox-forget-password">
-          <div className="login-checkbox-keep-signed-in">
+        <div className="keep-me-login--and-forgot-password-wrapper">
+          <div className="keep-me-login-wrapper">
             <input type="checkbox" name="login" className="login-checkbox" />
-            <span className="keep-me-login">Keep me signed in</span>
+            <span className="keep-me-login">Keep me login</span>
           </div>
-          <div className="forget-password">
+
+          <div className="forgot-password-wrapper">
             <Link className="link" to={'/forget-password'}>
               Forgot your password?
             </Link>
           </div>
         </div>
 
-        <button type="submit" disabled={loading} className="login-button">
+        <button
+          type="submit"
+          disabled={loading}
+          className="seller-login-button"
+        >
           {/* {loading && <ButtonSpinner />} */}
           {loading && <span>Loading...</span>}
           {!loading && <span>Log In</span>}

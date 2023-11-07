@@ -191,7 +191,7 @@ export const loginUser = async (req, res, next) => {
 };
 
 //=========================================================================
-// Login user
+// Logout user
 //=========================================================================
 
 export const userLogout = async (req, res, next) => {

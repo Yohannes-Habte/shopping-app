@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
+import './ShopCreate.scss';
 import { AiFillEyeInvisible } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { RxAvatar } from 'react-icons/rx';
@@ -10,65 +11,110 @@ import { MdEmail } from 'react-icons/md';
 import { RiFileZipFill, RiLockPasswordFill } from 'react-icons/ri';
 
 const ShopCreate = () => {
+  const navigate = useNavigate();
+
   // Local state variables
-  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState();
   const [address, setAddress] = useState('');
   const [zipCode, setZipCode] = useState();
-  const [avatar, setAvatar] = useState();
-  const [password, setPassword] = useState('');
+  const [image, setImage] = useState();
   const [showPassword, setShowPassword] = useState(false);
 
   // Function to show/hide password
   const displayPassword = () => {
     setShowPassword((prevState) => !prevState);
   };
+
+  // Update image
+  const updateImage = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  // Update input data
+  const updateChange = (e) => {
+    switch (e.target.name) {
+      case 'name':
+        setName(e.target.value);
+        break;
+      case 'email':
+        setEmail(e.target.value);
+        break;
+      case 'password':
+        setPassword(e.target.value);
+        break;
+      case 'phoneNumber':
+        setPhoneNumber(e.target.value);
+        break;
+      case 'address':
+        setAddress(e.target.value);
+        break;
+
+      case 'zipCode':
+        setZipCode(e.target.value);
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  // Reset input data
+  const reset = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setPhoneNumber('');
+    setAddress('');
+    setZipCode('');
+  };
+
+  // Submit created shop
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    axios
-      .post(`http//sfslfslf/shop/create-shop`, {
-        name,
-        email,
-        password,
-        avatar,
-        zipCode,
-        address,
-        phoneNumber,
-      })
-      .then((res) => {
-        toast.success(res.data.message);
-        setName('');
-        setEmail('');
-        setPassword('');
-        setAvatar();
-        setZipCode();
-        setAddress('');
-        setPhoneNumber();
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message);
-      });
-  };
+    try {
+      // Image validation
+      const userPhoto = new FormData();
+      userPhoto.append('file', image);
+      userPhoto.append('cloud_name', 'dzlsa51a9');
+      userPhoto.append('upload_preset', 'upload');
 
-  const handleFileInputChange = (e) => {
-    const reader = new FileReader();
+      // Save image to cloudinary
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
+        userPhoto
+      );
+      const { url } = response.data;
+      // The body
+      const newUser = {
+        name: name,
+        email: email,
+        password: password,
+        phoneNumber: phoneNumber,
+        address: address,
+        zipCode: zipCode,
+        image: url,
+      };
 
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatar(reader.result);
-      }
-    };
-
-    reader.readAsDataURL(e.target.files[0]);
+      const { data } = await axios.post(
+        'http://localhost:5000/api/shops/create-shop',
+        newUser
+      );
+      reset();
+      navigate('/login-shop');
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
     <section className="create-shop-wrapper">
-      <h2 className="subTitle">Register as a Seller</h2>
+      <h1 className="title">Register as a Seller</h1>
 
-      <form className="seller-form" onSubmit={handleSubmit}>
+      <form className="seller-signup-form" onSubmit={handleSubmit}>
         {/* name */}
         <div className="input-container">
           <FaUserTie className="icon" />
@@ -78,31 +124,12 @@ const ShopCreate = () => {
             id="name"
             required
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={updateChange}
             placeholder="Enter Shop name"
             className="input-field"
           />
           <label htmlFor="name" className="input-label">
             Shop Name
-          </label>
-          <span className="input-highlight"></span>
-        </div>
-
-        {/* phone */}
-        <div className="input-container">
-          <FaPhoneVolume className="icon" />
-          <input
-            type="number"
-            name="phoneNumber"
-            id="phoneNumber"
-            required
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder="Enter Phone Number"
-            className="input-field"
-          />
-          <label htmlFor="phoneNumber" className="input-label">
-            Phone Number
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -117,12 +144,54 @@ const ShopCreate = () => {
             autoComplete="email"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={updateChange}
             placeholder="Enter Email"
             className="input-field"
           />
           <label htmlFor="email" className="input-label">
             Email address
+          </label>
+          <span className="input-highlight"></span>
+        </div>
+
+        {/* password */}
+        <div className="input-container">
+          <RiLockPasswordFill className="icon" />
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            id="password"
+            autoComplete="current-password"
+            required
+            value={password}
+            onChange={updateChange}
+            placeholder="Enter Password"
+            className="input-field"
+          />
+          <label htmlFor="password" className="input-label">
+            Password
+          </label>
+          <span className="input-highlight"></span>
+          <span onClick={displayPassword} className="password-display">
+            {showPassword ? <AiFillEyeInvisible /> : <HiOutlineEye />}
+          </span>
+        </div>
+
+        {/* phone */}
+        <div className="input-container">
+          <FaPhoneVolume className="icon" />
+          <input
+            type="number"
+            name="phoneNumber"
+            id="phoneNumber"
+            required
+            value={phoneNumber}
+            onChange={updateChange}
+            placeholder="Enter Phone Number"
+            className="input-field"
+          />
+          <label htmlFor="phoneNumber" className="input-label">
+            Phone Number
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -136,7 +205,7 @@ const ShopCreate = () => {
             id="address"
             required
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={updateChange}
             placeholder="Enter Address"
             className="input-field"
           />
@@ -155,7 +224,7 @@ const ShopCreate = () => {
             id="zipCode"
             required
             value={zipCode}
-            onChange={(e) => setZipCode(e.target.value)}
+            onChange={updateChange}
             placeholder="Enter Zip Code"
             className="input-field"
           />
@@ -165,45 +234,18 @@ const ShopCreate = () => {
           <span className="input-highlight"></span>
         </div>
 
-        {/* password */}
-        <div className="input-container">
-          <RiLockPasswordFill className="icon" />
-          <input
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            id="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter Password"
-            className="input-field"
-          />
-          <label htmlFor="password" className="input-label">
-            Password
-          </label>
-          <span className="input-highlight"></span>
-          <span onClick={displayPassword} className="password-display">
-            {showPassword ? <AiFillEyeInvisible /> : <HiOutlineEye />}
-          </span>
-        </div>
-
         {/* image */}
         <div className="file-container">
-          <span className="user-image">
-            {avatar ? (
-              <img src={avatar} alt="avatar" className="image" />
-            ) : (
-              <RxAvatar className="icon" />
-            )}
-          </span>
           <label htmlFor="file-input" className="input-label">
-            <span>Upload a file</span>
+            <label htmlFor="image" className="image-label">
+              <RxAvatar className="icon" />
+              Upload Photo 
+            </label>
             <input
               type="file"
-              name="avatar"
-              id="file-input"
-              onChange={handleFileInputChange}
+              name="image"
+              id="image"
+              onChange={updateImage}
               className="input-field"
             />
           </label>
@@ -213,10 +255,10 @@ const ShopCreate = () => {
           Submit
         </button>
 
-        <article className={`alread-have-account`}>
+        <article className={`already-have-account`}>
           <h4>Already have an account?</h4>
           <p className="sign-in">
-            <Link to="/shop-login" className="link">
+            <Link to="/login-shop" className="link">
               Sign in
             </Link>
           </p>
