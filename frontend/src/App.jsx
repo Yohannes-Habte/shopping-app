@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,32 +17,15 @@ import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
 import UserInbox from './views/inboxPage/UserInbox';
 import Product from './views/productPage/Product';
-import { useSelector } from 'react-redux';
 import ShopCreatePage from './views/sellersPage/ShopCreatePage';
 import Cart from './views/cartPage/Cart';
 import ShopLoginPage from './views/shopLoginPage/ShopLoginPage';
 import ShopPage from './views/shopPage/ShopPage';
+import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
+import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
 
 const App = () => {
-  // Global state variables using redux
-  const { currentUser } = useSelector((state) => state.user);
-  const { currentSeller } = useSelector((state) => state.seller);
-  // User Protected route
-  const UserProtectedRoute = ({ children }) => {
-    if (!currentUser) {
-      return <Navigate to={'/login'} />;
-    }
-    return children;
-  };
-
-  // User Protected route
-  const SellerProtectedRoute = ({ children }) => {
-    if (!currentSeller) {
-      return <Navigate to={`/`} />;
-    } else {
-      return children;
-    }
-  };
+  axios.defaults.withCredentials = true;
 
   return (
     <div>

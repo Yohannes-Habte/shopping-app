@@ -9,7 +9,6 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
-import ButtonLoader from '../../loader/ButtonLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   updateUserFilure,
@@ -22,6 +21,7 @@ import ChangePassword from '../changePassword/ChangePassword';
 import TrackOrderTable from '../trackOrderTable/TrackOrderTable';
 import Address from '../address/Address';
 import PaymentMethod from '../../payment/paymentMethod/PaymentMethod';
+import ButtonLoader from '../../layout/loader/ButtonLoader';
 
 const UserProfile = ({ active }) => {
   const navigate = useNavigate();

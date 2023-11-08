@@ -9,8 +9,8 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
-import ButtonLoader from '../../components/loader/ButtonLoader';
 import { useDispatch, useSelector } from 'react-redux';
+import ButtonLoader from '../../components/layout/loader/ButtonLoader';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -245,7 +245,6 @@ const Register = () => {
               className="register-button"
             >
               {loading && <ButtonLoader />}
-              {loading && <span>Loading...</span>}
               {!loading && <span>Sign Up</span>}
             </button>
             <p className="haveAccount">
