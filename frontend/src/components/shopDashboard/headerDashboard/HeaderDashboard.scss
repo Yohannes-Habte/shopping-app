@@ -1,0 +1,37 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.header-dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: $header-bg;
+
+  .header-icons {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+
+    .active-link {
+      .header-dashboar-icon {
+        font-size: $aafs;
+        color: $red;
+      }
+    }
+
+    .none-active-link {
+      .header-dashboar-icon {
+        font-size: $aafs;
+        color: $green;
+      }
+
+      .image {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        color: $green;
+      }
+    }
+  }
+}

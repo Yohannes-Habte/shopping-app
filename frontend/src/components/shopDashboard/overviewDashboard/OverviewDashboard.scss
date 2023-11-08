@@ -1,0 +1,35 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.overview-dashbaord-wrapper {
+  width: 100%;
+  @include shadow3;
+
+  .overview-dashboard-title {
+    @include title;
+  }
+
+  .article-box {
+    .aside-box {
+      .icon {
+        font-size: $aafs;
+        color: $green;
+      }
+
+      .subTitle {
+        @include subTitle;
+      }
+
+      .service {
+        @include paragraph;
+      }
+    }
+
+    .subTitle {
+      @include subTitle;
+    }
+
+    .link {
+    }
+  }
+}

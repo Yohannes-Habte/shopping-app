@@ -1,0 +1,44 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.sidebar-dashboar {
+  width: 20%;
+  @include shadow3;
+  background-color: $sidebar-bg;
+
+  .sidebar-dashboard-items {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    .sidebar-dashboard-item {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      font-size: $afs;
+      padding: 0.5rem 0;
+
+      &:hover {
+        color: $tomato;
+        background: $sidebar-hover;
+      }
+
+      .sidebar-dashboard-icon {
+        font-size: 1.4rem;
+        color: $green;
+      }
+
+      .active-sidebar-dashboard-link {
+        color: $tomato;
+      }
+
+      .passive-sidebar-dashboard-link {
+        color: $gray;
+        &:hover {
+          color: $tomato;
+        }
+      }
+    }
+  }
+}

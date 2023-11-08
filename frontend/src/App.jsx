@@ -20,9 +20,10 @@ import Product from './views/productPage/Product';
 import ShopCreatePage from './views/sellersPage/ShopCreatePage';
 import Cart from './views/cartPage/Cart';
 import ShopLoginPage from './views/shopLoginPage/ShopLoginPage';
-import ShopPage from './views/shopPage/ShopPage';
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
+import ShopDashboard from './views/shopDashboarPage/ShopDashboard';
+import ShopHome from './views/shopHomePage/ShopHome';
 
 const App = () => {
   axios.defaults.withCredentials = true;
@@ -57,14 +58,25 @@ const App = () => {
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<Events />} />
+
           <Route
             path="/shop/:id"
             element={
               <SellerProtectedRoute>
-                <ShopPage />
+                <ShopHome />
               </SellerProtectedRoute>
             }
           />
+
+          <Route
+            path="/dashboard"
+            element={
+              <SellerProtectedRoute>
+                <ShopDashboard />
+              </SellerProtectedRoute>
+            }
+          />
+
           <Route
             path="/login-shop"
             element={
