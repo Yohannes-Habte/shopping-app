@@ -32,7 +32,6 @@ export const createProduct = async (req, res, next) => {
 // Get Single Product
 //==============================================================================
 export const getSingleProduct = async (req, res, next) => {
- 
   try {
     // Get the ids for the shop and the product
     const shopID = req.params.shopID;
@@ -64,7 +63,6 @@ export const getSingleProduct = async (req, res, next) => {
 // Get All Products
 //==============================================================================
 export const getAllShopProducts = async (req, res, next) => {
- 
   try {
     // Get the shop by its id
     const shopID = req.params.shopID;

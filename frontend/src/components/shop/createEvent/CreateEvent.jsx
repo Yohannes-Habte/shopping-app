@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './CreateEvent.scss';
 import { AiFillTags } from 'react-icons/ai';
 import { BiSolidCategoryAlt } from 'react-icons/bi';
@@ -8,17 +8,23 @@ import { MdOutlineDateRange, MdPriceChange } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import {
+  eventShopPostFailure,
+  eventShopPostStart,
+  eventShopPostSuccess,
+} from '../../../redux/reducers/evnetReducer';
 
 const CreateEvent = () => {
   const navigate = useNavigate();
 
   // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
-  const { success, error } = useSelector((state) => state.event);
+  const { events } = useSelector((state) => state.event);
   const dispatch = useDispatch();
 
   // Local state variables
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -47,44 +53,15 @@ const CreateEvent = () => {
     setEndDate(endDate);
   };
 
-  // today is
+  // The date of today is
   const today = new Date().toISOString().slice(0, 10);
+  console.log('today is', today);
 
   const minEndDate = startDate
     ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
         .toISOString()
         .slice(0, 10)
     : '';
-
-  // Success or failure display
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-    if (success) {
-      toast.success('Event created successfully!');
-      navigate('/dashboard-events');
-      window.location.reload();
-    }
-  }, [dispatch, error, success]);
-
-  // Handle image change
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-
-    setImages([]);
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  };
 
   // Update input data
   const updateChange = (e) => {
@@ -121,36 +98,50 @@ const CreateEvent = () => {
         break;
     }
   };
-  // Hanlde submit
-  const handleSubmit = (e) => {
+
+  // Handle submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      /** 
-       //& For more images upload
-      const imagesData = new FormData();
+      dispatch(eventShopPostStart());
 
-      images.forEach((image) => {
-        imagesData.append('images', image);
-      });
+      const productImages = new FormData();
+      productImages.append('file', images);
+      productImages.append('cloud_name', 'dzlsa51a9');
+      productImages.append('upload_preset', 'upload');
 
-      */
-      const data = {
-        name,
-        description,
-        category,
-        tags,
-        originalPrice,
-        discountPrice,
-        stock,
-        images,
+      // Save image to cloudinary
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
+        productImages
+      );
+      const { url } = response.data;
+
+      // The body
+      const newProduct = {
         shopId: currentSeller._id,
-        start_Date: startDate?.toISOString(),
-        Finish_Date: endDate?.toISOString(),
+        name: name,
+        description: description,
+        category: category,
+        tags: tags,
+        originalPrice: originalPrice,
+        discountPrice: discountPrice,
+        stock: stock,
+        images: url,
+        startDate: startDate?.toISOString(),
+        endDate: endDate?.toISOString(),
       };
-      dispatch('createevent'(data));
+
+      const { data } = await axios.post(
+        'http://localhost:5000/api/events/create-event',
+        newProduct
+      );
+
+      dispatch(eventShopPostSuccess(data));
     } catch (error) {
       console.log(error);
+      dispatch(eventShopPostFailure(error.response.data.message));
     }
   };
 
@@ -306,8 +297,8 @@ const CreateEvent = () => {
           <MdOutlineDateRange className="icon" />
           <input
             type="date"
-            name="startDate"
-            id="startDate"
+            name="endDate"
+            id="endDate"
             required
             value={endDate ? endDate.toISOString().slice(0, 10) : ''}
             onChange={handleEndDateChange}
@@ -315,7 +306,7 @@ const CreateEvent = () => {
             placeholder="Enter Event End Date"
             className="input-field"
           />
-          <label htmlFor="startDate" className="input-label">
+          <label htmlFor="endDate" className="input-label">
             Event Start Date
           </label>
           <span className="input-highlight"></span>
@@ -332,23 +323,10 @@ const CreateEvent = () => {
             name="images"
             id="images"
             multiple
-            onChange={handleImageChange}
+            onChange={(e) => setImages(e.target.files[0])}
             className="input-field"
           />
         </div>
-
-        {/* display products upload images on the browser */}
-        <figure className="image-container">
-          {images &&
-            images.map((product) => (
-              <img
-                src={product}
-                key={product}
-                alt="Product"
-                className="image"
-              />
-            ))}
-        </figure>
 
         {/* Event Description */}
         <div className="input-container">

@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
-import './AllShopProducts.scss';
+import './AllShopEvents.scss';
 import { AiOutlineDelete, AiOutlineEye } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import {
-  productShopDeleteFailure,
-  productShopDeleteStart,
-  productShopDeleteSuccess,
-  productsShopFetchFailure,
-  productsShopFetchStart,
-  productsShopFetchSuccess,
-} from '../../../redux/reducers/productReducer';
+  eventShopDeleteFailure,
+  eventShopDeleteStart,
+  eventShopDeleteSuccess,
+  eventsShopFetchFailure,
+  eventsShopFetchStart,
+  eventsShopFetchSuccess,
+} from '../../../redux/reducers/evnetReducer';
 
-const AllShopProducts = () => {
+const AllShopEvents = () => {
   // Global state variables
-  const { products, loading } = useSelector((state) => state.product);
+  const { events, loading } = useSelector((state) => state.event);
   const { currentSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
@@ -24,30 +24,29 @@ const AllShopProducts = () => {
   useEffect(() => {
     const shopProducts = async () => {
       try {
-        dispatch(productsShopFetchStart());
+        dispatch(eventsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `http://localhost:5000/api/events/${currentSeller._id}/shop-events`
         );
-        dispatch(productsShopFetchSuccess(data));
+        dispatch(eventsShopFetchSuccess(data));
       } catch (error) {
-        dispatch(productsShopFetchFailure(error.response.data.message));
+        dispatch(eventsShopFetchFailure(error.response.data.message));
       }
     };
     shopProducts();
   }, [dispatch]);
 
   // Handle delete
-  const handleProductDelete = async (productID) => {
-    console.log("Product id is", productID)
+  const handleEventDelete = async (eventID) => {
     try {
-      dispatch(productShopDeleteStart());
+      dispatch(eventShopDeleteStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/products/${currentSeller._id}shop-products/${productID}`
+        `http://localhost:5000/api/events/${currentSeller._id}shop-products/${eventID}`
       );
-      dispatch(productShopDeleteSuccess(data));
+      dispatch(eventShopDeleteSuccess(data));
       window.location.reload();
     } catch (error) {
-      dispatch(productShopDeleteFailure(error.response.data.message));
+      dispatch(eventShopDeleteFailure(error.response.data.message));
     }
   };
 
@@ -88,10 +87,12 @@ const AllShopProducts = () => {
       type: 'number',
       sortable: false,
       renderCell: (params) => {
+        const d = params.row.name;
+        const product_name = d.replace(/\s+/g, '-');
         return (
           <>
-            <Link to={`/product/${params.id}`}>
-              <button className="product-icon-btn">
+            <Link to={`/product/${product_name}`}>
+              <button>
                 <AiOutlineEye size={20} />
               </button>
             </Link>
@@ -109,10 +110,7 @@ const AllShopProducts = () => {
       renderCell: (params) => {
         return (
           <>
-            <button
-              onClick={() => handleProductDelete(params.id)}
-              className="delete-icon-btn"
-            >
+            <button onClick={() => handleEventDelete(params.id)}>
               <AiOutlineDelete size={20} />
             </button>
           </>
@@ -123,20 +121,20 @@ const AllShopProducts = () => {
 
   const row = [];
 
-  products &&
-    products.map((product) => {
-      return row.push({
-        id: product._id,
-        name: product.name,
-        price: 'US$ ' + product.discountPrice,
-        Stock: product.stock,
-        sold: product?.sold_out,
+  events &&
+    events.forEach((event) => {
+      row.push({
+        id: event._id,
+        name: event.name,
+        price: 'US$ ' + event.discountPrice,
+        Stock: event.stock,
+        sold: event.sold_out,
       });
     });
 
   return (
-    <section className="all-shop-products-wrapper">
-      <h1 className="title">{currentSeller.name} Shop </h1>
+    <section className="all-shop-events-wrapper">
+      <h1 className="title">{currentSeller.name} Event </h1>
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -152,4 +150,4 @@ const AllShopProducts = () => {
   );
 };
 
-export default AllShopProducts;
+export default AllShopEvents;

@@ -27,6 +27,7 @@ import ShopCreateProduct from './views/shopCreateProductPage/ShopCreateProduct';
 import ShopCreateEvent from './views/shopCreateEventPage/ShopCreateEvent';
 import ShopSettingsPage from './views/shopSettingsPage/ShopSettingsPage';
 import ShopProducts from './views/shopProductsPage/ShopProducts';
+import ShopEvents from './views/shopEventsPage/ShopEvents';
 
 const App = () => {
   return (
@@ -83,6 +84,15 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopCreateEvent />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/dashboard-events"
+            element={
+              <SellerProtectedRoute>
+                <ShopEvents />
               </SellerProtectedRoute>
             }
           />

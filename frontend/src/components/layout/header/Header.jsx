@@ -28,7 +28,6 @@ const Header = () => {
   // Global state variables using redux
   const { currentUser, loading, error } = useSelector((state) => state.user);
 
-
   const dispatch = useDispatch();
 
   // Local state variables
@@ -120,7 +119,7 @@ const Header = () => {
 
         {/* Become Seller */}
         <article className="become-seller">
-          <Link to={'/create-shop'} className="link">
+          <Link to={'/login-shop'} className="link">
             <h3 className="sub-title">Become Seller</h3>
           </Link>
           <RiArrowRightSLine className="icon" />

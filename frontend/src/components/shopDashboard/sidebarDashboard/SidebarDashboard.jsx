@@ -1,6 +1,6 @@
 import React from 'react';
 import './SidebarDashboard.scss';
-import {  AiOutlineGift } from 'react-icons/ai';
+import { AiOutlineGift } from 'react-icons/ai';
 import { FiPackage, FiShoppingBag } from 'react-icons/fi';
 import { MdCreateNewFolder, MdOutlineLocalOffer } from 'react-icons/md';
 import { RxDashboard } from 'react-icons/rx';
@@ -13,7 +13,9 @@ import { HiOutlineReceiptRefund } from 'react-icons/hi';
 const SidebarDashboard = () => {
   // Active NavLinks styling
   const active = ({ isActive }) =>
-  isActive ? `active-sidebar-dashboard-link` : 'passive-sidebar-dashboard-link';
+    isActive
+      ? `active-sidebar-dashboard-link`
+      : 'passive-sidebar-dashboard-link';
   return (
     <nav className="sidebar-dashboar">
       {/* single item */}
@@ -26,9 +28,9 @@ const SidebarDashboard = () => {
         </li>
 
         <li className="sidebar-dashboard-item">
-          <FiShoppingBag className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-orders'} className={active}>
-            All Orders
+          <MdCreateNewFolder className="sidebar-dashboard-icon" />
+          <NavLink to={'/dashboard-create-product'} className={active}>
+            Create Product
           </NavLink>
         </li>
 
@@ -40,12 +42,9 @@ const SidebarDashboard = () => {
         </li>
 
         <li className="sidebar-dashboard-item">
-          <MdCreateNewFolder  className="sidebar-dashboard-icon" />
-          <NavLink
-            to={'/dashboard-create-product'}
-            className={active}
-          >
-            Create Product
+          <VscNewFile className="sidebar-dashboard-icon" />
+          <NavLink to={'/dashboard-create-event'} className={active}>
+            Create Event
           </NavLink>
         </li>
 
@@ -57,21 +56,16 @@ const SidebarDashboard = () => {
         </li>
 
         <li className="sidebar-dashboard-item">
-          <VscNewFile className="sidebar-dashboard-icon" />
-          <NavLink
-            to={'/dashboard-create-event'}
-            className={active}
-          >
-            Create Event
+          <FiShoppingBag className="sidebar-dashboard-icon" />
+          <NavLink to={'/dashboard-orders'} className={active}>
+            All Orders
           </NavLink>
         </li>
 
+
         <li className="sidebar-dashboard-item">
           <BiMoneyWithdraw className="sidebar-dashboard-icon" />
-          <NavLink
-            to={'/dashboard-withdraw-money'}
-            className={active}
-          >
+          <NavLink to={'/dashboard-withdraw-money'} className={active}>
             Withdraw Money
           </NavLink>
         </li>

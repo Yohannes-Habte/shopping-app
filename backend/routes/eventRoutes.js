@@ -1,12 +1,21 @@
-import express from "express"
+import express from 'express';
+import {
+  createEvent,
+  deleteShopSingleEvent,
+  getAllShopEvents,
+  getAllShopsEvents,
+  getShopSingleEvent,
+} from '../controllers/evnetController.js';
 
 // event Router
-const eventRouter = express.Router()
+const eventRouter = express.Router();
 
 // event routes
-eventRouter.post("/create-shop")
-eventRouter.get("/:id")
-
+eventRouter.post('/create-event', createEvent);
+eventRouter.get('/', getAllShopsEvents);
+eventRouter.get('/:shopID/shop-events', getAllShopEvents);
+eventRouter.get('/:shopID/:eventID', getShopSingleEvent);
+eventRouter.delete('/:shopID/shop-events/:eventID', deleteShopSingleEvent);
 
 // Export event Router
 export default eventRouter;
