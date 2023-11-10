@@ -13,20 +13,10 @@ const productSchema = new Schema(
     stock: { type: Number, required: true },
     ratings: { type: Number },
     shopId: { type: String, required: true },
-    shop: { type: Object, required: true },
+    shop: { type: Object },
     sold_out: { type: Number, default: 0 },
-    images: [
-      {
-        public_id: {
-          type: String,
-          required: true,
-        },
-        url: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    images: {type: String, required: true},
+    // images: [],
     reviews: [
       {
         user: { type: Object },
@@ -36,7 +26,6 @@ const productSchema = new Schema(
         createdAt: { type: Date, default: Date.now() },
       },
     ],
-    createdAt: { type: Date, default: Date.now() },
   },
   { timestamps: true }
 );

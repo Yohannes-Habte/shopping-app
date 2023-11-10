@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './views/homePage/Home';
@@ -24,10 +23,11 @@ import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
 import ShopDashboard from './views/shopDashboarPage/ShopDashboard';
 import ShopHome from './views/shopHomePage/ShopHome';
+import ShopCreateProduct from './views/shopCreateProductPage/ShopCreateProduct';
+import ShopCreateEvent from './views/shopCreateEventPage/ShopCreateEvent';
+import ShopSettingsPage from './views/shopSettingsPage/ShopSettingsPage';
 
 const App = () => {
-  axios.defaults.withCredentials = true;
-
   return (
     <div>
       <Router>
@@ -58,6 +58,32 @@ const App = () => {
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<Events />} />
+          <Route
+            path="/dashboard-create-product"
+            element={
+              <SellerProtectedRoute>
+                <ShopCreateProduct />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/dashboard-create-event"
+            element={
+              <SellerProtectedRoute>
+                <ShopCreateEvent />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <SellerProtectedRoute>
+                <ShopSettingsPage />
+              </SellerProtectedRoute>
+            }
+          />
 
           <Route
             path="/shop/:id"

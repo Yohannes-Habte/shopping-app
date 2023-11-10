@@ -30,7 +30,7 @@ const orderReducer = createSlice({
 });
 
 // Destructure order reducer methods under the reducers key
-const { orderFetchStart, orderFetchSuccess, orderFetchFailure } =
-  orderReducer.reducer;
+export const { orderFetchStart, orderFetchSuccess, orderFetchFailure } =
+  orderReducer.actions;
 
 export default orderReducer.reducer;

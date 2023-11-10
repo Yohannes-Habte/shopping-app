@@ -4,6 +4,14 @@ import User from '../models/userModel.js';
 import Shop from '../models/shopModel.js';
 
 //====================================================================
+// Generate seller token
+//====================================================================
+export const generateSellerToken = (id) => {
+  const token = JWT.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  return token;
+};
+
+//====================================================================
 // Is user auth
 //====================================================================
 export const authUser = async (req, res, next) => {

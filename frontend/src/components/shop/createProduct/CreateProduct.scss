@@ -1,18 +1,18 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-.create-event-wrapper {
+.create-product-wrapper {
   width: 70%;
   margin: auto;
 
-  .title {
+  .subTitle {
     @include title;
   }
 
   .form {
     @include shadow3;
     padding: 1rem 2rem;
-
+    
     .input-container {
       position: relative;
       @include inputContainer;
@@ -96,7 +96,7 @@
       }
     }
 
-    .create-event-btn {
+    .create-product-btn {
       @include button1;
     }
 

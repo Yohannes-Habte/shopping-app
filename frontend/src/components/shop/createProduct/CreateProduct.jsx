@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import './CreateEvent.scss';
+import React, { useState } from 'react';
+import './CreateProduct.scss';
 import { AiFillTags } from 'react-icons/ai';
 import { BiSolidCategoryAlt } from 'react-icons/bi';
-import { FaAudioDescription, FaUpload } from 'react-icons/fa';
-import { MdEmojiEvents, MdMedicalServices } from 'react-icons/md';
-import { MdOutlineDateRange, MdPriceChange } from 'react-icons/md';
+import { FaAudioDescription, FaProductHunt, FaUpload } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { MdMedicalServices, MdPriceChange } from 'react-icons/md';
+import axios from 'axios';
+import {
+  productPostFailure,
+  productPostStart,
+  productPostSuccess,
+} from '../../../redux/reducers/productReducer';
 
-const CreateEvent = () => {
+const CreateProduct = () => {
   const navigate = useNavigate();
-
   // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
-  const { success, error } = useSelector((state) => state.event);
+  const { loading, error } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
-  // Local state variables
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -26,65 +29,6 @@ const CreateEvent = () => {
   const [originalPrice, setOriginalPrice] = useState();
   const [discountPrice, setDiscountPrice] = useState();
   const [stock, setStock] = useState();
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-
-  // Handle start date change
-  const handleStartDateChange = (e) => {
-    const startDate = new Date(e.target.value);
-    const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
-    setStartDate(startDate);
-    setEndDate(null);
-    document.getElementById('end-date').min = minEndDate.toISOString.slice(
-      0,
-      10
-    );
-  };
-
-  // Handle end date change
-  const handleEndDateChange = (e) => {
-    const endDate = new Date(e.target.value);
-    setEndDate(endDate);
-  };
-
-  // today is
-  const today = new Date().toISOString().slice(0, 10);
-
-  const minEndDate = startDate
-    ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
-        .toISOString()
-        .slice(0, 10)
-    : '';
-
-  // Success or failure display
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-    if (success) {
-      toast.success('Event created successfully!');
-      navigate('/dashboard-events');
-      window.location.reload();
-    }
-  }, [dispatch, error, success]);
-
-  // Handle image change
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-
-    setImages([]);
-
-    files.forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setImages((old) => [...old, reader.result]);
-        }
-      };
-      reader.readAsDataURL(file);
-    });
-  };
 
   // Update input data
   const updateChange = (e) => {
@@ -92,15 +36,12 @@ const CreateEvent = () => {
       case 'name':
         setName(e.target.value);
         break;
-
       case 'description':
         setDescription(e.target.value);
         break;
-
       case 'category':
         setCategory(e.target.value);
         break;
-
       case 'tags':
         setTags(e.target.value);
         break;
@@ -108,60 +49,94 @@ const CreateEvent = () => {
       case 'originalPrice':
         setOriginalPrice(e.target.value);
         break;
-
       case 'discountPrice':
         setDiscountPrice(e.target.value);
         break;
-
       case 'stock':
         setStock(e.target.value);
         break;
-
       default:
         break;
     }
   };
-  // Hanlde submit
-  const handleSubmit = (e) => {
+
+  //& Handle multiple image changes
+  // const handleImageChange = (e) => {
+  //   const files = Array.from(e.target.files);
+
+  //   setImages([]);
+
+  //   files.forEach((file) => {
+  //     const reader = new FileReader();
+
+  //     reader.onload = () => {
+  //       if (reader.readyState === 2) {
+  //         setImages((old) => [...old, reader.result]);
+  //       }
+  //     };
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
+
+  // Handle submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      /** 
-       //& For more images upload
-      const imagesData = new FormData();
+      dispatch(productPostStart());
 
-      images.forEach((image) => {
-        imagesData.append('images', image);
-      });
+      const productImages = new FormData();
+      productImages.append('file', images);
+      productImages.append('cloud_name', 'dzlsa51a9');
+      productImages.append('upload_preset', 'upload');
 
-      */
-      const data = {
-        name,
-        description,
-        category,
-        tags,
-        originalPrice,
-        discountPrice,
-        stock,
-        images,
+      // Save image to cloudinary
+      const response = await axios.post(
+        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
+        productImages
+      );
+      const { url } = response.data;
+
+      // The body
+      const newProduct = {
         shopId: currentSeller._id,
-        start_Date: startDate?.toISOString(),
-        Finish_Date: endDate?.toISOString(),
+        name: name,
+        description: description,
+        category: category,
+        tags: tags,
+        originalPrice: originalPrice,
+        discountPrice: discountPrice,
+        stock: stock,
+        images: url,
+        //& For more images upload
+        // images: images.forEach((image) => {productImages.append('images', image)}),
       };
-      dispatch('createevent'(data));
+
+      const { data } = await axios.post(
+        'http://localhost:5000/api/products/create-product',
+        newProduct
+      );
+      console.log('The product data are', data);
+      dispatch(productPostSuccess(data));
     } catch (error) {
       console.log(error);
+      dispatch(productPostFailure(error.response.data.message));
     }
   };
 
   return (
-    <section className="create-event-wrapper">
-      <h5 className="title">Create Event</h5>
-      {/* create event form */}
-      <form onSubmit={handleSubmit} className="form">
-        {/* Event name */}
+    <section className="create-product-wrapper">
+      <h5 className="subTitle">Create Product</h5>
+
+      {/* create product form */}
+      <form
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+        className="form"
+      >
+        {/* Product name */}
         <div className="input-container">
-          <MdEmojiEvents className="icon" />
+          <FaProductHunt className="icon" />
           <input
             type="text"
             name="name"
@@ -170,11 +145,11 @@ const CreateEvent = () => {
             required
             value={name}
             onChange={updateChange}
-            placeholder="Enter Event Name"
+            placeholder="Enter Product Name"
             className="input-field"
           />
           <label htmlFor="name" className="input-label">
-            Event Name
+            Product Name
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -183,7 +158,7 @@ const CreateEvent = () => {
         <div className="input-container">
           <BiSolidCategoryAlt className="icon" />
           <label htmlFor="category" className="input-label">
-            Event Category <span className="mark">*</span>
+            Product Category <span className="mark">*</span>
           </label>
           <select
             name="category"
@@ -192,12 +167,12 @@ const CreateEvent = () => {
             onChange={updateChange}
             className="input-field"
           >
-            <option value="default">Choose Event Category</option>
+            <option value="default">Choose Product Category</option>
             <option value="phone"> Phone </option>
             <option value="laptop"> Laptop </option>
             <option value="shoes"> Shoes </option>
             <option value="clothes"> Clothes </option>
-            <option value="accesseries"> Accesseries </option>
+            <option value="others"> Others </option>
           </select>
         </div>
 
@@ -212,16 +187,16 @@ const CreateEvent = () => {
             required
             value={tags}
             onChange={updateChange}
-            placeholder="Enter Event tags"
+            placeholder="Enter Product tags"
             className="input-field"
           />
           <label htmlFor="tags" className="input-label">
-            Event tags
+            Product tags
           </label>
           <span className="input-highlight"></span>
         </div>
 
-        {/* Event Original Price */}
+        {/* Product Original Price */}
         <div className="input-container">
           <MdPriceChange className="icon" />
           <input
@@ -232,16 +207,16 @@ const CreateEvent = () => {
             required
             value={originalPrice}
             onChange={updateChange}
-            placeholder="Enter Event Original Price"
+            placeholder="Enter Product Original Price"
             className="input-field"
           />
           <label htmlFor="originalPrice" className="input-label">
-            Event Original Price
+            Product Original Price
           </label>
           <span className="input-highlight"></span>
         </div>
 
-        {/* Event discount Price */}
+        {/* Product discount Price */}
         <div className="input-container">
           <MdPriceChange className="icon" />
           <input
@@ -252,16 +227,16 @@ const CreateEvent = () => {
             required
             value={discountPrice}
             onChange={updateChange}
-            placeholder="Enter Event Discount Price"
+            placeholder="Enter Product Discount Price"
             className="input-field"
           />
           <label htmlFor="discountPrice" className="input-label">
-            Event Discount Price
+            Product Discount Price
           </label>
           <span className="input-highlight"></span>
         </div>
 
-        {/* Event stock */}
+        {/* Product stock */}
         <div className="input-container">
           <MdMedicalServices className="icon" />
           <input
@@ -272,51 +247,11 @@ const CreateEvent = () => {
             required
             value={stock}
             onChange={updateChange}
-            placeholder="Enter Event Stock"
+            placeholder="Enter Product Stock"
             className="input-field"
           />
           <label htmlFor="stock" className="input-label">
-            Event Stock
-          </label>
-          <span className="input-highlight"></span>
-        </div>
-
-        {/* Event Starting date */}
-        <div className="input-container">
-          <MdOutlineDateRange className="icon" />
-          <input
-            type="date"
-            name="startDate"
-            id="startDate"
-            required
-            value={startDate ? startDate.toISOString().slice(0, 10) : ''}
-            onChange={handleStartDateChange}
-            min={today}
-            placeholder="Enter  Event Start Date"
-            className="input-field"
-          />
-          <label htmlFor="startDate" className="input-label">
-            Event Start Date
-          </label>
-          <span className="input-highlight"></span>
-        </div>
-
-        {/* Event Ending date */}
-        <div className="input-container">
-          <MdOutlineDateRange className="icon" />
-          <input
-            type="date"
-            name="startDate"
-            id="startDate"
-            required
-            value={endDate ? endDate.toISOString().slice(0, 10) : ''}
-            onChange={handleEndDateChange}
-            min={minEndDate}
-            placeholder="Enter Event End Date"
-            className="input-field"
-          />
-          <label htmlFor="startDate" className="input-label">
-            Event Start Date
+            Product Stock
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -331,26 +266,18 @@ const CreateEvent = () => {
             type="file"
             name="images"
             id="images"
-            multiple
-            onChange={handleImageChange}
+            // multiple
+            onChange={(e) => setImages(e.target.files[0])}
             className="input-field"
           />
         </div>
 
         {/* display products upload images on the browser */}
-        <figure className="image-container">
-          {images &&
-            images.map((product) => (
-              <img
-                src={product}
-                key={product}
-                alt="Product"
-                className="image"
-              />
-            ))}
-        </figure>
+        {/* <figure className="image-container">
+          {images && <img src={images} alt="Product" className="image" />}
+        </figure> */}
 
-        {/* Event Description */}
+        {/* Product Description */}
         <div className="input-container">
           <FaAudioDescription className="icon" />
           <textarea
@@ -363,19 +290,19 @@ const CreateEvent = () => {
             required
             value={description}
             onChange={updateChange}
-            placeholder="Enter Even Description"
+            placeholder="Enter Product Description"
             className="input-field"
           ></textarea>
           <label htmlFor="description" className="input-label">
-            Event Description
+            Product Description
           </label>
           <span className="input-highlight"></span>
         </div>
 
-        <button className="create-event-btn">Submit</button>
+        <button className="create-product-btn">Submit</button>
       </form>
     </section>
   );
 };
 
-export default CreateEvent;
+export default CreateProduct;

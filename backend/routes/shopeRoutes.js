@@ -4,6 +4,7 @@ import {
   getSeller,
   getSellers,
   loginSeller,
+  sellerLogout,
 } from '../controllers/shopController.js';
 import { authSeller } from '../middleware/auth.js';
 
@@ -13,6 +14,7 @@ const shopRouter = express.Router();
 // shop routes
 shopRouter.post('/create-shop', createShop);
 shopRouter.post('/login-shop', loginSeller);
+shopRouter.get('/logout-shop/:id', sellerLogout);
 shopRouter.get('/:id', authSeller, getSeller);
 shopRouter.get('/', authSeller, getSellers);
 

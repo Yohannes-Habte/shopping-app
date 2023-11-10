@@ -3,13 +3,43 @@ import './HeaderDashboard.scss';
 import { AiOutlineGift } from 'react-icons/ai';
 import { MdOutlineLocalOffer } from 'react-icons/md';
 import { FiPackage, FiShoppingBag } from 'react-icons/fi';
-import { useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { BiMessageSquareDetail } from 'react-icons/bi';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import {
+  logoutSellerFailure,
+  logoutSellerStart,
+  logoutSellerSuccess,
+} from '../../../redux/reducers/sellerReducer';
 
 const HeaderDashboard = () => {
+  const navigate = useNavigate();
+
+  // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
-  console.log('The seller is', currentSeller);
+  const dispatch = useDispatch();
+
+  // Logout seller
+  const logoutSeller = async () => {
+    try {
+      dispatch(logoutSellerStart());
+      const { data } = await axios.get(
+        `http://localhost:5000/api/shops/logout-shop/${currentSeller._id}`,
+        { withCredentials: true }
+      );
+
+      dispatch(logoutSellerSuccess());
+
+      toast.success(data.message);
+      window.location.reload(true);
+      navigate('/login-shop');
+    } catch (error) {
+      dispatch(logoutSellerFailure(error.response.data.message));
+      console.log(error);
+    }
+  };
 
   // Style active and none active link
   const active = ({ isActive }) =>
@@ -44,17 +74,18 @@ const HeaderDashboard = () => {
           <BiMessageSquareDetail className="header-dashboar-icon" />
         </NavLink>
 
-        <NavLink to={`/shop/${currentSeller._id}`} className={active}>
+        <figure className="image-container">
           <img
+            onClick={logoutSeller}
             src={
               currentSeller
-                ? 'https://i.ibb.co/4pDNDk1/avatar.png'
+                ? currentSeller.image
                 : 'https://i.ibb.co/4pDNDk1/avatar.png'
             }
             alt=""
             className="image"
           />
-        </NavLink>
+        </figure>
       </div>
     </header>
   );

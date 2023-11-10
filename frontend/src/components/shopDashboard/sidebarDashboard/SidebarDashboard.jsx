@@ -12,29 +12,29 @@ import { HiOutlineReceiptRefund } from 'react-icons/hi';
 
 const SidebarDashboard = () => {
   // Active NavLinks styling
-  const dashboardActiveLink = ({ active }) =>
-    active ? `active-sidebar-dashboard-link` : 'passive-sidebar-dashboard-link';
+  const active = ({ isActive }) =>
+  isActive ? `active-sidebar-dashboard-link` : 'passive-sidebar-dashboard-link';
   return (
     <nav className="sidebar-dashboar">
       {/* single item */}
       <ul className="sidebar-dashboard-items">
         <li className="sidebar-dashboard-item">
           <RxDashboard className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard'} className={dashboardActiveLink}>
+          <NavLink to={'/dashboard'} className={active}>
             Dashboard
           </NavLink>
         </li>
 
         <li className="sidebar-dashboard-item">
           <FiShoppingBag className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-orders'} className={dashboardActiveLink}>
+          <NavLink to={'/dashboard-orders'} className={active}>
             All Orders
           </NavLink>
         </li>
 
         <li className="sidebar-dashboard-item">
           <FiPackage className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-products'} className={dashboardActiveLink}>
+          <NavLink to={'/dashboard-products'} className={active}>
             All Products
           </NavLink>
         </li>
@@ -43,7 +43,7 @@ const SidebarDashboard = () => {
           <MdCreateNewFolder  className="sidebar-dashboard-icon" />
           <NavLink
             to={'/dashboard-create-product'}
-            className={dashboardActiveLink}
+            className={active}
           >
             Create Product
           </NavLink>
@@ -51,7 +51,7 @@ const SidebarDashboard = () => {
 
         <li className="sidebar-dashboard-item">
           <MdOutlineLocalOffer className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-events'} className={dashboardActiveLink}>
+          <NavLink to={'/dashboard-events'} className={active}>
             All Events
           </NavLink>
         </li>
@@ -60,7 +60,7 @@ const SidebarDashboard = () => {
           <VscNewFile className="sidebar-dashboard-icon" />
           <NavLink
             to={'/dashboard-create-event'}
-            className={dashboardActiveLink}
+            className={active}
           >
             Create Event
           </NavLink>
@@ -70,7 +70,7 @@ const SidebarDashboard = () => {
           <BiMoneyWithdraw className="sidebar-dashboard-icon" />
           <NavLink
             to={'/dashboard-withdraw-money'}
-            className={dashboardActiveLink}
+            className={active}
           >
             Withdraw Money
           </NavLink>
@@ -78,28 +78,28 @@ const SidebarDashboard = () => {
 
         <li className="sidebar-dashboard-item">
           <BiMessageSquareDetail className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-messages'} className={dashboardActiveLink}>
+          <NavLink to={'/dashboard-messages'} className={active}>
             Shop Inbox
           </NavLink>
         </li>
 
         <li className="sidebar-dashboard-item">
           <AiOutlineGift className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-coupouns'} className={dashboardActiveLink}>
+          <NavLink to={'/dashboard-coupouns'} className={active}>
             Discount Codes
           </NavLink>
         </li>
 
         <li className="sidebar-dashboard-item">
           <HiOutlineReceiptRefund className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-refunds'} className={dashboardActiveLink}>
+          <NavLink to={'/dashboard-refunds'} className={active}>
             Refunds
           </NavLink>
         </li>
 
         <li className="sidebar-dashboard-item">
           <CiSettings className="sidebar-dashboard-icon" />
-          <NavLink to={'/settings'} className={dashboardActiveLink}>
+          <NavLink to={'/settings'} className={active}>
             Settings
           </NavLink>
         </li>

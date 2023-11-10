@@ -4,6 +4,7 @@ const initialState = {
   events: null,
   error: null,
   loading: false,
+  success: false,
 };
 
 const eventReducer = createSlice({
@@ -30,7 +31,7 @@ const eventReducer = createSlice({
 });
 
 // Destructure event reducer methods under the reducers key
-const { eventFetchStart, eventFetchSuccess, eventFetchFailure } =
-eventReducer.reducer;
+export const { eventFetchStart, eventFetchSuccess, eventFetchFailure } =
+  eventReducer.actions;
 
 export default eventReducer.reducer;

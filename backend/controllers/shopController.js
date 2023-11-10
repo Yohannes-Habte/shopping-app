@@ -1,7 +1,7 @@
-import generateToken from '../middleware/generateToken.js';
 import createError from 'http-errors';
 import Shop from '../models/shopModel.js';
 import bcrypt from 'bcryptjs';
+import { generateSellerToken } from '../middleware/auth.js';
 
 //=========================================================================
 // Create a seller
@@ -33,7 +33,7 @@ export const createShop = async (req, res, next) => {
 
     // Save the new seller in the database
     const saveSeller = await newSeller.save();
-    const sellerToken = generateToken(saveSeller._id);
+    const sellerToken = generateSellerToken(saveSeller._id);
     return res
       .cookie('seller_token', sellerToken, {
         path: '/',
@@ -78,7 +78,7 @@ export const loginSeller = async (req, res, next) => {
       const { password, ...rest } = seller._doc;
 
       // generate user token
-      const shopLoginToken = generateToken(seller._id);
+      const shopLoginToken = generateSellerToken(seller._id);
 
       return res
         .cookie('seller_token', shopLoginToken, {
@@ -94,6 +94,30 @@ export const loginSeller = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(createError(500, 'User could not login. Please try again!'));
+  }
+};
+
+//=========================================================================
+// Logout shop which is a seller
+//=========================================================================
+
+export const sellerLogout = async (req, res, next) => {
+  try {
+    const seller = await Shop.findById(req.params.id);
+
+    if (!seller) {
+      return next(createError(400, 'Seller not found!'));
+    }
+
+    res.cookie('seller_token', null, {
+      httpOnly: true,
+      expires: new Date(0),
+      sameSite: 'none',
+      secure: true,
+    });
+    res.status(200).json(`Seller has successfully logged out`);
+  } catch (error) {
+    next(createError(500, 'Seller could not logout. Please try again!'));
   }
 };
 
@@ -126,8 +150,7 @@ export const getSeller = async (req, res, next) => {
 // Get all sellers
 //====================================================================
 export const getSellers = async (req, res, next) => {
-  
-  if ( req.seller.role !== "admin") {
+  if (req.seller.role !== 'admin') {
     return next(createError(403, 'Unauthorized user!'));
   }
 

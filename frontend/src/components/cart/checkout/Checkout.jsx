@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import Shipping from './shipping/Shipping';
-import CartInfo from './cartInfo/CartInfo';
+import Shipping from '../shipping/Shipping';
+import CartInfo from '../cartInfo/CartInfo';
 
 const Checkout = () => {
   const navigate = useNavigate();
