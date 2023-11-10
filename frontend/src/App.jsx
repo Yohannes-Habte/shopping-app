@@ -26,6 +26,7 @@ import ShopHome from './views/shopHomePage/ShopHome';
 import ShopCreateProduct from './views/shopCreateProductPage/ShopCreateProduct';
 import ShopCreateEvent from './views/shopCreateEventPage/ShopCreateEvent';
 import ShopSettingsPage from './views/shopSettingsPage/ShopSettingsPage';
+import ShopProducts from './views/shopProductsPage/ShopProducts';
 
 const App = () => {
   return (
@@ -58,11 +59,21 @@ const App = () => {
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<Events />} />
+
           <Route
             path="/dashboard-create-product"
             element={
               <SellerProtectedRoute>
                 <ShopCreateProduct />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/dashboard-products"
+            element={
+              <SellerProtectedRoute>
+                <ShopProducts />
               </SellerProtectedRoute>
             }
           />

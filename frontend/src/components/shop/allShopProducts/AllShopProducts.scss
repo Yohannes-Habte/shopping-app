@@ -1,0 +1,13 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+
+.all-shop-products-wrapper {
+    width: $laptop;
+    margin: 1rem auto;
+    .title {
+        @include title;
+    }
+
+    .shop-products {}
+}
