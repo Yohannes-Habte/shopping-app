@@ -12,7 +12,7 @@ import {
   eventsShopFetchFailure,
   eventsShopFetchStart,
   eventsShopFetchSuccess,
-} from '../../../redux/reducers/evnetReducer';
+} from '../../../redux/reducers/eventReducer';
 import { toast } from 'react-toastify';
 
 const AllShopEvents = () => {

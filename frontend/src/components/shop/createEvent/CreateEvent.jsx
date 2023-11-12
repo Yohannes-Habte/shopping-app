@@ -13,7 +13,7 @@ import {
   eventShopPostFailure,
   eventShopPostStart,
   eventShopPostSuccess,
-} from '../../../redux/reducers/evnetReducer';
+} from '../../../redux/reducers/eventReducer';
 
 const CreateEvent = () => {
   const navigate = useNavigate();

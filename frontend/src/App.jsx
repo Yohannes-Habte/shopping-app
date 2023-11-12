@@ -15,7 +15,6 @@ import Profile from './views/profilePage/Profile';
 import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
 import UserInbox from './views/inboxPage/UserInbox';
-import Product from './views/productPage/Product';
 import ShopCreatePage from './views/sellersPage/ShopCreatePage';
 import Cart from './views/cartPage/Cart';
 import ShopLoginPage from './views/shopLoginPage/ShopLoginPage';
@@ -29,6 +28,7 @@ import ShopSettingsPage from './views/shopSettingsPage/ShopSettingsPage';
 import ShopProducts from './views/shopProductsPage/ShopProducts';
 import ShopEvents from './views/shopEventsPage/ShopEvents';
 import ShopAllCoupons from './views/shopAllCouponsPage/ShopAllCoupons';
+import SingleProduct from './views/productPage/SingleProduct';
 
 const App = () => {
   return (
@@ -56,7 +56,7 @@ const App = () => {
           <Route path="/forgot-password" element={<Forgotpassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/products/:name" element={<Product />} />
+          <Route path="/products/:productID" element={<SingleProduct />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />

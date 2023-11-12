@@ -13,19 +13,19 @@ import Ratings from '../ratings/Ratings';
 import ProductCartDetails from '../productCartDetails/ProductCartDetails';
 
 const ProductCard = ({ data, isEvent }) => {
-  const { wishlist } = useSelector((state) => state.wishlist);
+  const { wishList } = useSelector((state) => state.wishList);
   const { cart } = useSelector((state) => state.cart);
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (wishlist && wishlist.find((i) => i._id === data._id)) {
+    if (wishList && wishList.find((i) => i._id === data._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  }, [wishlist]);
+  }, [wishList]);
 
   const removeFromWishlistHandler = (data) => {
     setClick(!click);

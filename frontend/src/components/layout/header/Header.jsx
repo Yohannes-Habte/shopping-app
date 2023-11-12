@@ -20,7 +20,7 @@ import {
   userLogoutSuccess,
 } from '../../../redux/reducers/userReducer';
 import Cart from '../../../views/cartPage/Cart';
-import WishList from '../../wishList/WishList';
+import WishList from '../../wishLists/wichList.jsx/WishList';
 
 const Header = () => {
   const navigate = useNavigate();

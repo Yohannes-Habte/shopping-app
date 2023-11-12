@@ -1,30 +1,28 @@
 import axios from 'axios';
-import "./ShopInfo.scss"
+import './ShopInfo.scss';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ShopInfo = ({ isOwner }) => {
-  const { id } = useParams();
+  const {id} = useParams();
 
   // Global state variables
   const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   // Local state variables
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
 
   // Get shop info
   useEffect(() => {
     const getShopInfo = async () => {
       try {
-        // dispatch(getAllProductsShop(id));
         setIsLoading(true);
-        const { data } = await axios.get(
-          `http://localhost:5000/shop/get-shop-info/${id}`
-        );
-        setData(data.shop);
+        const { data } = await axios.get(`http://localhost:5000/shops/${id}`);
+        setData(data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -46,22 +44,22 @@ const ShopInfo = ({ isOwner }) => {
     }
   };
 
-  const totalReviewsLength =
-    products &&
-    products.reduce((acc, product) => acc + product.reviews.length, 0);
+  // const totalReviewsLength =
+  //   products &&
+  //   products.reduce((acc, product) => acc + product.reviews.length, 0);
 
-  const totalRatings =
-    products &&
-    products.reduce(
-      (acc, product) =>
-        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
-      0
-    );
+  // const totalRatings =
+  //   products &&
+  //   products.reduce(
+  //     (acc, product) =>
+  //       acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+  //     0
+  //   );
 
-  const averageRating = totalRatings / totalReviewsLength || 0;
+  // const averageRating = totalRatings / totalReviewsLength || 0;
 
   return (
-    <div className='shop-info-container'>
+    <div className="shop-info-container">
       <article className="article-box">
         <figure className="image-container">
           <img src={`${data.image}`} alt="Profile" className="image" />
@@ -87,7 +85,7 @@ const ShopInfo = ({ isOwner }) => {
 
       <article className="article-box">
         <h3 className="subTitle">Shop Ratings</h3>
-        <p className="text average">{averageRating}/5</p>
+        <p className="text average">{"averageRating"}/5</p>
       </article>
 
       <article className="article-box">

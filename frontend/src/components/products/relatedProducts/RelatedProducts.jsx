@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import ProductCard from '../productCart/ProductCard';
 
 const RelatedProducts = ({ data }) => {
-  const { allProducts } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.product);
   const [productData, setProductData] = useState();
 
   useEffect(() => {
-    const d =
-      allProducts &&
-      allProducts.filter((product) => product.category === data.category);
-    setProductData(d);
+    const infos =
+      products &&
+      products.filter((product) => product.category === data.category);
+    setProductData(infos);
   }, []);
 
   return data ? (

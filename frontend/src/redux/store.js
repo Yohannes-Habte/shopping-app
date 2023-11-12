@@ -5,15 +5,18 @@ import storage from 'redux-persist/lib/storage';
 import orderReducer from './reducers/orderReducer';
 import sellerReducer from './reducers/sellerReducer';
 import productReducer from './reducers/productReducer';
-import evnetReducer from './reducers/evnetReducer';
-
+import wishListReducer from './reducers/wishListReducer';
+import cartReducer from './reducers/cartReducer';
+import eventReducer from './reducers/eventReducer';
 // Store items in the local storage
 const rootReducer = combineReducers({
   user: userReducer,
   order: orderReducer,
   seller: sellerReducer,
   product: productReducer,
-  event: evnetReducer,
+  event: eventReducer,
+  wishList: wishListReducer,
+  cart: cartReducer,
 });
 
 const persistConfig = {

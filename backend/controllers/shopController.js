@@ -122,32 +122,25 @@ export const sellerLogout = async (req, res, next) => {
 };
 
 //====================================================================
-// Get a Seller
+// Get a Seller/shop
 //====================================================================
 export const getSeller = async (req, res, next) => {
-  if (req.params.id === req.seller.id) {
-    try {
-      const seller = await Shop.findById(req.params.id);
-      if (seller) {
-        res.status(200).json(seller);
-      } else {
-        return next(
-          createError(404, 'Seller does not found! Please try again!')
-        );
-      }
-    } catch (error) {
-      next(createError(500, 'Database could not query!'));
-      console.log(error);
+  try {
+    const seller = await Shop.findById(req.params.shopID);
+    console.log('The seller is', seller);
+    if (seller) {
+      res.status(200).json(seller);
+    } else {
+      return next(createError(404, 'Seller does not found! Please try again!'));
     }
-  } else {
-    return next(
-      createError(403, 'You are autherized only to get your own data!')
-    );
+  } catch (error) {
+    next(createError(500, 'Database could not query!'));
+    console.log(error);
   }
 };
 
 //====================================================================
-// Get all sellers
+// Get all sellers/shops
 //====================================================================
 export const getSellers = async (req, res, next) => {
   if (req.seller.role !== 'admin') {

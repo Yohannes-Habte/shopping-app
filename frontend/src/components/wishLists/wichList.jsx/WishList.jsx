@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './WishList.scss';
-import { BsCartPlusFill, BsFillBagHeartFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { MdClose, MdDelete } from 'react-icons/md';
+import { MdClose } from 'react-icons/md';
+import SingleWishList from '../singleWishList/SingleWishList';
 
 const WishList = ({ setOpenWishList }) => {
   const cartData = [
@@ -40,25 +40,5 @@ const WishList = ({ setOpenWishList }) => {
   );
 };
 
-const SingleWishList = ({ data }) => {
-  const [value, setValue] = useState(1);
-  const totalPrice = data.price * value;
-  return (
-    <div className="single-wish-list">
-      <MdDelete className="icon-delete" />
-
-      <figure>
-        <img src="" alt="" />
-      </figure>
-
-      <article>
-        <h2> {data.name} </h2>
-        <p> Price: ${data.price} </p>
-        <p> Total Price: ${totalPrice} </p>
-      </article>
-      <BsCartPlusFill />
-    </div>
-  );
-};
 
 export default WishList;

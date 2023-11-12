@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import ProductCard from '../../products/productCart/ProductCard';
 import Ratings from '../../products/ratings/Ratings';
+import { eventsShopFetchSuccess } from '../../../redux/reducers/eventReducer';
+import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
 
 const ShopProfile = ({ isOwner }) => {
   const { id } = useParams();
@@ -15,14 +17,14 @@ const ShopProfile = ({ isOwner }) => {
   // Local state variables
   const [active, setActive] = useState(1);
 
-  // useEffect(() => {
-  //   dispatch(getAllProductsShop(id));
-  //   dispatch(getAllEventsShop(id));
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(eventsShopFetchSuccess(id));
+    dispatch(productsShopFetchSuccess(id));
+  }, [dispatch]);
 
   // All reviews
-  const allReviews =
-    products && products.map((product) => product.reviews).flat();
+  // const allReviews =
+  //   products && products.map((product) => product.reviews).flat();
 
   return (
     <div className="shop-profile-contianer">
@@ -35,13 +37,13 @@ const ShopProfile = ({ isOwner }) => {
           </aside>
 
           <aside className="item" onClick={() => setActive(2)}>
-            <h5 className={active === 1 ? 'active' : 'passive'}>
+            <h5 className={active === 2 ? 'active' : 'passive'}>
               Running Events
             </h5>
           </aside>
 
           <aside className="item" onClick={() => setActive(3)}>
-            <h5 className={active === 1 ? 'active' : 'passive'}>
+            <h5 className={active === 3 ? 'active' : 'passive'}>
               Shop Reviews
             </h5>
           </aside>
@@ -58,17 +60,17 @@ const ShopProfile = ({ isOwner }) => {
 
       {active === 1 && (
         <div className="shop-products">
-          {products &&
+          {/* {products &&
             products.map((i, index) => (
               <ProductCard data={i} key={index} isShop={true} />
-            ))}
+            ))} */}
         </div>
       )}
 
       {active === 2 && (
         <article className="shop-events-wrapper">
           <div className="shop-events">
-            {events &&
+            {/* {events &&
               events.map((i, index) => (
                 <ProductCard
                   data={i}
@@ -76,7 +78,7 @@ const ShopProfile = ({ isOwner }) => {
                   isShop={true}
                   isEvent={true}
                 />
-              ))}
+              ))} */}
           </div>
           {events && events.length === 0 && (
             <h3 className="subTitle">No Events have for this shop!</h3>
@@ -86,8 +88,8 @@ const ShopProfile = ({ isOwner }) => {
 
       {active === 3 && (
         <article className="reviews-wrapper">
-          {allReviews &&
-            allReviews.map((item, index) => (
+          {"allReviews" &&
+            "allReviews".map((item, index) => (
               <div className="ratings">
                 <img
                   src={`${item.user.image}`}
@@ -103,7 +105,7 @@ const ShopProfile = ({ isOwner }) => {
                 </section>
               </div>
             ))}
-          {allReviews && allReviews.length === 0 && (
+          {"allReviews" && "allReviews".length === 0 && (
             <h3 className="subTitle">No Reviews have for this shop!</h3>
           )}
         </article>

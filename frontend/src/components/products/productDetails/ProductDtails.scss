@@ -1,124 +1,117 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-.single-product-page {
-    .single-product-container {
-      width: $laptop;
-      min-height: 100vh;
-      margin: 1rem auto;
-  
-      .product-title {
-        @include title;
+.single-product-details {
+  width: $laptop;
+  min-height: 100vh;
+  margin: 1rem auto;
+
+  .product-title {
+    @include title;
+  }
+
+  // Product details
+  .product-details {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+
+    // Product image
+    .image-containe {
+      .image {
       }
-  
-      // Product details
-      .product-details {
+    }
+
+    // Product description
+    .product-description {
+      @include shadow3;
+
+      .subTitle {
+        @include subTitle;
+      }
+
+      .description {
+        @include paragraph;
+      }
+
+      // Add to cart
+      .add-to-cart {
         display: flex;
         flex-direction: row;
-        gap: 1rem;
-  
-        // Product image
-        .image-containe {
-          .image {
+        align-items: center;
+        gap: 2rem;
+
+        .amount {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .icon-add-to-cart {
+            font-size: $aafs;
+            color: $tomato;
+            cursor: pointer;
+
+            &:hover {
+              color: $pending;
+            }
           }
-        }
-  
-        // Product description
-        .product-description {
-          @include shadow3;
-  
-          .subTitle {
+
+          .amount-subTitle {
             @include subTitle;
           }
-  
-          .description {
-            @include paragraph;
-          }
-  
-          // Add to cart
-          .add-to-cart {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 2rem;
-  
-            .amount {
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-  
-              .icon-add-to-cart {
-                font-size: $aafs;
-                color: $tomato;
-                cursor: pointer;
-  
-                &:hover {
-                  color: $pending;
-                }
-              }
-  
-              .amount-subTitle {
-                @include subTitle;
-              }
-            }
-  
-            .btn-add-to-cart {
-              @include button1;
-            }
-          }
-  
-          // Product rating
-          .product-rating {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 1rem;
-  
-            .send-message {
-              @include button2;
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              gap: 0.1rem;
-            }
-          }
+        }
+
+        .btn-add-to-cart {
+          @include button1;
+        }
+      }
+
+      // Product rating
+      .product-rating {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+
+        .send-message {
+          @include button2;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.1rem;
         }
       }
     }
   }
-  
-  // Further Production Informations
-  
-  .product-infos {
-    width: $laptop;
-    margin: 1rem auto;
-  
-    .tabs-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      @include shadow3;
-      
-  
-      .active {
-        @include subTitle;
-        color: $tomato;
-        @include button4;
-        text-decoration: underline
-      }
-  
-      .passive {
-        @include subTitle;
-        @include button4;
-        color: $black;
-      }
-  
-      
+}
+
+// Further Production Informations
+
+.product-infos {
+  width: 100%;
+  margin: 1rem auto;
+
+  .tabs-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include shadow3;
+
+    .active {
+      @include subTitle;
+      color: $tomato;
+      @include button4;
+      text-decoration: underline;
     }
-  
-    .active-tab {
-      @include shadow3;
+
+    .passive {
+      @include subTitle;
+      @include button4;
+      color: $black;
     }
-  
   }
-  
+
+  .active-tab {
+    @include shadow3;
+  }
+}

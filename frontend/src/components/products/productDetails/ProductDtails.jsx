@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./ProductDtails.scss"
+import './ProductDtails.scss';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,15 +11,16 @@ import RelatedProducts from '../relatedProducts/RelatedProducts';
 import Ratings from '../ratings/Ratings';
 import Header from '../../layout/header/Header';
 import Footer from '../../layout/footer/Footer';
+import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
 
 const ProductDtails = ({ data }) => {
   const navigate = useNavigate();
 
   // Global state variables
-  const { currentUser, isAuthenticated } = useSelector((state) => state.user);
-  const { wishlist } = useSelector((state) => state.wishlist);
+  const { currentUser } = useSelector((state) => state.user);
+  const { wishList } = useSelector((state) => state.wishList);
   const { cart } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   // Local variables
@@ -29,13 +30,13 @@ const ProductDtails = ({ data }) => {
 
   // Display all products for a shop
   useEffect(() => {
-    dispatch('getAllProductsShop'(data && data?.shop._id));
-    if (wishlist && wishlist.find((i) => i._id === data?._id)) {
+    dispatch(productsShopFetchSuccess(data && data?.shop._id));
+    if (wishList && wishList.find((i) => i._id === data?._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  }, [data, wishlist]);
+  }, [data, wishList]);
 
   // Increasing count by one
   const incrementCount = () => {
@@ -75,23 +76,21 @@ const ProductDtails = ({ data }) => {
     }
   };
 
-  
-  const totalReviewsLength =
-    products &&
-    products.reduce((acc, product) => acc + product.reviews.length, 0);
+  // const totalReviewsLength =
+  //   products &&
+  //   products.reduce((acc, product) => acc + product.reviews.length, 0);
 
-  const totalRatings =
-    products &&
-    products.reduce(
-      (acc, product) =>
-        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
-      0
-    );
+  // const totalRatings =
+  //   products &&
+  //   products.reduce(
+  //     (acc, product) =>
+  //       acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+  //     0
+  //   );
 
-  const avg = totalRatings / totalReviewsLength || 0;
+  // const avg = totalRatings / totalReviewsLength || 0;
 
-  const averageRating = avg.toFixed(2);
-
+  // const averageRating = avg.toFixed(2);
 
   const handleMessageSubmit = async () => {
     if ('isAuthenticated') {
@@ -116,64 +115,56 @@ const ProductDtails = ({ data }) => {
   };
 
   return (
-    <main className="single-product-page">
-      <Header />
+    <section className="single-product-details">
+      <article className="product-details">
+        {/* Product image */}
+        <figure className="image-container">
+          <img className="image" src={'productImage'} alt="" />
+        </figure>
 
-      <section className="single-product-container">
-        <h1 className="product-title"> Sinle Product</h1>
+        {/* Product Description and add to cart */}
+        <section className="product-description">
+          <h3 className={'subTitle'}>Product Title </h3>
+          <p className="description">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
+            similique laudantium. Accusamus temporibus consectetur, et vel iusto
+            pariatur excepturi fugiat mollitia illum, dolor eligendi libero
+            assumenda deserunt minus totam perspiciatis!
+          </p>
 
-        <article className="product-details">
-          {/* Product image */}
-          <figure className="image-container">
-            <img className="image" src={"productImage"} alt="" />
-          </figure>
+          {/* Add to cart aside */}
+          <aside className="add-to-cart">
+            <div className="amount">
+              <TbSquareMinusFilled className="icon-add-to-cart" />
+              <h3 className="amount-subTitle"> 1 </h3>
+              <MdAddBox className="icon-add-to-cart" />
+            </div>
+            <button className="btn-add-to-cart">Add to Cart</button>
+          </aside>
 
-          {/* Product Description and add to cart */}
-          <section className="product-description">
-            <h className={'subTitle'}>Product Title </h>
-            <p className="description">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
-              similique laudantium. Accusamus temporibus consectetur, et vel
-              iusto pariatur excepturi fugiat mollitia illum, dolor eligendi
-              libero assumenda deserunt minus totam perspiciatis!
-            </p>
+          {/* Product rating message */}
+          <aside className="product-rating">
+            <img src="" alt="" />
+            <h3>Product name</h3>
+            <p> Rating (4.5) </p>
+            <span onClick={handleMessageSubmit} className="send-message">
+              {' '}
+              Send Message <AiOutlineMessage />{' '}
+            </span>
+          </aside>
+        </section>
+      </article>
 
-            {/* Add to cart aside */}
-            <aside className="add-to-cart">
-              <div className="amount">
-                <TbSquareMinusFilled className="icon-add-to-cart" />
-                <h3 className="amount-subTitle"> 1 </h3>
-                <MdAddBox className="icon-add-to-cart" />
-              </div>
-              <button className="btn-add-to-cart">Add to Cart</button>
-            </aside>
+      <ProductInfos
+        data={data}
+        products={products}
+        // totalReviewsLength={totalReviewsLength}
+        // averageRating={averageRating}
+      />
 
-            {/* Product rating message */}
-            <aside className="product-rating">
-              <img src="" alt="" />
-              <h3>Product name</h3>
-              <p> Rating (4.5) </p>
-              <span onClick={'handleMessageSubmit'} className="send-message">
-                {' '}
-                Send Message <AiOutlineMessage />{' '}
-              </span>
-            </aside>
-          </section>
-        </article>
-
-        <ProductInfos
-          data={data}
-          products={products}
-          totalReviewsLength={totalReviewsLength}
-          averageRating={averageRating}
-        />
-
-        {/* Include related Products */}
-        <RelatedProducts />
-      </section>
-
-      <Footer />
-    </main>
+      {/* Include related Products */}
+      <RelatedProducts />
+    </section>
   );
 };
 
