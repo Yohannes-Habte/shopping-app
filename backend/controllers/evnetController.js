@@ -112,30 +112,18 @@ export const getAllShopsEvents = async (req, res, next) => {
 //==============================================================================
 export const deleteShopSingleEvent = async (req, res, next) => {
   try {
-    // the ids of the shop and Event
-    const shopID = req.params.shopID;
-    const eventID = req.params.eventID;
-
-    // find the shop id (seller id) and then find the Event id
-    const shop = await Shop.findById(shopID);
-    if (!shop) {
-      return next(createError(400, 'Shop not found!'));
-    }
-
     // Event id
-    const event = await Event.findById(eventID);
+    const event = await Event.findById(req.params.eventID);
     if (!event) {
-      return next(createError(400, `Event not found  in ${shop.name} shop !`));
+      return next(createError(400, `Event not found!`));
     }
 
     // If shop and Event exist, then you can get the Event for that particular shop
-    if (shop && event) {
-      await Event.findByIdAndDelete(eventID);
+    if (event) {
+      await Event.findByIdAndDelete(req.params.eventID);
       return res
         .status(200)
-        .json(
-          `The ${event.name} form ${shop.name} has been successfully deleted!`
-        );
+        .json(`The ${event.name} has been successfully deleted!`);
     }
   } catch (error) {
     console.log(error);

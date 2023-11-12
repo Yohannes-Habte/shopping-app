@@ -28,6 +28,7 @@ import ShopCreateEvent from './views/shopCreateEventPage/ShopCreateEvent';
 import ShopSettingsPage from './views/shopSettingsPage/ShopSettingsPage';
 import ShopProducts from './views/shopProductsPage/ShopProducts';
 import ShopEvents from './views/shopEventsPage/ShopEvents';
+import ShopAllCoupons from './views/shopAllCouponsPage/ShopAllCoupons';
 
 const App = () => {
   return (
@@ -93,6 +94,15 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopEvents />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="dashboard-coupouns"
+            element={
+              <SellerProtectedRoute>
+                <ShopAllCoupons />
               </SellerProtectedRoute>
             }
           />

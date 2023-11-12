@@ -15,7 +15,7 @@ eventRouter.post('/create-event', createEvent);
 eventRouter.get('/', getAllShopsEvents);
 eventRouter.get('/:shopID/shop-events', getAllShopEvents);
 eventRouter.get('/:shopID/:eventID', getShopSingleEvent);
-eventRouter.delete('/:shopID/shop-events/:eventID', deleteShopSingleEvent);
+eventRouter.delete('/:eventID', deleteShopSingleEvent);
 
 // Export event Router
 export default eventRouter;

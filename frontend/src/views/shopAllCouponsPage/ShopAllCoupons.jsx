@@ -1,20 +1,20 @@
 import React from 'react';
-import './ShopEvents.scss';
+import './ShopAllCoupons.scss';
 import HeaderDashboard from '../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
-import AllShopEvents from '../../components/shop/allShopEvents/AllShopEvents';
+import AllCoupons from '../../components/shop/allCoupons/AllCoupons';
 
-const ShopEvents = () => {
+const ShopAllCoupons = () => {
   return (
-    <main className="shop-events-page">
+    <main className="shop-all-coupons-page">
       <HeaderDashboard />
-      <section className="shop-events-container">
+      <section className="shop-all-coupons-container">
         <SidebarDashboard />
 
-        <AllShopEvents />
+        <AllCoupons />
       </section>
     </main>
   );
 };
 
-export default ShopEvents;
+export default ShopAllCoupons;

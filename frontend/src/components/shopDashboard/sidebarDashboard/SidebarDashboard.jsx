@@ -56,12 +56,18 @@ const SidebarDashboard = () => {
         </li>
 
         <li className="sidebar-dashboard-item">
+          <AiOutlineGift className="sidebar-dashboard-icon" />
+          <NavLink to={'/dashboard-coupouns'} className={active}>
+            Discount Codes
+          </NavLink>
+        </li>
+
+        <li className="sidebar-dashboard-item">
           <FiShoppingBag className="sidebar-dashboard-icon" />
           <NavLink to={'/dashboard-orders'} className={active}>
             All Orders
           </NavLink>
         </li>
-
 
         <li className="sidebar-dashboard-item">
           <BiMoneyWithdraw className="sidebar-dashboard-icon" />
@@ -74,13 +80,6 @@ const SidebarDashboard = () => {
           <BiMessageSquareDetail className="sidebar-dashboard-icon" />
           <NavLink to={'/dashboard-messages'} className={active}>
             Shop Inbox
-          </NavLink>
-        </li>
-
-        <li className="sidebar-dashboard-item">
-          <AiOutlineGift className="sidebar-dashboard-icon" />
-          <NavLink to={'/dashboard-coupouns'} className={active}>
-            Discount Codes
           </NavLink>
         </li>
 

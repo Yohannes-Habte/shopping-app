@@ -41,7 +41,7 @@ const CreateEvent = () => {
     const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
     setStartDate(startDate);
     setEndDate(null);
-    document.getElementById('end-date').min = minEndDate.toISOString.slice(
+    document.getElementById('endDate').min = minEndDate.toISOString.slice(
       0,
       10
     );
@@ -53,10 +53,10 @@ const CreateEvent = () => {
     setEndDate(endDate);
   };
 
-  // The date of today is
+  // Minimum start date will be today
   const today = new Date().toISOString().slice(0, 10);
-  console.log('today is', today);
 
+   // Minimum end date will be three days from today
   const minEndDate = startDate
     ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
         .toISOString()

@@ -1,0 +1,11 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.shop-all-coupons-page {
+  width: 100%;
+  min-width: 100vh;
+  .shop-all-coupons-container {
+    display: flex;
+    gap: 1rem;
+  }
+}

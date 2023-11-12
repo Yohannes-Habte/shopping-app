@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AllShopEvents.scss';
 import { AiOutlineDelete, AiOutlineEye } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,12 +13,17 @@ import {
   eventsShopFetchStart,
   eventsShopFetchSuccess,
 } from '../../../redux/reducers/evnetReducer';
+import { toast } from 'react-toastify';
 
 const AllShopEvents = () => {
   // Global state variables
   const { events, loading } = useSelector((state) => state.event);
   const { currentSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
+
+  // Local state variable
+  const [error, setError] = useState(null)
+  const [success, setSuccess] = useState(false)
 
   // Display products for a single shop
   useEffect(() => {
@@ -39,14 +44,19 @@ const AllShopEvents = () => {
   // Handle delete
   const handleEventDelete = async (eventID) => {
     try {
-      dispatch(eventShopDeleteStart());
-      const { data } = await axios.get(
-        `http://localhost:5000/api/events/${currentSeller._id}shop-products/${eventID}`
+      //! Why delete from the redux does not work?
+      // dispatch(eventShopDeleteStart());
+      setSuccess(false)
+      const { data } = await axios.delete(
+        `http://localhost:5000/api/events/${eventID}`
       );
-      dispatch(eventShopDeleteSuccess(data));
+      // dispatch(eventShopDeleteSuccess(data));
+      setSuccess(true)
+      toast.success(data.message)
       window.location.reload();
     } catch (error) {
-      dispatch(eventShopDeleteFailure(error.response.data.message));
+      // dispatch(eventShopDeleteFailure(error.response.data.message));
+      toast.error(error.response.data.message)
     }
   };
 
