@@ -11,24 +11,26 @@ import Products from './views/productsPage/Products';
 import Events from './views/eventsPage/Events';
 import BestSellings from './views/bestSellingpage/BestSellings';
 import Orders from './views/ordersPage/Orders';
-import Profile from './views/profilePage/Profile';
+import Profile from './views/userProtectedPages/profilePage/Profile';
 import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
 import UserInbox from './views/inboxPage/UserInbox';
-import ShopCreatePage from './views/sellersPage/ShopCreatePage';
-import Cart from './views/cartPage/Cart';
-import ShopLoginPage from './views/shopLoginPage/ShopLoginPage';
+import Cart from './views/userProtectedPages/cartPage/Cart';
+
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
-import ShopDashboard from './views/shopDashboarPage/ShopDashboard';
-import ShopHome from './views/shopHomePage/ShopHome';
-import ShopCreateProduct from './views/shopCreateProductPage/ShopCreateProduct';
-import ShopCreateEvent from './views/shopCreateEventPage/ShopCreateEvent';
-import ShopSettingsPage from './views/shopSettingsPage/ShopSettingsPage';
-import ShopProducts from './views/shopProductsPage/ShopProducts';
-import ShopEvents from './views/shopEventsPage/ShopEvents';
-import ShopAllCoupons from './views/shopAllCouponsPage/ShopAllCoupons';
+
+import ShopSettingsPage from './views/shopPages/shopSettingsPage/ShopSettingsPage';
+import ShopLoginPage from './views/shopPages/shopLoginPage/ShopLoginPage';
+import CreateNewShop from './views/shopPages/shopCreatePage/CreateNewShop';
+import ShopCreateProduct from './views/shopPages/shopCreateProductPage/ShopCreateProduct';
+import ShopCreateEvent from './views/shopPages/shopCreateEventPage/ShopCreateEvent';
+import ShopProducts from './views/shopPages/shopProductsPage/ShopProducts';
+import ShopEvents from './views/shopPages/shopEventsPage/ShopEvents';
+import ShopAllCoupons from './views/shopPages/shopAllCouponsPage/ShopAllCoupons';
 import SingleProduct from './views/productPage/SingleProduct';
+import ShopHome from './views/shopPages/shopHomePage/ShopHome';
+import ShopDashboard from './views/shopPages/shopDashboarPage/ShopDashboard';
 
 const App = () => {
   return (
@@ -62,6 +64,44 @@ const App = () => {
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<Events />} />
 
+          {/* User Pages */}
+          <Route
+            path="/profile"
+            element={
+              <UserProtectedRoute>
+                <Profile />
+              </UserProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/checkout"
+            element={
+              <UserProtectedRoute>
+                <Cart />
+              </UserProtectedRoute>
+            }
+          />
+
+          {/* Shope Pages */}
+          <Route
+            path="/login-shop"
+            element={
+              <UserProtectedRoute>
+                <ShopLoginPage />
+              </UserProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/create-shop"
+            element={
+              <UserProtectedRoute>
+                <CreateNewShop />
+              </UserProtectedRoute>
+            }
+          />
+
           <Route
             path="/dashboard-create-product"
             element={
@@ -72,19 +112,19 @@ const App = () => {
           />
 
           <Route
-            path="/dashboard-products"
+            path="/dashboard-create-event"
             element={
               <SellerProtectedRoute>
-                <ShopProducts />
+                <ShopCreateEvent />
               </SellerProtectedRoute>
             }
           />
 
           <Route
-            path="/dashboard-create-event"
+            path="/dashboard-products"
             element={
               <SellerProtectedRoute>
-                <ShopCreateEvent />
+                <ShopProducts />
               </SellerProtectedRoute>
             }
           />
@@ -134,41 +174,6 @@ const App = () => {
             }
           />
 
-          <Route
-            path="/login-shop"
-            element={
-              <UserProtectedRoute>
-                <ShopLoginPage />
-              </UserProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/create-shop"
-            element={
-              <UserProtectedRoute>
-                <ShopCreatePage />
-              </UserProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/profile"
-            element={
-              <UserProtectedRoute>
-                <Profile />
-              </UserProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/checkout"
-            element={
-              <UserProtectedRoute>
-                <Cart />
-              </UserProtectedRoute>
-            }
-          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>

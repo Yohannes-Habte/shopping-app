@@ -12,6 +12,10 @@
   .article-box {
     .image-container {
       .image {
+        width: 10rem;
+        height: 7rem;
+        object-fit: cover;
+        border-radius: $radius;
       }
     }
 

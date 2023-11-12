@@ -124,17 +124,18 @@ export const sellerLogout = async (req, res, next) => {
 //====================================================================
 // Get a Seller/shop
 //====================================================================
-export const getSeller = async (req, res, next) => {
+export const getShop = async (req, res, next) => {
   try {
-    const seller = await Shop.findById(req.params.shopID);
-    console.log('The seller is', seller);
-    if (seller) {
-      res.status(200).json(seller);
-    } else {
-      return next(createError(404, 'Seller does not found! Please try again!'));
+    const shop = await Shop.findById(req.params.id);
+    console.log('The shop is', shop);
+
+    if (!shop) {
+      return next(createError(404, 'Shop does not found! Please try again!'));
     }
+
+    return res.status(200).json(shop);
   } catch (error) {
-    next(createError(500, 'Database could not query!'));
+    next(createError(500, 'Database could not query! Please try again!'));
     console.log(error);
   }
 };
@@ -142,11 +143,7 @@ export const getSeller = async (req, res, next) => {
 //====================================================================
 // Get all sellers/shops
 //====================================================================
-export const getSellers = async (req, res, next) => {
-  if (req.seller.role !== 'admin') {
-    return next(createError(403, 'Unauthorized user!'));
-  }
-
+export const getShops = async (req, res, next) => {
   try {
     const sellers = await Shop.find();
     if (sellers) {

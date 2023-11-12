@@ -19,7 +19,7 @@ import {
   userLogoutStart,
   userLogoutSuccess,
 } from '../../../redux/reducers/userReducer';
-import Cart from '../../../views/cartPage/Cart';
+import Cart from '../../../views/userProtectedPages/cartPage/Cart';
 import WishList from '../../wishLists/wichList.jsx/WishList';
 
 const Header = () => {

@@ -1,0 +1,11 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.shop-settings-page {
+  width: 100%;
+  min-width: 100vh;
+  .shop-settings-container {
+    display: flex;
+    gap: 1rem;
+  }
+}

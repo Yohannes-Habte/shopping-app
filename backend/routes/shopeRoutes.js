@@ -1,8 +1,8 @@
 import express from 'express';
 import {
   createShop,
-  getSeller,
-  getSellers,
+  getShop,
+  getShops,
   loginSeller,
   sellerLogout,
 } from '../controllers/shopController.js';
@@ -15,8 +15,8 @@ const shopRouter = express.Router();
 shopRouter.post('/create-shop', createShop);
 shopRouter.post('/login-shop', loginSeller);
 shopRouter.get('/logout-shop/:id', sellerLogout);
-shopRouter.get('/:shopID', getSeller);
-shopRouter.get('/', authSeller, getSellers);
+shopRouter.get('/:id', getShop);
+shopRouter.get('/', getShops);
 
 // Export shop Router
 export default shopRouter;

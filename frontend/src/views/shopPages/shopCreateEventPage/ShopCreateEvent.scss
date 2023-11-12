@@ -1,0 +1,11 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.shop-create-event-page {
+  width: 100%;
+  min-width: 100vh;
+  .shop-create-event-container {
+    display: flex;
+    gap: 1rem;
+  }
+}

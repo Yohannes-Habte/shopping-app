@@ -1,18 +1,20 @@
 import axios from 'axios';
 import './ShopInfo.scss';
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const ShopInfo = ({ isOwner }) => {
-  const {id} = useParams();
 
   // Global state variables
   const { products } = useSelector((state) => state.product);
+  const { currentSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
   // Local state variables
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
+  console.log('The shop info is', data);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,11 +23,13 @@ const ShopInfo = ({ isOwner }) => {
     const getShopInfo = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get(`http://localhost:5000/shops/${id}`);
+        const { data } = await axios.get(
+          `http://localhost:5000/api/shops/${currentSeller._id}`
+        );
         setData(data);
         setIsLoading(false);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        toast.error(err.response.data.message);
         setIsLoading(false);
       }
     };
@@ -85,7 +89,7 @@ const ShopInfo = ({ isOwner }) => {
 
       <article className="article-box">
         <h3 className="subTitle">Shop Ratings</h3>
-        <p className="text average">{"averageRating"}/5</p>
+        <p className="text average">4/5</p>
       </article>
 
       <article className="article-box">
