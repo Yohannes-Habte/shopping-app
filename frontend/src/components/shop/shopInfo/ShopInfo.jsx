@@ -14,8 +14,6 @@ const ShopInfo = ({ isOwner }) => {
 
   // Local state variables
   const [data, setData] = useState({});
-  console.log('The shop info is', data);
-
   const [isLoading, setIsLoading] = useState(false);
 
   // Get shop info

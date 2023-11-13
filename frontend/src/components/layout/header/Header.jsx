@@ -27,6 +27,7 @@ const Header = () => {
 
   // Global state variables using redux
   const { currentUser, loading, error } = useSelector((state) => state.user);
+  const { currentSeller } = useSelector((state) => state.seller);
 
   const dispatch = useDispatch();
 
@@ -65,7 +66,7 @@ const Header = () => {
     try {
       dispatch(userLogoutStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/auths/logout/${currentUser.rest._id}`
+        `http://localhost:5000/api/auths/logout/${currentUser._id}`
       );
 
       dispatch(userLogoutSuccess());
@@ -178,9 +179,17 @@ const Header = () => {
                   <ul className="user-history">
                     <li className="list-item">
                       <NavLink to={`/profile`} className={'link'}>
-                        Profile
+                        User Profile
                       </NavLink>
                     </li>
+
+                    {currentSeller && (
+                      <li className="list-item">
+                        <NavLink to={`/dashboard`} className={'link'}>
+                          Shop Dashboard
+                        </NavLink>
+                      </li>
+                    )}
 
                     <li onClick={handleLogout} className="list-item">
                       Log Out

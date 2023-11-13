@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AllShopProducts.scss';
 import { AiOutlineDelete, AiOutlineEye } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,15 +20,20 @@ const AllShopProducts = () => {
   const { currentSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
+  // local state variables
+  const [shopProducts, setShopProducts] = useState([]);
+
   // Display products for a single shop
   useEffect(() => {
     const shopProducts = async () => {
       try {
-        dispatch(productsShopFetchStart());
+        // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
           `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
         );
-        dispatch(productsShopFetchSuccess(data));
+        // dispatch(productsShopFetchSuccess(data));
+        setShopProducts(data);
+        console.log('Selam shop products are', data);
       } catch (error) {
         dispatch(productsShopFetchFailure(error.response.data.message));
       }
@@ -38,7 +43,7 @@ const AllShopProducts = () => {
 
   // Handle delete
   const handleProductDelete = async (productID) => {
-    console.log("Product id is", productID)
+    console.log('Product id is', productID);
     try {
       dispatch(productShopDeleteStart());
       const { data } = await axios.get(
@@ -123,8 +128,8 @@ const AllShopProducts = () => {
 
   const row = [];
 
-  products &&
-    products.map((product) => {
+  shopProducts &&
+    shopProducts?.map((product) => {
       return row.push({
         id: product._id,
         name: product.name,

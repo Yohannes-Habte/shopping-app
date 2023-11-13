@@ -24,6 +24,27 @@ const AllCoupons = () => {
   const [coupouns, setCoupouns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+    // local state variables 
+    const [shopProducts, setShopProducts] = useState([])
+
+    // Display products for a single shop
+    useEffect(() => {
+      const shopProducts = async () => {
+        try {
+          // dispatch(productsShopFetchStart());
+          const { data } = await axios.get(
+            `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          );
+          // dispatch(productsShopFetchSuccess(data));
+          setShopProducts(data)
+          console.log("Selam shop products are", data)
+        } catch (error) {
+          console.log(error)
+          // dispatch(productsShopFetchFailure(error.response.data.message));
+        }
+      };
+      shopProducts();
+    }, [dispatch]);
 
   // Display coupon data
   useEffect(() => {
@@ -264,8 +285,8 @@ const AllCoupons = () => {
                   >
                     <option value="default"> Select product</option>
 
-                    {products &&
-                      products.map((product) => (
+                    {shopProducts &&
+                      shopProducts.map((product) => (
                         <option value={product.name} key={product.name}>
                           {product.name}
                         </option>

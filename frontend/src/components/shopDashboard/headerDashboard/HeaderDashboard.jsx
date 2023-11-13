@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './HeaderDashboard.scss';
 import { AiOutlineGift } from 'react-icons/ai';
 import { MdOutlineLocalOffer } from 'react-icons/md';
@@ -20,6 +20,9 @@ const HeaderDashboard = () => {
   // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
+
+  // Local state variables
+  const [open, setOpen] = useState(false);
 
   // Logout seller
   const logoutSeller = async () => {
@@ -55,28 +58,33 @@ const HeaderDashboard = () => {
       {/* Links to various pages */}
       <div className="header-icons">
         <NavLink to="/dashboard/cupouns" className={active}>
-          <AiOutlineGift className="header-dashboar-icon" />
+          <AiOutlineGift className="header-dashboar-icon" title="Coupons" />
         </NavLink>
 
         <NavLink to="/dashboard-events" className={active}>
-          <MdOutlineLocalOffer className="header-dashboar-icon" />
+          <MdOutlineLocalOffer
+            className="header-dashboar-icon"
+            title="Events"
+          />
         </NavLink>
 
         <NavLink to="/dashboard-products" className={active}>
-          <FiShoppingBag className="header-dashboar-icon" />
+          <FiShoppingBag className="header-dashboar-icon" title="Products" />
         </NavLink>
 
         <NavLink to="/dashboard-orders" className={active}>
-          <FiPackage className="header-dashboar-icon" />
+          <FiPackage className="header-dashboar-icon" title="Orders" />
         </NavLink>
 
         <NavLink to="/dashboard-messages" className={active}>
-          <BiMessageSquareDetail className="header-dashboar-icon" />
+          <BiMessageSquareDetail
+            className="header-dashboar-icon"
+            title="Messages"
+          />
         </NavLink>
 
-        <figure className="image-container">
+        <figure onClick={() => setOpen(!open)} className="image-container">
           <img
-            onClick={logoutSeller}
             src={
               currentSeller
                 ? currentSeller.image
@@ -86,6 +94,25 @@ const HeaderDashboard = () => {
             className="image"
           />
         </figure>
+
+        {currentSeller && open && (
+          <ul className="shop-profile-logout-wrapper">
+            <li className="item shop-profile">
+              <Link
+                to={`/shop/${currentSeller._id}`}
+                onClick={() => setOpen(false)}
+                className="link"
+              >
+                Shop Profile
+              </Link>
+            </li>
+            <li onClick={logoutSeller} className="item shop-logout">
+              <Link to={'/login-shop'} className="link">
+                Log Out
+              </Link>
+            </li>
+          </ul>
+        )}
       </div>
     </header>
   );

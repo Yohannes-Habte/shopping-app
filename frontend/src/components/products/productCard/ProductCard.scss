@@ -1,0 +1,69 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.product-card {
+  position: relative;
+  @include shadow3;
+
+  .image-container {
+    .image {
+      width: 20rem;
+      height: 15rem;
+      border-radius: $radius;
+      object-fit: cover;
+    }
+  }
+
+  .subTitle {
+  }
+
+  .product-price-wrapper {
+    display: flex;
+    justify-content: space-between;
+
+    .subTitle {
+      color: $black;
+    }
+
+    .current-price {
+      color: $blue;
+      font-size: $afs;
+    }
+    .old-price {
+        color: $red;
+        text-decoration: line-through;
+    }
+
+    .sold-product {
+    }
+  }
+
+  .icon-container {
+    position: absolute;
+    top: 3rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+
+    .icon {
+      font-size: $aafs;
+      color: $blue;
+      cursor: pointer;
+
+      &:hover {
+        color: $red;
+      }
+    }
+
+    .active {
+      color: $red;
+    }
+
+    .passive {
+      color: $black;
+    }
+  }
+}

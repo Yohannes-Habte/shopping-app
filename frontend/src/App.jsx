@@ -16,10 +16,8 @@ import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
 import UserInbox from './views/inboxPage/UserInbox';
 import Cart from './views/userProtectedPages/cartPage/Cart';
-
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
-
 import ShopSettingsPage from './views/shopPages/shopSettingsPage/ShopSettingsPage';
 import ShopLoginPage from './views/shopPages/shopLoginPage/ShopLoginPage';
 import CreateNewShop from './views/shopPages/shopCreatePage/CreateNewShop';

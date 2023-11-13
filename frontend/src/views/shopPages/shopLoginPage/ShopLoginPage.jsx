@@ -11,7 +11,7 @@ const ShopLoginPage = () => {
   // If seller is logged in, seller will not see the shop login page
   useEffect(() => {
     if (currentSeller) {
-      navigate(`/dashboard`);
+      navigate(`/shop/${currentSeller._id}`);
     }
   }, [navigate, currentSeller]);
 

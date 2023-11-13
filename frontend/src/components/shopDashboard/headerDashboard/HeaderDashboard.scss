@@ -9,6 +9,7 @@
   background-color: $header-bg;
 
   .header-icons {
+    position: relative;
     display: flex;
     flex-direction: row;
     gap: 2rem;
@@ -42,6 +43,20 @@
         height: 2rem;
         border-radius: 50%;
         object-fit: cover;
+      }
+    }
+
+    .shop-profile-logout-wrapper {
+      position: absolute;
+      top: 2.8rem;
+      right: -1rem;
+      background-color: $header-bg;
+      width: 10rem;
+      height: 100vh;
+
+      .item {
+        padding: 0.5rem 1rem;
+        border-radius: 0 0 0 $radius;
       }
     }
   }

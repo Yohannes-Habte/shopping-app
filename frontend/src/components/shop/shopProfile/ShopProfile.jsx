@@ -1,21 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import "./ShopProfile.scss"
+import './ShopProfile.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import ProductCard from '../../products/productCart/ProductCard';
 import Ratings from '../../products/ratings/Ratings';
 import { eventsShopFetchSuccess } from '../../../redux/reducers/eventReducer';
 import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
+import ProductCard from '../../products/productCard/ProductCard';
+import axios from 'axios';
 
 const ShopProfile = ({ isOwner }) => {
   const { id } = useParams();
   // Global state variables
+  const { currentSeller } = useSelector((state) => state.seller);
   const { products } = useSelector((state) => state.product);
   const { events } = useSelector((state) => state.event);
   const dispatch = useDispatch();
 
   // Local state variables
   const [active, setActive] = useState(1);
+  const [shopProducts, setShopProducts] = useState([]);
+
+  // Display products for a single shop
+  useEffect(() => {
+    const shopProducts = async () => {
+      try {
+        // dispatch(productsShopFetchStart());
+        const { data } = await axios.get(
+          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+        );
+        // dispatch(productsShopFetchSuccess(data));
+        setShopProducts(data);
+        console.log('Selam shop products are', data);
+      } catch (error) {
+        console.log(error);
+        // dispatch(productsShopFetchFailure(error.response.data.message));
+      }
+    };
+    shopProducts();
+  }, []);
 
   useEffect(() => {
     dispatch(eventsShopFetchSuccess(id));
@@ -60,10 +82,10 @@ const ShopProfile = ({ isOwner }) => {
 
       {active === 1 && (
         <div className="shop-products">
-          {/* {products &&
-            products.map((i, index) => (
-              <ProductCard data={i} key={index} isShop={true} />
-            ))} */}
+          {shopProducts &&
+            shopProducts.map((product, index) => (
+              <ProductCard product={product} key={index} isShop={true} />
+            ))}
         </div>
       )}
 
@@ -88,14 +110,10 @@ const ShopProfile = ({ isOwner }) => {
 
       {active === 3 && (
         <article className="reviews-wrapper">
-          {"allReviews" &&
-            "allReviews".map((item, index) => (
+          {'allReviews' &&
+            'allReviews'.map((item, index) => (
               <div className="ratings">
-                <img
-                  src={`${item.user.image}`}
-                  className="image"
-                  alt=""
-                />
+                <img src={`${item.user.image}`} className="image" alt="" />
                 <section className="user-rating">
                   <h3 className="subTitle">{item.user.name}</h3>
                   <Ratings rating={item.rating} />
@@ -105,7 +123,7 @@ const ShopProfile = ({ isOwner }) => {
                 </section>
               </div>
             ))}
-          {"allReviews" && "allReviews".length === 0 && (
+          {'allReviews' && 'allReviews'.length === 0 && (
             <h3 className="subTitle">No Reviews have for this shop!</h3>
           )}
         </article>

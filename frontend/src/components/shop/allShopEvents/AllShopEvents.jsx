@@ -22,23 +22,25 @@ const AllShopEvents = () => {
   const dispatch = useDispatch();
 
   // Local state variable
-  const [error, setError] = useState(null)
-  const [success, setSuccess] = useState(false)
+  const [selamEvents, setSelamEvents] = useState([]);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
 
   // Display products for a single shop
   useEffect(() => {
-    const shopProducts = async () => {
+    const selamShopEvents = async () => {
       try {
-        dispatch(eventsShopFetchStart());
+        // dispatch(eventsShopFetchStart());
         const { data } = await axios.get(
           `http://localhost:5000/api/events/${currentSeller._id}/shop-events`
         );
-        dispatch(eventsShopFetchSuccess(data));
+        // dispatch(eventsShopFetchSuccess(data));
+        setSelamEvents(data)
       } catch (error) {
         dispatch(eventsShopFetchFailure(error.response.data.message));
       }
     };
-    shopProducts();
+    selamShopEvents();
   }, [dispatch]);
 
   // Handle delete
@@ -46,17 +48,17 @@ const AllShopEvents = () => {
     try {
       //! Why delete from the redux does not work?
       // dispatch(eventShopDeleteStart());
-      setSuccess(false)
+      setSuccess(false);
       const { data } = await axios.delete(
         `http://localhost:5000/api/events/${eventID}`
       );
       // dispatch(eventShopDeleteSuccess(data));
-      setSuccess(true)
-      toast.success(data.message)
+      setSuccess(true);
+      toast.success(data.message);
       window.location.reload();
     } catch (error) {
       // dispatch(eventShopDeleteFailure(error.response.data.message));
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
     }
   };
 
@@ -131,8 +133,8 @@ const AllShopEvents = () => {
 
   const row = [];
 
-  events &&
-    events.forEach((event) => {
+  selamEvents &&
+    selamEvents.forEach((event) => {
       row.push({
         id: event._id,
         name: event.name,
