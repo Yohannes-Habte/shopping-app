@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 
 const ProductCartDetails = ({ setOpen, data }) => {
   const { cart } = useSelector((state) => state.cart);
-  const { wishlist } = useSelector((state) => state.wishlist);
+  const { wishList } = useSelector((state) => state.wishList);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
@@ -46,12 +46,12 @@ const ProductCartDetails = ({ setOpen, data }) => {
   };
 
   useEffect(() => {
-    if (wishlist && wishlist.find((i) => i._id === data._id)) {
+    if (wishList && wishList.find((i) => i._id === data._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  }, [wishlist]);
+  }, [wishList]);
 
   const removeFromWishlistHandler = (data) => {
     setClick(!click);

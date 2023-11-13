@@ -2,32 +2,53 @@ import React, { useEffect, useState } from 'react';
 import './SingleProduct.scss';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ProductDtails from '../../components/products/productDetails/ProductDtails';
 import RelatedProducts from '../../components/products/relatedProducts/RelatedProducts';
 import Header from '../../components/layout/header/Header';
 import Footer from '../../components/layout/footer/Footer';
+import ProductDetails from '../../components/products/productDetails/ProductDetails';
+import axios from 'axios';
 
 const SingleProduct = () => {
-  const { id } = useParams();
+  const { productID } = useParams();
+
+  // Global state variables
+  const { products } = useSelector((state) => state.product);
+  const { currentSeller } = useSelector((state) => state.seller);
 
   // Global variables
-  const { products } = useSelector((state) => state.product);
+  const [productData, setProductData] = useState([]);
   const { events } = useSelector((state) => state.event);
-  const [data, setData] = useState(null);
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get('isEvent');
-  console.log('the name of the product is', data);
 
   // Display products
+  // useEffect(() => {
+  //   if (eventData !== null) {
+  //     const data = events && events.find((i) => i._id === id);
+  //     setData(data);
+  //   } else {
+  //     const data = products && products.find((i) => i._id === id);
+  //     setData(data);
+  //   }
+  // }, [products, events]);
+
+  // Display products for a single shop
   useEffect(() => {
-    if (eventData !== null) {
-      const data = events && events.find((i) => i._id === id);
-      setData(data);
-    } else {
-      const data = products && products.find((i) => i._id === id);
-      setData(data);
-    }
-  }, [products, events]);
+    const shopProducts = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+        );
+        setProductData(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    shopProducts();
+  }, []);
+
+  // Find a single product
+  const foundProduct = productData.find((product) => product._id === productID);
 
   return (
     <main className="single-product-page">
@@ -37,10 +58,17 @@ const SingleProduct = () => {
         <h1 className="product-title"> Single Product </h1>
 
         {/* Single product details */}
-        <ProductDtails data={data} />
+        {productData && foundProduct && <ProductDetails data={foundProduct} />}
 
         {/* Related product details */}
-        {!eventData && <>{data && <RelatedProducts data={data} />}</>}
+        {!eventData && (
+          <>
+            {productData &&
+              productData.map((product) => {
+                return <RelatedProducts data={product} key={product._id} />;
+              })}
+          </>
+        )}
       </section>
 
       <Footer />

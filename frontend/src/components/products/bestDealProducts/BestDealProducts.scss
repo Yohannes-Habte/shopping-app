@@ -1,0 +1,17 @@
+
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.best-deals-container {
+
+    .subTitle {
+        @include subTitle;
+    }
+
+    .product-wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 1rem;
+        row-gap: 1rem;
+    }
+}

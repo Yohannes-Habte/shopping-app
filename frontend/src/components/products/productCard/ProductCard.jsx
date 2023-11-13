@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import Ratings from '../ratings/Ratings';
 import ProductCartDetails from '../productCartDetails/ProductCartDetails';
 
+// The product in the ProductCard.jsx component comes from ShopProfile.jsx component
 const ProductCard = ({ product, isEvent }) => {
   // Global state variables
   const { wishList } = useSelector((state) => state.wishList);
@@ -25,7 +26,7 @@ const ProductCard = ({ product, isEvent }) => {
 
   // Display wishlist
   useEffect(() => {
-    if (wishList && wishList.find((i) => i._id === product._id)) {
+    if (wishList && wishList.find((item) => item._id === product._id)) {
       setClick(true);
     } else {
       setClick(false);
@@ -46,7 +47,7 @@ const ProductCard = ({ product, isEvent }) => {
 
   // Add to cart
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
+    const isItemExists = cart && cart.find((item) => item._id === id);
     if (isItemExists) {
       toast.error('Item already in cart!');
     } else {
@@ -66,8 +67,8 @@ const ProductCard = ({ product, isEvent }) => {
         <Link
           to={
             isEvent === true
-              ? `/product/${product._id}?isEvent=true`
-              : `/product/${product._id}`
+              ? `/products/${product._id}?isEvent=true`
+              : `/products/${product._id}`
           }
         >
           <img
@@ -83,11 +84,11 @@ const ProductCard = ({ product, isEvent }) => {
       </Link>
 
       <Link
-        to={`${
+        to={
           isEvent === true
-            ? `/product/${product._id}?isEvent=true`
-            : `/product/${product._id}`
-        }`}
+            ? `/products/${product._id}?isEvent=true`
+            : `/products/${product._id}`
+        }
       >
         <h4 className="subTitle">
           {product.name.length > 40
@@ -108,7 +109,7 @@ const ProductCard = ({ product, isEvent }) => {
             </span>
           </h5>
           <span className={`old-price`}>
-          ${product.originalPrice ? product.originalPrice : null}
+            ${product.originalPrice ? product.originalPrice : null}
           </span>
 
           <p className="sold-product">{product?.sold_out} sold</p>
@@ -120,14 +121,14 @@ const ProductCard = ({ product, isEvent }) => {
         {click ? (
           <AiFillHeart
             className="icon"
-            onClick={() => removeFromWishlistHandler(product)}
+            // onClick={() => removeFromWishlistHandler(product)}
             color={click ? 'red' : 'black'}
             title="Remove from wishlist"
           />
         ) : (
           <AiOutlineHeart
             className="icon"
-            onClick={() => addToWishlistHandler(product)}
+            // onClick={() => addToWishlistHandler(product)}
             color={click ? 'active' : 'passive'}
             title="Add to wishlist"
           />

@@ -33,26 +33,15 @@ export const createProduct = async (req, res, next) => {
 //==============================================================================
 export const getSingleProduct = async (req, res, next) => {
   try {
-    // Get the ids for the shop and the product
-    const shopID = req.params.shopID;
     const productID = req.params.productID;
-
-    // find the shop id (seller id) and then find the product id
-    const shop = await Shop.findById(shopID);
-    if (!shop) {
-      return next(createError(400, 'Shop not found!'));
-    }
 
     // product id
     const product = await Product.findById(productID);
     if (!product) {
-      return next(createError(400, `Product not found in ${shop.name} shop !`));
+      return next(createError(400, `Product not found!`));
     }
 
-    // If shop and product exist, then you can get the product for that particular shop
-    if (shop && product) {
-      return res.status(200).json(product);
-    }
+    return res.status(200).json(product);
   } catch (error) {
     console.log(error);
     next(createError(500, 'Product could not be accessed! Please try again!'));

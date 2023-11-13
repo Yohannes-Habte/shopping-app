@@ -8,6 +8,7 @@ import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer
 import ProductCard from '../../products/productCard/ProductCard';
 import axios from 'axios';
 
+// The isOwner comes from ShopHome.jsx page
 const ShopProfile = ({ isOwner }) => {
   const { id } = useParams();
   // Global state variables

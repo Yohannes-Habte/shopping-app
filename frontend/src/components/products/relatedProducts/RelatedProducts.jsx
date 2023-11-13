@@ -11,12 +11,12 @@ const RelatedProducts = ({ product }) => {
 
  
 
-  useEffect(() => {
-    const infos =
-      products &&
-      products.filter((product) => product.category === product.category);
-    setProductData(infos);
-  }, []);
+  // useEffect(() => {
+  //   const infos =
+  //     products &&
+  //     products.filter((product) => product.category === product.category);
+  //   setProductData(infos);
+  // }, []);
 
   return product ? (
     <section className={`related-products`}>

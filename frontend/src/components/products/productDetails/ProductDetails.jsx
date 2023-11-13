@@ -2,18 +2,22 @@ import React, { useEffect, useState } from 'react';
 import './ProductDtails.scss';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { MdAddBox } from 'react-icons/md';
 import { TbSquareMinusFilled } from 'react-icons/tb';
 import { AiOutlineMessage } from 'react-icons/ai';
 import { useDispatch, useSelector } from 'react-redux';
 import RelatedProducts from '../relatedProducts/RelatedProducts';
-import Ratings from '../ratings/Ratings';
-import Header from '../../layout/header/Header';
-import Footer from '../../layout/footer/Footer';
 import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
+import ProductInfos from '../productInfos/ProductInfos';
 
-const ProductDtails = ({ data }) => {
+/**
+ 1. ProductDetails component receive data from SinglePage.jsx page
+ 2. The date received by ProductDetails from SinglePage.jsx further transfered to ProductInfos.jsx component
+ 3. Data is further used for the Ratings.jx component
+ */
+//
+const ProductDetails = ({ data }) => {
   const navigate = useNavigate();
 
   // Global state variables
@@ -119,7 +123,7 @@ const ProductDtails = ({ data }) => {
       <article className="product-details">
         {/* Product image */}
         <figure className="image-container">
-          <img className="image" src={'productImage'} alt="" />
+          <img className="image" src={data.images} alt="" />
         </figure>
 
         {/* Product Description and add to cart */}
@@ -148,7 +152,6 @@ const ProductDtails = ({ data }) => {
             <h3>Product name</h3>
             <p> Rating (4.5) </p>
             <span onClick={handleMessageSubmit} className="send-message">
-              {' '}
               Send Message <AiOutlineMessage />{' '}
             </span>
           </aside>
@@ -168,119 +171,4 @@ const ProductDtails = ({ data }) => {
   );
 };
 
-const ProductInfos = ({ data, product, totalReviewsLength, averageRating }) => {
-  const [active, setActive] = useState(1);
-
-  return (
-    <div className="product-infos">
-      <article className="tabs-wrapper">
-        <h5
-          className={active === 1 ? 'active' : 'passive'}
-          onClick={() => setActive(1)}
-        >
-          Product Details
-        </h5>
-
-        <h5
-          className={active === 2 ? 'active' : 'passive'}
-          onClick={() => setActive(2)}
-        >
-          Product Reviews
-        </h5>
-
-        <h5
-          className={active === 3 ? 'active' : 'passive'}
-          onClick={() => setActive(3)}
-        >
-          Seller Information
-        </h5>
-      </article>
-
-      {active === 1 ? (
-        <div className="active-tab">
-          <p className="description">
-            {/* {data.description} */}
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. In,
-            voluptas voluptate sequi atque eveniet architecto quam expedita.
-          </p>
-        </div>
-      ) : null}
-
-      {active === 2 ? (
-        <div className="active-tab">
-          {data &&
-            data.reviews.map((item, index) => (
-              <div className="comment-container">
-                <img
-                  src={`${item.user.avatar?.url}`}
-                  alt=""
-                  className="image"
-                />
-                <div className="rating-wrapper ">
-                  <article className="rating">
-                    <h3 className="subTitle">{item.user.name}</h3>
-                    <Ratings rating={data?.ratings} />
-                  </article>
-                  <p className="comment">{item.comment}</p>
-                </div>
-              </div>
-            ))}
-
-          <div className="no-product-review">
-            {data && data.reviews.length === 0 && (
-              <h5>No Reviews have for this product!</h5>
-            )}
-          </div>
-        </div>
-      ) : null}
-
-      {active === 3 && (
-        <div className="active-tab">
-          <div className="average-rating-wrapper">
-            <Link to={`/shop/preview/${data.shop._id}`}>
-              <div className="preview">
-                <img
-                  src={`${data?.shop?.avatar?.url}`}
-                  className="image"
-                  alt=""
-                />
-                <div className="pl-3">
-                  <h3 className={`shop-name`}>{data.shop.name}</h3>
-                  <h5 className="shop-rating">({'averageRating'}/5) Ratings</h5>
-                </div>
-              </div>
-            </Link>
-            <p className="pt-2">{data.shop.description}</p>
-          </div>
-          <div className="created-at-wrapper">
-            <div className="text-left">
-              <h5 className="subTitle">
-                Joined on:
-                <span className="shop">
-                  {data.shop?.createdAt?.slice(0, 10)}
-                </span>
-              </h5>
-              <h5 className="subTitle">
-                Total Products:
-                <span className="length">
-                  {/* {products && products.length} */}
-                </span>
-              </h5>
-              <h5 className="subTitle">
-                Total Reviews:
-                <span className="total-review-length">
-                  {'totalReviewsLength'}
-                </span>
-              </h5>
-              <Link to="/">
-                <h4 className="visit-shop">Visit Shop</h4>
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default ProductDtails;
+export default ProductDetails;
