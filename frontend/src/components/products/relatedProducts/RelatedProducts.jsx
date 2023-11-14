@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from 'react';
+import './RelatedProducts.scss';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import ProductCard from '../productCard/ProductCard';
 
-const RelatedProducts = ({ product }) => {
+const RelatedProducts = ({ data }) => {
   // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
   const { products } = useSelector((state) => state.product);
-  const [productData, setProductData] = useState();
-
- 
+  const [relatedProducts, setRelatedProducts] = useState([]);
 
   // useEffect(() => {
   //   const infos =
   //     products &&
   //     products.filter((product) => product.category === product.category);
-  //   setProductData(infos);
+  //   setRelatedProducts(infos);
   // }, []);
 
-  return product ? (
-    <section className={`related-products`}>
-      <h2 className={`related-products-title`}>Related Product</h2>
-      <div className="related-products-wrapper">
-        {productData &&
-          productData.map((product, index) => (
-            <ProductCard data={product} key={index} />
-          ))}
-      </div>
+  return (
+    <section className="related-product-container">
+      {data
+        ? data.map((product) => {
+            return <ProductCard product={product} key={product._id} />;
+          })
+        : null}
     </section>
-  ) : null;
+  );
 };
 
 export default RelatedProducts;

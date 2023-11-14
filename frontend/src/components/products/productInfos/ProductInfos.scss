@@ -1,2 +1,40 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
+
+.product-infos {
+  .tabs-wrapper {
+    .active {
+    }
+
+    .passive {
+    }
+  }
+
+  // active tap 3
+
+  .active-tab {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+
+    .preview {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+
+      .image-container {
+        .image {
+          width: 20rem;
+          height: 20rem;
+          object-fit: cover;
+          border-radius: $radius;
+        }
+      }
+    }
+
+    .text-right {
+      @include shadow3;
+    }
+  }
+}

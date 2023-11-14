@@ -2,9 +2,7 @@
 @import '../../../styles/Mixins.scss';
 
 .single-product-details {
-  width: $laptop;
   min-height: 100vh;
-  margin: 1rem auto;
 
   .product-title {
     @include title;
@@ -17,8 +15,9 @@
     gap: 1rem;
 
     // Product image
-    .image-containe {
+    .image-container {
       .image {
+        border-radius: $radius;
       }
     }
 

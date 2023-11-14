@@ -8,6 +8,7 @@ import productReducer from './reducers/productReducer';
 import wishListReducer from './reducers/wishListReducer';
 import cartReducer from './reducers/cartReducer';
 import eventReducer from './reducers/eventReducer';
+
 // Store items in the local storage
 const rootReducer = combineReducers({
   user: userReducer,

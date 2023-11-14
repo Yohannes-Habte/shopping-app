@@ -1,0 +1,15 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.popular-events-wrapper {
+  .subTitle {
+    @include subTitle;
+    font-size: 1.8rem;
+  }
+
+  .event-cards-wrapper {
+    .subTitle {
+      @include subTitle;
+    }
+  }
+}

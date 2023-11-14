@@ -32,12 +32,10 @@ const eventReducer = createSlice({
     eventsShopFetchSuccess: (state, action) => {
       state.events = action.payload;
       state.loading = false;
-      state.error = null;
     },
     eventsShopFetchFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
-      state.events = null;
     },
 
     // Delete single event from a specific shop
@@ -47,7 +45,6 @@ const eventReducer = createSlice({
     eventShopDeleteSuccess: (state, action) => {
       state.events = action.payload;
       state.loading = false;
-      state.error = null;
     },
     eventShopDeleteFailure: (state, action) => {
       state.error = action.payload;

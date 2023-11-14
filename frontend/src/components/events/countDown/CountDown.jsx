@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import './CountDown.scss';
 
-const CountDown = () => {
+const CountDown = ({ data }) => {
   // calculateTimeLeft is a function
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
+  console.log('Timer', data);
   // Use Effect Hook
   useEffect(() => {
     // setTimeout function
@@ -15,7 +17,9 @@ const CountDown = () => {
   });
 
   function calculateTimeLeft() {
-    const difference = +new Date('2023-11-04') - +new Date();
+    //! The dynamic timer works only in the EventPage.jsx, but not in the Events.jsx component.  Why?
+    // const difference = +new Date(data.endDate) - +new Date();
+    const difference = +new Date(2023 - 11 - 11) - +new Date();
     let timeLeft = {};
 
     if (difference > 0) {
@@ -37,16 +41,21 @@ const CountDown = () => {
     }
 
     return (
-      <span style={{color: "red"}}>
+      <span className="timer">
         {timeLeft[interval]} {interval}
       </span>
     );
   });
 
+  console.log('Timer component is', timerComponents);
   return (
-    <div>
-      {timerComponents.length ? timerComponents : <span> Time is up!</span>}
-    </div>
+    <section className="event-timer">
+      {timerComponents.length ? (
+        timerComponents
+      ) : (
+        <h3 className="time-up"> Time is up!</h3>
+      )}
+    </section>
   );
 };
 

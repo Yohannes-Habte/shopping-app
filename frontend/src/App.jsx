@@ -8,7 +8,7 @@ import Register from './views/registerPage/Register';
 import Login from './views/loginPage/Login';
 import NotFound from './views/notFound/NotFound';
 import Products from './views/productsPage/Products';
-import Events from './views/eventsPage/Events';
+import EventsPage from './views/eventsPage/EventsPage';
 import BestSellings from './views/bestSellingpage/BestSellings';
 import Orders from './views/ordersPage/Orders';
 import Profile from './views/userProtectedPages/profilePage/Profile';
@@ -29,6 +29,7 @@ import ShopAllCoupons from './views/shopPages/shopAllCouponsPage/ShopAllCoupons'
 import SingleProduct from './views/productPage/SingleProduct';
 import ShopHome from './views/shopPages/shopHomePage/ShopHome';
 import ShopDashboard from './views/shopPages/shopDashboarPage/ShopDashboard';
+import ShopPreviewPage from './views/shopPages/shopPreviewPage/ShopPreviewPage';
 
 const App = () => {
   return (
@@ -60,7 +61,8 @@ const App = () => {
           <Route path="/orders" element={<Orders />} />
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
-          <Route path="/events" element={<Events />} />
+          <Route path="/events" element={<EventsPage />} />
+          <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
 
           {/* User Pages */}
           <Route

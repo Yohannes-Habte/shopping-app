@@ -64,23 +64,19 @@ export const getShopSingleEvent = async (req, res, next) => {
 //==============================================================================
 export const getAllShopEvents = async (req, res, next) => {
   try {
-    // Get the shop by its id
     const shopID = req.params.shopID;
 
-    // find the shop id (seller id) and then find all its Events
     const shop = await Shop.findById(shopID);
 
     if (!shop) {
       return next(createError(400, 'Shop not found!'));
     }
 
-    // If the shop found, find all its Events using the shopId in the database
     const events = await Event.find({ shopId: shopID });
+
     if (!events) {
       return next(createError(400, 'Events not found!'));
     }
-
-    // if shop and Events exist, get the Events for that particular shop
     if (shop && events) {
       return res.status(200).json(events);
     }

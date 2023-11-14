@@ -1,0 +1,10 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.shop-preview-page {
+    .shop-preview-container {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+}

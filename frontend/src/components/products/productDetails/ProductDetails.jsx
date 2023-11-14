@@ -128,12 +128,9 @@ const ProductDetails = ({ data }) => {
 
         {/* Product Description and add to cart */}
         <section className="product-description">
-          <h3 className={'subTitle'}>Product Title </h3>
+          <h3 className={'subTitle'}> {data.name} </h3>
           <p className="description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum,
-            similique laudantium. Accusamus temporibus consectetur, et vel iusto
-            pariatur excepturi fugiat mollitia illum, dolor eligendi libero
-            assumenda deserunt minus totam perspiciatis!
+           {data.description}
           </p>
 
           {/* Add to cart aside */}
@@ -149,7 +146,7 @@ const ProductDetails = ({ data }) => {
           {/* Product rating message */}
           <aside className="product-rating">
             <img src="" alt="" />
-            <h3>Product name</h3>
+            <h3> {data.name} </h3>
             <p> Rating (4.5) </p>
             <span onClick={handleMessageSubmit} className="send-message">
               Send Message <AiOutlineMessage />{' '}

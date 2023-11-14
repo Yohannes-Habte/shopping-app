@@ -55,20 +55,18 @@ const SingleProduct = () => {
       <Header />
 
       <section className="single-product-container">
-        <h1 className="product-title"> Single Product </h1>
+        {foundProduct ? (
+          <h1 className="product-title"> {foundProduct.name} </h1>
+        ) : (
+          <h1 className="product-title"> Your Product </h1>
+        )}
 
         {/* Single product details */}
         {productData && foundProduct && <ProductDetails data={foundProduct} />}
 
+        <h2 className='related-prdoucts-title'>Related Product</h2>
         {/* Related product details */}
-        {!eventData && (
-          <>
-            {productData &&
-              productData.map((product) => {
-                return <RelatedProducts data={product} key={product._id} />;
-              })}
-          </>
-        )}
+        {!eventData && productData && <RelatedProducts data={productData} />}
       </section>
 
       <Footer />

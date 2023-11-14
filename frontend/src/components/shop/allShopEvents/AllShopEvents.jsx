@@ -22,7 +22,8 @@ const AllShopEvents = () => {
   const dispatch = useDispatch();
 
   // Local state variable
-  const [selamEvents, setSelamEvents] = useState([]);
+  // local state variables
+  const [shopEvents, setShopEvents] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
@@ -35,7 +36,7 @@ const AllShopEvents = () => {
           `http://localhost:5000/api/events/${currentSeller._id}/shop-events`
         );
         // dispatch(eventsShopFetchSuccess(data));
-        setSelamEvents(data)
+        setShopEvents(data);
       } catch (error) {
         dispatch(eventsShopFetchFailure(error.response.data.message));
       }
@@ -133,8 +134,8 @@ const AllShopEvents = () => {
 
   const row = [];
 
-  selamEvents &&
-    selamEvents.forEach((event) => {
+  shopEvents &&
+    shopEvents.forEach((event) => {
       row.push({
         id: event._id,
         name: event.name,
