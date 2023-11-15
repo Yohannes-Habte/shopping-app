@@ -1,0 +1,77 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.cart {
+  width: 100%;
+  min-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: $popup-bg;
+  padding-bottom: 1rem;
+
+  .cart-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    min-height: 100vh;
+    background-color: $popup-display-bg;
+    @include shadow1;
+
+    // Empty cart
+    .empty-cart-wrapper {
+
+      .close-icon {
+        position: absolute;
+        top: 0.6rem;
+        right: 1rem;
+        cursor: pointer;
+
+        &:hover {
+          color: $tomato;
+        }
+      }
+      .empty-cart {
+        @include subTitle;
+       
+      }
+    }
+
+    // cart order wrapper
+    .cart-order-wrapper {
+      position: relative;
+
+      .close-icon {
+        position: absolute;
+        top: 0.6rem;
+        right: 1rem;
+        cursor: pointer;
+
+        &:hover {
+          color: $tomato;
+        }
+      }
+
+      .subTitle {
+        @include subTitle;
+      }
+
+      // single cart
+      .single-cart-wrapper {
+      }
+    }
+
+    .total-price {
+      .amount {
+        color: $blue;
+      }
+    }
+
+    // checkout buttons
+    .checkout-now-btn {
+      @include button1;
+    }
+  }
+}

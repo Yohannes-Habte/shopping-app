@@ -1,0 +1,54 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.single-cart-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  @include shadow3;
+
+  .quantity-management-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    @include shadow3;
+
+    .decrease-quantity {
+      @include cartQuantity;
+    }
+
+    .quantity {
+      @include subTitle;
+    }
+
+    .increase-quantity {
+      @include cartQuantity;
+    }
+  }
+
+  .image-container {
+    .image {
+      width: 6rem;
+      height: 6rem;
+      object-fit: cover;
+    }
+  }
+
+  .price-wrapper {
+    .name {
+      @include subTitle;
+    }
+
+    .price {
+      color: $blue;
+      font-weight: $aafw;
+    }
+  }
+
+  .delete-icon {
+    @include deleteFromCart;
+  }
+}

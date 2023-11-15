@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./SingleWishList.scss"
 import { BsCartPlusFill } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 

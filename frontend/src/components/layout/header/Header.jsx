@@ -16,8 +16,8 @@ import {
   userLogoutStart,
   userLogoutSuccess,
 } from '../../../redux/reducers/userReducer';
-import Cart from '../../../views/userProtectedPages/cartPage/Cart';
 import WishList from '../../wishLists/wichList.jsx/WishList';
+import Cart from '../../cart/cart/Cart';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -201,8 +201,9 @@ const Header = () => {
           </div>
 
           {/* Cart Popup */}
-          <div onClick={() => setOpenCart(true)} className="cart-wrapper">
-            <BsCart className="icon" />
+          <div className="cart-wrapper">
+            <BsCart onClick={() => setOpenCart(true)} className="icon" />
+            {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
           </div>
 
           {/* Logged in user details */}
@@ -246,7 +247,7 @@ const Header = () => {
           </div>
 
           {/* Open cart and open wish list */}
-          {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+         
           {openWishList ? <WishList setOpenWishList={setOpenWishList} /> : null}
         </div>
       </div>

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import './Cart.scss';
 import { RxCross1 } from 'react-icons/rx';
 import { IoBagHandleOutline } from 'react-icons/io5';
-import { HiOutlineMinus, HiPlus } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import SingleCart from '../singleCart/SingleCart';
 
 const Cart = ({ setOpenCart }) => {
   // Global state variables
@@ -28,97 +28,59 @@ const Cart = ({ setOpenCart }) => {
   };
 
   return (
-    <main className="cart-page">
-      {cart && cart.length === 0 ? (
-        <article className="empty-cart-wrapper">
-          <RxCross1 className="icon" onClick={() => setOpenCart(false)} />
+    <main className="cart">
+      <article className="cart-container">
+        {cart && cart.length === 0 ? (
+          <section className="empty-cart-wrapper">
+            <RxCross1
+              className="close-icon"
+              onClick={() => setOpenCart(false)}
+            />
+            <h2 className="empty-cart">Cart Items is empty!</h2>
+          </section>
+        ) : (
+          <>
+            <section className="cart-order-wrapper">
+              <RxCross1
+                className="close-icon"
+                onClick={() => setOpenCart(false)}
+              />
 
-          <h5>Cart Items is empty!</h5>
-        </article>
-      ) : (
-        <>
-          <div>
-            <RxCross1 className="icon" onClick={() => setOpenCart(false)} />
+              {/* Item length */}
 
-            {/* Item length */}
-            <div className={`cart-length`}>
               <IoBagHandleOutline className="icon" />
-              <h5 className="subTitle">{cart && cart.length} items</h5>
-            </div>
+              <h5 className="subTitle">
+                {' '}
+                There are {cart && cart.length} items in the shopping cart
+              </h5>
 
-            {/* cart Single Items */}
-            <div className="cart-single-item">
-              {cart &&
-                cart.map((i, index) => (
-                  <CartSingle
-                    key={index}
-                    data={i}
-                    quantityChangeHandler={quantityChangeHandler}
-                    removeFromCartHandler={removeFromCartHandler}
-                  />
-                ))}
-            </div>
-          </div>
+              {/* cart Single Items */}
+              <div className="single-cart-wrapper">
+                {cart &&
+                  cart.map((i, index) => (
+                    <SingleCart
+                      key={index}
+                      data={i}
+                      quantityChangeHandler={quantityChangeHandler}
+                      removeFromCartHandler={removeFromCartHandler}
+                    />
+                  ))}
+              </div>
+            </section>
+            <hr />
+            <h2 className="total-price">
+              Total Pirce: <span className="amount">${totalPrice}</span>
+            </h2>
+            <hr />
 
-          {/* checkout buttons */}
-          <Link to="/checkout">
-            <button className="checkout-now-btn">
-              Checkout Now (USD${totalPrice})
-            </button>
-          </Link>
-        </>
-      )}
+            {/* checkout buttons */}
+            <Link to="/checkout">
+              <button className="checkout-now-btn">Checkout Now</button>
+            </Link>
+          </>
+        )}
+      </article>
     </main>
-  );
-};
-
-const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
-  // Local state variables
-  const [value, setValue] = useState(data.qty);
-  const totalPrice = data.discountPrice * value;
-
-  // Incremental function
-  const increment = (data) => {
-    if (data.stock < value) {
-      toast.error('Product stock limited!');
-    } else {
-      setValue(value + 1);
-      const updateCartData = { ...data, qty: value + 1 };
-      quantityChangeHandler(updateCartData);
-    }
-  };
-
-  // decremental function
-  const decrement = (data) => {
-    setValue(value === 1 ? 1 : value - 1);
-    const updateCartData = { ...data, qty: value === 1 ? 1 : value - 1 };
-    quantityChangeHandler(updateCartData);
-  };
-
-  return (
-    <div className="single-cart-container">
-      <article className="quantity-management-wrapper">
-        <HiPlus className="icon" onClick={() => increment(data)} />
-
-        <h3 className="subTitle">{data.qty}</h3>
-
-        <HiOutlineMinus className="icon" onClick={() => decrement(data)} />
-      </article>
-
-      <figure className="image-container">
-        <img src={`${data?.images[0]?.url}`} alt="" className="image" />
-      </figure>
-
-      <article className="pl-[5px]">
-        <h3 className="subTitle">{data.name}</h3>
-        <p className="price">
-          ${data.discountPrice} * {value}
-        </p>
-        <p className="price">US${totalPrice}</p>
-      </article>
-
-      <RxCross1 className="icon" onClick={() => removeFromCartHandler(data)} />
-    </div>
   );
 };
 
