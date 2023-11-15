@@ -1,14 +1,11 @@
-
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
 .best-deals-container {
+  .subTitle {
+  }
 
-    .subTitle {
-        @include subTitle;
-    }
-
-    .product-wrapper {
-        @include productsGrid;
-    }
+  .product-wrapper {
+    @include productsGrid;
+  }
 }

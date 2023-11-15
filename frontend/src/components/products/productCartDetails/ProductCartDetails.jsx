@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './ProductCartDetails.scss';
 import {
   AiFillHeart,
   AiOutlineHeart,
@@ -9,14 +10,18 @@ import { RxCross1 } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { addToCart } from '../../../redux/reducers/cartReducer';
 
 const ProductCartDetails = ({ setOpen, data }) => {
+  // Global state variables
   const { cart } = useSelector((state) => state.cart);
   const { wishList } = useSelector((state) => state.wishList);
   const dispatch = useDispatch();
+
+  // Local state variables
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
-  //   const [select, setSelect] = useState(false);
+  const [select, setSelect] = useState(false);
 
   const handleMessageSubmit = () => {};
 
@@ -27,23 +32,29 @@ const ProductCartDetails = ({ setOpen, data }) => {
   };
 
   const incrementCount = () => {
-    setCount(count + 1);
+    if (data.stock > count) {
+      setCount(count + 1);
+    } else {
+      toast.error(
+        'The maximum available in the stock is reached! If you want more, please send us message!'
+      );
+    }
   };
 
   const addToCartHandler = (id) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
     if (isItemExists) {
       toast.error('Item already in cart!');
+    } else if (data.stock < count) {
+      toast.error('Product is out of stock!');
     } else {
-      if (data.stock < count) {
-        toast.error('Product stock limited!');
-      } else {
-        const cartData = { ...data, qty: count };
-        dispatch('addTocart'(cartData));
-        toast.success('Item added to cart successfully!');
-      }
+      const cartData = { ...data, qty: count };
+      dispatch(addToCart(cartData));
+      toast.success('Item added to cart successfully!');
     }
   };
+
+  console.log('count', data.stock);
 
   useEffect(() => {
     if (wishList && wishList.find((i) => i._id === data._id)) {
@@ -64,103 +75,86 @@ const ProductCartDetails = ({ setOpen, data }) => {
   };
 
   return (
-    <div className="product-cart-details-wrapper">
+    <div className="product-cart-details-modal">
       {data ? (
-        <div className="fixed w-full h-screen top-0 left-0 bg-[#00000030] z-40 flex items-center justify-center">
-          <div className="w-[90%] 800px:w-[60%] h-[90vh] overflow-y-scroll 800px:h-[75vh] bg-white rounded-md shadow-sm relative p-4">
-            <RxCross1
-              size={30}
-              className="absolute right-3 top-3 z-50"
-              onClick={() => setOpen(false)}
-            />
+        <section className="all-product-details-container">
+          <RxCross1 className="close-icon" onClick={() => setOpen(false)} />
 
-            <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">
-                <figure>
-                  <img src={`${data.images && data.images[0]?.url}`} alt="" />
-                </figure>
-                <figure className="flex">
-                  <Link to={`/shop/preview/${data.shop._id}`} className="flex">
-                    <img
-                      src={`${data.images && data.images[0]?.url}`}
-                      alt=""
-                      className="w-[50px] h-[50px] rounded-full mr-2"
-                    />
-                    <article>
-                      <h3 className={`subTitle`}>{data.shop.name}</h3>
-                      <h5 className="pb-3 text-[15px]">
-                        {data?.ratings} Ratings
-                      </h5>
-                    </article>
-                  </Link>
-                </figure>
-                <div className={`button`} onClick={handleMessageSubmit}>
-                  <span className="text-[#fff] flex items-center">
-                    Send Message <AiOutlineMessage className="ml-1" />
-                  </span>
-                </div>
-                <h5 className="text-[16px] text-[red] mt-5">(50) Sold out</h5>
-              </div>
+          {/* Left box */}
+          <article className="left-box">
+            <figure className="image-container">
+              <Link to={`/shop/preview/${data._id}`} className="flex">
+                <img src={data.images} alt={data.name} className="image" />
+              </Link>
+            </figure>
 
-              <div className="w-full 800px:w-[50%] pt-5 pl-[5px] pr-[5px]">
-                <h1 className={`subTitle`}>{data.name}</h1>
-                <p>{data.description}</p>
+            <article className="rating-wrapper">
+              <h3 className={`subTitle`}>{data.name}</h3>
+              <p className="rating]">{data?.ratings} Ratings</p>
+            </article>
 
-                <div className="flex pt-3">
-                  <h4 className={`subTitle`}>{data.discountPrice}$</h4>
-                  <h3 className={`subTitle`}>
-                    {data.originalPrice ? data.originalPrice + '$' : null}
-                  </h3>
-                </div>
-                <div className="flex items-center mt-12 justify-between pr-3">
-                  <div>
-                    <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                      onClick={decrementCount}
-                    >
-                      -
-                    </button>
-                    <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
-                      {count}
-                    </span>
-                    <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                      onClick={incrementCount}
-                    >
-                      +
-                    </button>
-                  </div>
-                  <div>
-                    {click ? (
-                      <AiFillHeart
-                        size={30}
-                        className="cursor-pointer"
-                        onClick={() => removeFromWishlistHandler(data)}
-                        color={click ? 'red' : '#333'}
-                        title="Remove from wishlist"
-                      />
-                    ) : (
-                      <AiOutlineHeart
-                        size={30}
-                        className="cursor-pointer"
-                        onClick={() => addToWishlistHandler(data)}
-                        title="Add to wishlist"
-                      />
-                    )}
-                  </div>
-                </div>
-                <div
-                  className={`button`}
-                  onClick={() => addToCartHandler(data._id)}
+            <h3 onClick={handleMessageSubmit} className="send-message-btn">
+              Send Message <AiOutlineMessage className="message-icon" />{' '}
+            </h3>
+
+            <h5 className="sold-out">(50) Sold out</h5>
+          </article>
+
+          {/* Right box */}
+          <article className="right-box">
+            <h2 className={`subTitle`}>{data.name}</h2>
+            <p className="description">{data.description}</p>
+
+            <aside className="price-wrapper">
+              <p className={`old-price`}>
+                ${data.originalPrice ? data.originalPrice : null}
+              </p>
+              <h3 className={`new-price`}>
+                ${data.originalPrice - data.discountPrice}
+              </h3>
+            </aside>
+
+            <div className="quantity-wishlist-wrapper">
+              <article className="quantity-management">
+                <button className="quantity-btn" onClick={decrementCount}>
+                  -
+                </button>
+                <h3 className="quantity">{count}</h3>
+                <button
+                  disabled={data.stock < count}
+                  className="quantity-btn"
+                  onClick={incrementCount}
                 >
-                  <span className="text-[#fff] flex items-center">
-                    Add to cart <AiOutlineShoppingCart className="ml-1" />
-                  </span>
-                </div>
+                  +
+                </button>
+              </article>
+
+              <div className="wishlist">
+                {click ? (
+                  <AiFillHeart
+                    className="wishlist-icon"
+                    onClick={() => removeFromWishlistHandler(data)}
+                    color={click ? 'red' : '#333'}
+                    title="Remove from wishlist"
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    className="wishlist-icon"
+                    onClick={() => addToWishlistHandler(data)}
+                    title="Add to wishlist"
+                  />
+                )}
               </div>
             </div>
-          </div>
-        </div>
+
+            <h3
+              className={`add-to-cart-btn`}
+              onClick={() => addToCartHandler(data._id)}
+            >
+              Add to cart <AiOutlineShoppingCart className="add-icon" />
+            </h3>
+          </article>
+        </section>
       ) : null}
     </div>
   );

@@ -28,15 +28,32 @@ const Header = () => {
   // Global state variables using redux
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const { currentSeller } = useSelector((state) => state.seller);
+  const { products } = useSelector((state) => state.product);
 
   const dispatch = useDispatch();
 
   // Local state variables
-  const [searchItem, setSearchItem] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchData, setSearchData] = useState(null);
   const [dropDown, setDropDown] = useState(false);
   const [openUser, setOpenUser] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openWishList, setOpenWishList] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
+
+  // Displaying product data
+  useEffect(() => {
+    const fetachAllProducts = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:5000/api/products`);
+
+        setAllProducts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetachAllProducts();
+  }, []);
 
   const categoriesData = 'categoriesData';
 
@@ -46,7 +63,7 @@ const Header = () => {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    urlParams.set('searchItem', searchItem);
+    urlParams.set('searchItem', searchTerm);
     const searchQuery = urlParams.toString();
 
     navigate(`/search?${searchQuery}`);
@@ -57,7 +74,7 @@ const Header = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
     if (searchTermFromUrl) {
-      setSearchItem(searchTermFromUrl);
+      setSearchTerm(searchTermFromUrl);
     }
   }, [window.location.search]);
 
@@ -77,17 +94,23 @@ const Header = () => {
     }
   };
 
-  // Delete user account
-  const handleDeleteAccount = async () => {
-    try {
-      dispatch(deleteUserStart());
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/auths/delete-account/${currentUser._id}`
+  // Handle search
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+
+    const filteredProducts =
+      allProducts &&
+      allProducts.filter((product) =>
+        product.name.toLowerCase().includes(term.toLowerCase())
       );
-      dispatch(deleteUserSuccess());
-    } catch (error) {
-      dispatch(deleteUserFailure(error.response.data.message));
-    }
+    setSearchData(filteredProducts);
+  };
+
+  // Handle on click for the search bar
+  const handleClick = () => {
+    setSearchTerm('');
+    setSearchData('');
   };
 
   return (
@@ -100,13 +123,13 @@ const Header = () => {
         </NavLink>
 
         {/* Search bar form */}
-        <form onSubmit={handleSubmit} action="" className="search">
+        <form onSubmit={handleSubmit} action="" className="search-form">
           <div className="input-container">
             <input
               type="text"
-              name="searchItem"
-              value={searchItem}
-              onChange={(e) => setSearchItem(e.target.value)}
+              name="searchTerm"
+              value={searchTerm}
+              onChange={handleSearchChange}
               placeholder="Search..."
               className="input-field"
             />
@@ -116,6 +139,26 @@ const Header = () => {
           <button className="search-btn">
             <FaSearch className="search-icon" />
           </button>
+
+          {/* Search Results */}
+          {searchData && searchData.length !== 0 ? (
+            <article className="search-results">
+              {searchData &&
+                searchData.map((product) => {
+                  return (
+                    <h3
+                      onClick={handleClick}
+                      key={product._id}
+                      className="subTitle"
+                    >
+                      <Link to={`/products/${product._id}`}>
+                        {product.name}
+                      </Link>
+                    </h3>
+                  );
+                })}
+            </article>
+          ) : null}
         </form>
 
         {/* Become Seller */}

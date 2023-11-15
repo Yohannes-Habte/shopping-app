@@ -1,21 +1,17 @@
 @import '../../styles/Variables.scss';
 @import '../../styles/Mixins.scss';
 
-.products-page {
-  .products-container {
-    width: $laptop;
+.best-sellings-page {
+  .best-selleings-container {
+    @include laptopPageContainer;
     min-height: 100vh;
-    margin: 1rem auto;
 
-    .products-title {
+    .best-sellings-title {
       @include title;
     }
+
     .products-wrapper {
       @include productsGrid;
-    }
-
-    .subTitle {
-      @include subTitle;
     }
   }
 }

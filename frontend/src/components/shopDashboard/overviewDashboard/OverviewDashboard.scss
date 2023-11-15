@@ -9,27 +9,52 @@
     @include title;
   }
 
-  .article-box {
-    .aside-box {
-      .icon {
-        font-size: $aafs;
-        color: $green;
+  .summary-overview {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    @include productsGrid;
+
+    .article-box {
+      @include shadow3;
+
+      .aside-box {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0;
+
+        .icon {
+          font-size: $aafs;
+          color: $green;
+        }
+
+        .subTitle {
+          @include subTitle;
+        }
+
+        .service {
+          @include paragraph;
+        }
       }
 
       .subTitle {
         @include subTitle;
       }
 
-      .service {
-        @include paragraph;
+      .link {
       }
     }
+  }
 
-    .subTitle {
-      @include subTitle;
-    }
+  .latest-orders {
+    @include subTitle;
+    font-size: $aafs;
+    margin-top: 2rem;
+  }
 
-    .link {
-    }
+  .data-grid-wrapper {
   }
 }

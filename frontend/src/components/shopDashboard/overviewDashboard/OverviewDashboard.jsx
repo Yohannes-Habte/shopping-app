@@ -87,44 +87,48 @@ const OverviewDashboard = () => {
     <section className="overview-dashbaord-wrapper">
       <h3 className="overview-dashboard-title">Overview</h3>
 
-      {/* Account balance wrapper */}
-      <article className="article-box account-balance-wrapper">
-        <aside className=" aside-box account-balance">
-          <AiOutlineMoneyCollect className="icon" />
-          <h3 className={`subTitle`}>Account Balance </h3>
-          <p className="service">(with 10% service charge)</p>
-        </aside>
+      <div className="summary-overview">
+        {/* Account balance wrapper */}
+        <article className="article-box account-balance">
+          <aside className=" aside-box account-balance">
+            <AiOutlineMoneyCollect className="icon" />
+            <h3 className={`subTitle`}>
+              Account Balance{' '}
+              <span className="service">(with 10% service charge)</span>{' '}
+            </h3>
+          </aside>
 
-        <h3 className="subTitle">${availableBalance}</h3>
-        <Link to="/dashboard-withdraw-money" className="link">
-          Withdraw Money
-        </Link>
-      </article>
+          <h3 className="subTitle">${availableBalance}</h3>
+          <Link to="/dashboard-withdraw-money" className="link">
+            Withdraw Money
+          </Link>
+        </article>
 
-      {/* Orders wrapper */}
-      <article className="article-box orders-wrapper">
-        <aside className="aside-box all-orders">
-          <MdBorderClear className="icon" />
-          <h3 className={`subTitle`}>All Orders</h3>
-        </aside>
-        <h3 className="subTitle">{orders && orders.length}</h3>
-        <Link to="/dashboard-orders" className="link">
-          View Orders
-        </Link>
-      </article>
+        {/* Orders wrapper */}
+        <article className="article-box orders-wrapper">
+          <aside className="aside-box all-orders">
+            <MdBorderClear className="icon" />
+            <h3 className={`subTitle`}>All Orders</h3>
+          </aside>
+          <h3 className="subTitle">{orders ? orders.length : '0'}</h3>
+          <Link to="/dashboard-orders" className="link">
+            View Orders
+          </Link>
+        </article>
 
-      {/* Products wrapper */}
-      <article className="article-box all-products-wrapper">
-        <aside className="aside-box all-products">
-          <AiOutlineMoneyCollect className="icon" />
-          <h3 className={`subTitle`}>All Products</h3>
-        </aside>
-        {/* <h5 className="sibTitle">{products && products.length}</h5> */}
-        <Link to="/dashboard-products">View Products</Link>
-      </article>
+        {/* Products wrapper */}
+        <article className="article-box all-products-wrapper">
+          <aside className="aside-box all-products">
+            <AiOutlineMoneyCollect className="icon" />
+            <h3 className={`subTitle`}>All Products</h3>
+          </aside>
+          <h3 className="sibTitle">{products ? products.length : '0'}</h3>
+          <Link to="/dashboard-products">View Products</Link>
+        </article>
+      </div>
 
       {/* Latest orders */}
-      <h3 className="herror-dashboard-title">Latest Orders</h3>
+      <h3 className="latest-orders">Latest Orders</h3>
 
       {/* Data Grid */}
       <div className="data-grid-wrapper">

@@ -45,7 +45,7 @@ const ProductCard = ({ product, isEvent }) => {
     dispatch('addToWishlist'(data));
   };
 
-  // Add to cart
+  // Add to cart handler
   const addToCartHandler = (id) => {
     const isItemExists = cart && cart.find((item) => item._id === id);
     if (isItemExists) {
