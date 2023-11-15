@@ -1,33 +1,33 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import './DrpDown.scss';
+import { NavLink } from 'react-router-dom';
 
-const DropDown = ({ categoriesData, setDropDown }) => {
-  const navigate = useNavigate;
+const DropDown = ({ products, setDropDown }) => {
 
   // Handle submit
-  const hanleSubmit = (e) => {
-    navigate(`/products?category=${e.title}`);
+  const handleSubmit = (e) => {
     setDropDown(false);
     window.location.reload();
   };
   return (
-    <div>
-      {categoriesData &&
-        categoriesData.map((product, index) => {
+    <section className="categories-data-wrapper">
+      {products &&
+        products.map((product) => {
           return (
-            <div
-              key={index}
-              onClick={() => hanleSubmit(product)}
+            <article
+              key={product._id}
+              onClick={() => handleSubmit(product)}
               className="product"
             >
-              <figure>
-                <img src={product.image} alt="" />
-              </figure>
-              <h3> {product.title} </h3>
-            </div>
+              <h3 className="subTitle">
+                <NavLink to={`/products/${product._id}`}>
+                  {product.category}
+                </NavLink>
+              </h3>
+            </article>
           );
         })}
-    </div>
+    </section>
   );
 };
 

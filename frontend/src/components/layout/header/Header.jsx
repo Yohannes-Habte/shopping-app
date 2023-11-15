@@ -12,9 +12,6 @@ import DropDown from '../dropDown/DropDown';
 import Navbar from '../navbar/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  deleteUserFailure,
-  deleteUserStart,
-  deleteUserSuccess,
   userLogoutFailure,
   userLogoutStart,
   userLogoutSuccess,
@@ -54,8 +51,6 @@ const Header = () => {
     };
     fetachAllProducts();
   }, []);
-
-  const categoriesData = 'categoriesData';
 
   // Handle search submit
   const handleSubmit = (e) => {
@@ -163,8 +158,13 @@ const Header = () => {
 
         {/* Become Seller */}
         <article className="become-seller">
-          <Link to={'/login-shop'} className="link">
-            <h3 className="sub-title">Become Seller</h3>
+          <Link
+            to={currentSeller ? '/dashboard' : '/login-shop'}
+            className="link"
+          >
+            <h3 className="sub-title">
+              {currentSeller ? 'Go Dashboard' : 'Become Seller'}
+            </h3>
           </Link>
           <RiArrowRightSLine className="icon" />
         </article>
@@ -174,7 +174,8 @@ const Header = () => {
       <div className="navbar-cart-user-wrapper">
         {/* All categories */}
         <div action="" className="categories">
-          <FaBars className="top-icon" />
+          <FaBars onClick={() => setDropDown(!dropDown)} className="top-icon" />
+          
           <button className="btn">All Categories</button>
           <MdKeyboardArrowDown
             onClick={() => setDropDown(!dropDown)}
@@ -182,10 +183,7 @@ const Header = () => {
           />
 
           {dropDown ? (
-            <DropDown
-              categoriesData={categoriesData}
-              setDropDown={setDropDown}
-            />
+            <DropDown products={allProducts} setDropDown={setDropDown} />
           ) : null}
         </div>
 
