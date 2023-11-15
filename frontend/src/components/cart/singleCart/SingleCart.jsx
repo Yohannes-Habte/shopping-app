@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './SingleCart.scss';
-import { RxCross1 } from 'react-icons/rx';
 import { toast } from 'react-toastify';
 import { FaMinusSquare } from 'react-icons/fa';
 import { FaPlusSquare } from 'react-icons/fa';
@@ -14,7 +13,7 @@ const SingleCart = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
   // Incremental function
   const increment = (data) => {
     if (data.stock < value) {
-      toast.error('Product stock limited!');
+      toast.error('You reached the maximum available products in the stock!');
     } else {
       setValue(value + 1);
       const updateCartData = { ...data, qty: value + 1 };
@@ -58,7 +57,7 @@ const SingleCart = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
 
       <MdDelete
         className="delete-icon"
-        onClick={() => removeFromCartHandler(data)}
+        onClick={() => removeFromCartHandler(data._id)}
       />
     </div>
   );

@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Ratings from '../ratings/Ratings';
 import ProductCartDetails from '../productCartDetails/ProductCartDetails';
+import { addToCart } from '../../../redux/reducers/cartReducer';
 
 // The product in the ProductCard.jsx component comes from ShopProfile.jsx component
 const ProductCard = ({ product, isEvent }) => {
@@ -50,14 +51,12 @@ const ProductCard = ({ product, isEvent }) => {
     const isItemExists = cart && cart.find((item) => item._id === id);
     if (isItemExists) {
       toast.error('Item already in cart!');
+    } else if (product.stock < 1) {
+      toast.error('Product is out of stock!');
     } else {
-      if (product.stock < 1) {
-        toast.error('Product stock limited!');
-      } else {
-        const cartData = { ...product, qty: 1 };
-        dispatch('addTocart'(cartData));
-        toast.success('Item added to cart successfully!');
-      }
+      const cartData = { ...product, qty: 1 };
+      dispatch(addToCart(cartData));
+      toast.success('Item added to cart successfully!');
     }
   };
 

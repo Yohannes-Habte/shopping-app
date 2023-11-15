@@ -5,6 +5,7 @@ import { IoBagHandleOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SingleCart from '../singleCart/SingleCart';
+import { addToCart, removeFromCart } from '../../../redux/reducers/cartReducer';
 
 const Cart = ({ setOpenCart }) => {
   // Global state variables
@@ -12,8 +13,8 @@ const Cart = ({ setOpenCart }) => {
   const dispatch = useDispatch();
 
   // Remove from cart handler
-  const removeFromCartHandler = (data) => {
-    dispatch('removeFromCart'(data));
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id));
   };
 
   // Total price
@@ -23,8 +24,8 @@ const Cart = ({ setOpenCart }) => {
   );
 
   // Change quantity handler
-  const quantityChangeHandler = (data) => {
-    dispatch('addTocart'(data));
+  const quantityChangeHandler = (id) => {
+    dispatch(addToCart(id));
   };
 
   return (

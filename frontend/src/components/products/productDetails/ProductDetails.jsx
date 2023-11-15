@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import RelatedProducts from '../relatedProducts/RelatedProducts';
 import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
 import ProductInfos from '../productInfos/ProductInfos';
+import { addToCart } from '../../../redux/reducers/cartReducer';
 
 /**
  1. ProductDetails component receive data from SinglePage.jsx page
@@ -44,7 +45,13 @@ const ProductDetails = ({ data }) => {
 
   // Increasing count by one
   const incrementCount = () => {
-    setCount(count + 1);
+    if (data.stock > count) {
+      setCount(count + 1);
+    } else {
+      toast.error(
+        'The maximum available in the stock is reached! If you want more, please send us message!'
+      );
+    }
   };
 
   // Decreasing count by one
@@ -54,14 +61,16 @@ const ProductDetails = ({ data }) => {
     }
   };
 
-  const removeFromWishlistHandler = (data) => {
+  // Add wishlist
+  const addToWishlistHandler = (id) => {
     setClick(!click);
-    dispatch('removeFromWishlist'(data));
+    dispatch('addToWishlist'(id));
   };
 
-  const addToWishlistHandler = (data) => {
+  // Remove wishlist
+  const removeFromWishlistHandler = (id) => {
     setClick(!click);
-    dispatch('addToWishlist'(data));
+    dispatch('removeFromWishlist'(id));
   };
 
   // Add to cart
@@ -69,14 +78,12 @@ const ProductDetails = ({ data }) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
     if (isItemExists) {
       toast.error('Item already in cart!');
+    } else if (data.stock < count) {
+      toast.error('Product is out of stock!');
     } else {
-      if (data.stock < 1) {
-        toast.error('Product stock limited!');
-      } else {
-        const cartData = { ...data, qty: count };
-        dispatch('addTocart'(cartData));
-        toast.success('Item added to cart successfully!');
-      }
+      const cartData = { ...data, qty: count };
+      dispatch(addToCart(cartData));
+      toast.success('Item added to cart successfully!');
     }
   };
 
@@ -129,18 +136,24 @@ const ProductDetails = ({ data }) => {
         {/* Product Description and add to cart */}
         <section className="product-description">
           <h3 className={'subTitle'}> {data.name} </h3>
-          <p className="description">
-           {data.description}
-          </p>
+          <p className="description">{data.description}</p>
 
           {/* Add to cart aside */}
           <aside className="add-to-cart">
             <div className="amount">
-              <TbSquareMinusFilled className="icon-add-to-cart" />
-              <h3 className="amount-subTitle"> 1 </h3>
-              <MdAddBox className="icon-add-to-cart" />
+              <TbSquareMinusFilled
+                onClick={decrementCount}
+                className="icon-add-to-cart"
+              />
+              <h3 className="amount-subTitle"> {count} </h3>
+              <MdAddBox onClick={incrementCount} className="icon-add-to-cart" />
             </div>
-            <button className="btn-add-to-cart">Add to Cart</button>
+            <button
+              onClick={() => addToCartHandler(data)}
+              className="btn-add-to-cart"
+            >
+              Add to Cart
+            </button>
           </aside>
 
           {/* Product rating message */}

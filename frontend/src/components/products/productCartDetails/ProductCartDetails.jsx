@@ -23,14 +23,17 @@ const ProductCartDetails = ({ setOpen, data }) => {
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(false);
 
+  // Hanlde message submit
   const handleMessageSubmit = () => {};
 
+  // decreate count
   const decrementCount = () => {
     if (count > 1) {
       setCount(count - 1);
     }
   };
 
+  // increasing count
   const incrementCount = () => {
     if (data.stock > count) {
       setCount(count + 1);
@@ -41,6 +44,7 @@ const ProductCartDetails = ({ setOpen, data }) => {
     }
   };
 
+  // Add to cart
   const addToCartHandler = (id) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
     if (isItemExists) {
@@ -54,8 +58,7 @@ const ProductCartDetails = ({ setOpen, data }) => {
     }
   };
 
-  console.log('count', data.stock);
-
+  // Display wishlist
   useEffect(() => {
     if (wishList && wishList.find((i) => i._id === data._id)) {
       setClick(true);
@@ -64,11 +67,13 @@ const ProductCartDetails = ({ setOpen, data }) => {
     }
   }, [wishList]);
 
+  // Remove from wishlist
   const removeFromWishlistHandler = (data) => {
     setClick(!click);
     dispatch('removeFromWishlist'(data));
   };
 
+  // Add to wishlist
   const addToWishlistHandler = (data) => {
     setClick(!click);
     dispatch('addToWishlist'(data));

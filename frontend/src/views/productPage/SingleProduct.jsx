@@ -15,7 +15,7 @@ const SingleProduct = () => {
   const { products } = useSelector((state) => state.product);
   const { currentSeller } = useSelector((state) => state.seller);
 
-  // Global variables
+  // Local variables
   const [productData, setProductData] = useState([]);
   const { events } = useSelector((state) => state.event);
   const [searchParams] = useSearchParams();
