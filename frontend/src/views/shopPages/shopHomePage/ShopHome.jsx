@@ -7,7 +7,7 @@ import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/H
 const ShopHome = () => {
   return (
     <main className="shop-home-page">
-      <HeaderDashboard />
+      <HeaderDashboard isOwner={true} />
       <section className="shop-home-container">
         <ShopInfo isOwner={true} />
         <ShopProfile isOwner={true} />

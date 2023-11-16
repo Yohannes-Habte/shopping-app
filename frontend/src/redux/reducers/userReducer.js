@@ -25,14 +25,13 @@ const userReducer = createSlice({
       state.loading = false;
     },
 
-    // Update user
+    // Update user profile
     updateUserStart: (state) => {
       state.loading = true;
     },
     updateUserSuccess: (state, action) => {
       state.currentUser = action.payload;
       state.loading = false;
-      state.error = null;
     },
     updateUserFilure: (state, action) => {
       state.error = action.payload;
@@ -65,6 +64,11 @@ const userReducer = createSlice({
     userLogoutFailure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
+    },
+
+    // Clear errors
+    clearErrors: (state) => {
+      state.error = null;
     },
   },
 });

@@ -50,7 +50,8 @@ const ShopProfile = ({ isOwner }) => {
   //   products && products.map((product) => product.reviews).flat();
 
   return (
-    <div className="shop-profile-contianer">
+    <section className="shop-profile-contianer">
+      <h1 className='title'> {currentSeller.name} Shop </h1>
       <article className="box-article">
         <div className="items-wrapper">
           <aside className="item" onClick={() => setActive(1)}>
@@ -129,7 +130,7 @@ const ShopProfile = ({ isOwner }) => {
           )}
         </article>
       )}
-    </div>
+    </section>
   );
 };
 

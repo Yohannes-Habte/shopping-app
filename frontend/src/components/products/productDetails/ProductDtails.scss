@@ -34,25 +34,20 @@
       }
 
       // Add to cart
-      .add-to-cart {
+      .quantity-add-to-cart-wishlist {
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: space-between;
         gap: 2rem;
 
-        .amount {
+        .quantity-wrapper {
           display: flex;
           flex-direction: row;
           align-items: center;
 
           .icon-add-to-cart {
-            font-size: $aafs;
-            color: $tomato;
-            cursor: pointer;
-
-            &:hover {
-              color: $pending;
-            }
+            @include addIcon;
           }
 
           .amount-subTitle {
@@ -60,8 +55,20 @@
           }
         }
 
-        .btn-add-to-cart {
+        .add-to-cart-btn {
           @include button1;
+        }
+
+        .active-wishlist {
+          font-size: $aafs;
+          color: $red;
+          cursor: pointer;
+        }
+
+        .passive-wishlist {
+          font-size: $aafs;
+          color: $blue;
+          cursor: pointer;
         }
       }
 

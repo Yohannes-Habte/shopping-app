@@ -5,6 +5,10 @@
   width: 100%;
   @include shadow3;
 
+  .title {
+    @include title;
+  }
+
   .box-article {
     .items-wrapper {
       display: flex;

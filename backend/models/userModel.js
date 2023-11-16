@@ -8,9 +8,22 @@ const userSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    phone: { type: Number, required: true },
+    addresses: [
+      {
+        country: { type: String },
+        city: { type: String },
+        address1: { type: String },
+        address2: { type: String },
+        zipCode: { type: Number },
+        addressType: { type: String },
+      },
+    ],
     image: { type: String, default: 'https://i.ibb.co/4pDNDk1/avatar.png' },
     role: { type: String, default: 'customer', enum: ['customer', 'admin'] },
     agree: { type: Boolean, default: false },
+    resetPasswordToken: String,
+    resetPasswordTime: Date,
   },
   { timestamps: true }
 );

@@ -14,7 +14,7 @@ import {
   logoutSellerSuccess,
 } from '../../../redux/reducers/sellerReducer';
 
-const HeaderDashboard = () => {
+const HeaderDashboard = ({ isOwner }) => {
   const navigate = useNavigate();
 
   // Global state variables
@@ -95,7 +95,7 @@ const HeaderDashboard = () => {
           />
         </figure>
 
-        {currentSeller && open && (
+        {currentSeller && isOwner && open && (
           <ul className="shop-profile-logout-wrapper">
             <li className="item shop-profile">
               <Link
@@ -106,6 +106,17 @@ const HeaderDashboard = () => {
                 Shop Profile
               </Link>
             </li>
+
+            <li className="item shop-board">
+              <Link
+                to={`/dashboard`}
+                onClick={() => setOpen(false)}
+                className="link"
+              >
+                Shop Board
+              </Link>
+            </li>
+
             <li onClick={logoutSeller} className="item shop-logout">
               <Link to={'/login-shop'} className="link">
                 Log Out

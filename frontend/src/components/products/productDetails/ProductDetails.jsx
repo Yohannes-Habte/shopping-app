@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './ProductDtails.scss';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MdAddBox } from 'react-icons/md';
 import { TbSquareMinusFilled } from 'react-icons/tb';
-import { AiOutlineMessage } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai';
+import { FaHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import RelatedProducts from '../relatedProducts/RelatedProducts';
 import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
@@ -143,8 +144,8 @@ const ProductDetails = ({ data }) => {
           <p className="description">{data.description}</p>
 
           {/* Add to cart aside */}
-          <aside className="add-to-cart">
-            <div className="amount">
+          <article className="quantity-add-to-cart-wishlist">
+            <section className="quantity-wrapper">
               <TbSquareMinusFilled
                 onClick={decrementCount}
                 className="icon-add-to-cart"
@@ -153,20 +154,39 @@ const ProductDetails = ({ data }) => {
               <h3 className="amount-subTitle"> {count} </h3>
 
               <MdAddBox onClick={incrementCount} className="icon-add-to-cart" />
-            </div>
+            </section>
 
-            <button
+            <h3
               onClick={() => addToCartHandler(data)}
-              className="btn-add-to-cart"
+              className="add-to-cart-btn"
             >
               Add to Cart
-            </button>
-          </aside>
+            </h3>
+
+            {click ? (
+              <AiFillHeart
+                className={click ? 'active-wishlist' : 'passive-wishlist'}
+                onClick={() => removeFromWishlistHandler(data._id)}
+                color={click ? 'red' : 'black'}
+                title="Remove from wishlist"
+              />
+            ) : (
+              <AiOutlineHeart
+                className={click ? 'active-wishlist' : 'passive-wishlist'}
+                onClick={() => addToWishlistHandler(data)}
+                color={click ? 'active' : 'passive'}
+                title="Add to wishlist"
+              />
+            )}
+          </article>
 
           {/* Product rating message */}
           <aside className="product-rating">
             <img src="" alt="" />
-            <h3> {data.name} </h3>
+            <h3>
+              {' '}
+              <Link to={`/shop/${data._id}`}>{data.name} </Link>{' '}
+            </h3>
             <p> Rating (4.5) </p>
             <span onClick={handleMessageSubmit} className="send-message">
               Send Message <AiOutlineMessage />

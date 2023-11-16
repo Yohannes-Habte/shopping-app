@@ -9,12 +9,6 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  updateUserFilure,
-  updateUserStart,
-  updateUserSuccess,
-} from '../../../redux/reducers/userReducer';
 import AllOrders from '../allOrders/AllOrders';
 import AllRefundOrders from '../refunds/AllRefundOrders';
 import ChangePassword from '../changePassword/ChangePassword';
@@ -22,7 +16,12 @@ import TrackOrderTable from '../trackOrderTable/TrackOrderTable';
 import Address from '../address/Address';
 import PaymentMethod from '../../payment/paymentMethod/PaymentMethod';
 import ButtonLoader from '../../layout/loader/ButtonLoader';
-
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  updateUserFilure,
+  updateUserStart,
+  updateUserSuccess,
+} from '../../../redux/reducers/userReducer';
 const UserProfile = ({ active }) => {
   const navigate = useNavigate();
   // Global state variables
@@ -30,13 +29,13 @@ const UserProfile = ({ active }) => {
   const dispatch = useDispatch();
 
   // Local State variables
+  const [name, setName] = useState(currentUser.name || '');
+  const [email, setEmail] = useState(currentUser.email || '');
+  const [phone, setPhone] = useState(currentUser.phone || '');
+  const [password, setPassword] = useState('');
   const [image, setImage] = useState('');
   const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [name, setName] = useState(currentUser.Addressname || '');
-  const [email, setEmail] = useState(currentUser.email || '');
-  const [phone, setPhone] = useState(currentUser.phoneNumber || '');
-  const [password, setPassword] = useState('');
 
   // If user is not logged in, user will not access profile page
   useEffect(() => {
@@ -84,7 +83,7 @@ const UserProfile = ({ active }) => {
   };
 
   // Submit logged in user Function
-  const submitprofileUser = async (event) => {
+  const submitUpdatedUserProfile = async (event) => {
     event.preventDefault();
 
     // if (!email) {
@@ -114,21 +113,19 @@ const UserProfile = ({ active }) => {
         name: name,
         email: email,
         password: password,
+        phone: phone,
         image: url,
       };
 
-      const { data } = await axios.post(
-        'http://localhost:5000/api/auths/profile',
+      const { data } = await axios.put(
+        'http://localhost:5000/api/auths/update-user-profile',
         newUser
       );
 
       dispatch(updateUserSuccess(data));
       resetVariables();
       navigate('/login');
-
-      return toast.success('Open your email to activate your account!');
     } catch (err) {
-      console.log(err);
       dispatch(updateUserFilure(err.response.data.message));
     }
   };
@@ -165,7 +162,7 @@ const UserProfile = ({ active }) => {
               {' '}
               {currentUser ? currentUser.name : 'User Profile'}{' '}
             </legend>
-            <form onSubmit={submitprofileUser} className="profile-form">
+            <form onSubmit={submitUpdatedUserProfile} className="profile-form">
               <div className="input-container">
                 <FaUserAlt className="icon" />
                 <input

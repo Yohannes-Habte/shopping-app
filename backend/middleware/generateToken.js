@@ -1,8 +1,14 @@
 import JWT from 'jsonwebtoken';
 
-const generateToken = (id) => {
+// User token
+export const userToken = (id) => {
   const token = JWT.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
   return token;
 };
 
-export default generateToken;
+// Create activation token
+export const activationToken = (id) => {
+  return JWT.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '5m',
+  });
+};

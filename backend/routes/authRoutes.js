@@ -1,9 +1,9 @@
 import express from 'express';
 import {
-  activateUser,
   createAccount,
   deleteAccount,
   loginUser,
+  updateUserProfile,
   userLogout,
 } from '../controllers/authController.js';
 import { authUser } from '../middleware/auth.js';
@@ -13,7 +13,7 @@ const authRouter = express.Router();
 
 // Auth routes
 authRouter.post('/register', createAccount);
-authRouter.post('/activation', activateUser);
+authRouter.put('/update-user-profile', updateUserProfile);
 authRouter.post('/login', loginUser);
 authRouter.get('/logout/:id', userLogout);
 authRouter.delete('/delete-account/:account', authUser, deleteAccount);
