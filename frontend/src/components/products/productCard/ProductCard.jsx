@@ -13,6 +13,10 @@ import { toast } from 'react-toastify';
 import Ratings from '../ratings/Ratings';
 import ProductCartDetails from '../productCartDetails/ProductCartDetails';
 import { addToCart } from '../../../redux/reducers/cartReducer';
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from '../../../redux/reducers/wishListReducer';
 
 // The product in the ProductCard.jsx component comes from ShopProfile.jsx component
 const ProductCard = ({ product, isEvent }) => {
@@ -34,16 +38,16 @@ const ProductCard = ({ product, isEvent }) => {
     }
   }, [wishList]);
 
-  // Remove from wishlist
-  const removeFromWishlistHandler = (data) => {
-    setClick(!click);
-    dispatch('removeFromWishlist'(data));
-  };
-
   // Add to wishlist
   const addToWishlistHandler = (data) => {
     setClick(!click);
-    dispatch('addToWishlist'(data));
+    dispatch(addToWishlist(data));
+  };
+
+  // Remove from wishlist
+  const removeFromWishlistHandler = (id) => {
+    setClick(!click);
+    dispatch(removeFromWishlist(id));
   };
 
   // Add to cart handler
@@ -119,15 +123,15 @@ const ProductCard = ({ product, isEvent }) => {
       <figure className="icon-container">
         {click ? (
           <AiFillHeart
-            className="icon"
-            // onClick={() => removeFromWishlistHandler(product)}
+            className={click ? 'active' : 'passive'}
+            onClick={() => removeFromWishlistHandler(product._id)}
             color={click ? 'red' : 'black'}
             title="Remove from wishlist"
           />
         ) : (
           <AiOutlineHeart
-            className="icon"
-            // onClick={() => addToWishlistHandler(product)}
+            className={click ? 'active' : 'passive'}
+            onClick={() => addToWishlistHandler(product)}
             color={click ? 'active' : 'passive'}
             title="Add to wishlist"
           />

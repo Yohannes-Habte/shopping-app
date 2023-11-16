@@ -60,10 +60,14 @@
 
     .active {
       color: $red;
+      font-size: $aafs;
+      cursor: pointer;
     }
 
     .passive {
-      color: $black;
+      color: $blue;
+      font-size: $aafs;
+      cursor: pointer;
     }
   }
 }

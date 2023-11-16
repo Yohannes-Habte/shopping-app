@@ -15,14 +15,14 @@ const wishListReducer = createSlice({
       if (isItemExist) {
         return {
           ...state,
-          wishlist: state.wishList.map((i) =>
+          wishList: state.wishList.map((i) =>
             i._id === isItemExist._id ? item : i
           ),
         };
       } else {
         return {
           ...state,
-          wishlist: [...state.wishlist, item],
+          wishList: [...state.wishList, item],
         };
       }
     },
@@ -32,7 +32,7 @@ const wishListReducer = createSlice({
     removeFromWishlist: (state, action) => {
       return {
         ...state,
-        wishlist: state.wishlist.filter((item) => item._id !== action.payload),
+        wishList: state.wishList.filter((item) => item._id !== action.payload),
       };
     },
   },

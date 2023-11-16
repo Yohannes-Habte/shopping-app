@@ -6,14 +6,14 @@ import { FaPlusSquare } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
 const SingleCart = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
-  // Local state variables
+  // Local state variable
   const [value, setValue] = useState(data.qty);
   const totalPrice = data.discountPrice * value;
 
   // Incremental function
   const increment = (data) => {
     if (data.stock < value) {
-      toast.error('You reached the maximum available products in the stock!');
+      toast.error('You have reached the maximum available products in the stock!');
     } else {
       setValue(value + 1);
       const updateCartData = { ...data, qty: value + 1 };

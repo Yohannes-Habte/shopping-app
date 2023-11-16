@@ -158,15 +158,35 @@
       gap: 1rem;
 
       // Wish List
-      .wish-list-wrapper {
+      .wishlist-wrapper {
+        position: relative;
         display: flex;
         align-items: center;
+        
+        .wishlist-item{
+          position: absolute;
+          top: -0.9rem;
+          right: 0.6rem;
+          color: $white;
+          font-size: $afs;
+          font-weight: $aafw;
+        }
       }
 
       // Cart
       .cart-wrapper {
+        position: relative;
         display: flex;
         align-items: center;
+
+        .cart-item {
+          position: absolute;
+          top: -0.9rem;
+          right: 0.6rem;
+          color: $white;
+          font-size: $afs;
+          font-weight: $aafw;
+        }
       }
 
       // Logged in user

@@ -1,7 +1,7 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-.wish-list {
+.whilist {
   width: 100%;
   min-height: 100vh;
   position: fixed;
@@ -10,23 +10,41 @@
   z-index: 999;
   background-color: $popup-bg;
 
-  .wish-list-container {
+  .wishlist-container {
     position: fixed;
     top: 0;
     right: 0;
-    width: 30%;
+    width: 40%;
     height: 100vh;
     background-color: $popup-display-bg;
     @include shadow1;
 
-    .close {
-      position: absolute;
-      top: 0.6rem;
-      right: 1rem;
-      cursor: pointer;
+    // When there is no order
+    .empty-wishlist-wrapper {
+      position: relative;
 
-      &:hover {
-        color: $tomato;
+      .close-empty-icon {
+        @include close;
+      }
+
+      .empty-cart {
+        @include subTitle;
+      }
+    }
+    // When there is an order
+
+    .wishlist-order-wrapper {
+      position: relative;
+
+      .close-order-icon {
+        @include close;
+      }
+
+      .wishlist-items {
+        @include subTitle;
+      }
+
+      .single-cart-wrapper {
       }
     }
   }

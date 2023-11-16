@@ -26,6 +26,8 @@ const Header = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   const { currentSeller } = useSelector((state) => state.seller);
   const { products } = useSelector((state) => state.product);
+  const { cart } = useSelector((state) => state.cart);
+  const { wishList } = useSelector((state) => state.wishList);
 
   const dispatch = useDispatch();
 
@@ -175,7 +177,7 @@ const Header = () => {
         {/* All categories */}
         <div action="" className="categories">
           <FaBars onClick={() => setDropDown(!dropDown)} className="top-icon" />
-          
+
           <button className="btn">All Categories</button>
           <MdKeyboardArrowDown
             onClick={() => setDropDown(!dropDown)}
@@ -195,15 +197,22 @@ const Header = () => {
           {/* Wish List Popup */}
           <div
             onClick={() => setOpenWishList(true)}
-            className="wish-list-wrapper"
+            className="wishlist-wrapper"
           >
             <AiOutlineHeart className="icon" />
+
+            <span className="wishlist-item">
+              {wishList && wishList.length === 0 ? 0 : wishList.length}
+            </span>
           </div>
 
           {/* Cart Popup */}
           <div className="cart-wrapper">
             <BsCart onClick={() => setOpenCart(true)} className="icon" />
-            {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+
+            <span className="cart-item">
+              {cart.length > 0 && cart.reduce((acc, curr) => acc + curr.qty, 0)}
+            </span>
           </div>
 
           {/* Logged in user details */}
@@ -247,8 +256,9 @@ const Header = () => {
           </div>
 
           {/* Open cart and open wish list */}
-         
+
           {openWishList ? <WishList setOpenWishList={setOpenWishList} /> : null}
+          {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
         </div>
       </div>
     </header>

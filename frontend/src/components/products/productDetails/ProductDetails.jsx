@@ -11,6 +11,10 @@ import RelatedProducts from '../relatedProducts/RelatedProducts';
 import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
 import ProductInfos from '../productInfos/ProductInfos';
 import { addToCart } from '../../../redux/reducers/cartReducer';
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from '../../../redux/reducers/wishListReducer';
 
 /**
  1. ProductDetails component receive data from SinglePage.jsx page
@@ -35,7 +39,7 @@ const ProductDetails = ({ data }) => {
 
   // Display all products for a shop
   useEffect(() => {
-    dispatch(productsShopFetchSuccess(data && data?.shop._id));
+    dispatch(productsShopFetchSuccess(data && data._id));
     if (wishList && wishList.find((i) => i._id === data?._id)) {
       setClick(true);
     } else {
@@ -64,13 +68,13 @@ const ProductDetails = ({ data }) => {
   // Add wishlist
   const addToWishlistHandler = (id) => {
     setClick(!click);
-    dispatch('addToWishlist'(id));
+    dispatch(addToWishlist(id));
   };
 
   // Remove wishlist
   const removeFromWishlistHandler = (id) => {
     setClick(!click);
-    dispatch('removeFromWishlist'(id));
+    dispatch(removeFromWishlist(id));
   };
 
   // Add to cart
@@ -145,9 +149,12 @@ const ProductDetails = ({ data }) => {
                 onClick={decrementCount}
                 className="icon-add-to-cart"
               />
+
               <h3 className="amount-subTitle"> {count} </h3>
+
               <MdAddBox onClick={incrementCount} className="icon-add-to-cart" />
             </div>
+
             <button
               onClick={() => addToCartHandler(data)}
               className="btn-add-to-cart"
@@ -162,7 +169,7 @@ const ProductDetails = ({ data }) => {
             <h3> {data.name} </h3>
             <p> Rating (4.5) </p>
             <span onClick={handleMessageSubmit} className="send-message">
-              Send Message <AiOutlineMessage />{' '}
+              Send Message <AiOutlineMessage />
             </span>
           </aside>
         </section>

@@ -49,6 +49,6 @@
   }
 
   .delete-icon {
-    @include deleteFromCart;
+    @include deleteIcon;
   }
 }

@@ -4,25 +4,26 @@
 .cart {
   width: 100%;
   min-height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 999;
   background-color: $popup-bg;
-  padding-bottom: 1rem;
 
   .cart-container {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     width: 40%;
-    min-height: 100vh;
+    height: 100vh;
     background-color: $popup-display-bg;
     @include shadow1;
+    overflow: scroll;
+    scrollbar-color: red orange;
+    scrollbar-width: thin;
 
     // Empty cart
     .empty-cart-wrapper {
-
       .close-icon {
         position: absolute;
         top: 0.6rem;
@@ -35,7 +36,6 @@
       }
       .empty-cart {
         @include subTitle;
-       
       }
     }
 
@@ -64,6 +64,7 @@
     }
 
     .total-price {
+      padding: 1rem 0;
       .amount {
         color: $blue;
       }

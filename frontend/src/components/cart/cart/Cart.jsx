@@ -51,17 +51,19 @@ const Cart = ({ setOpenCart }) => {
 
               <IoBagHandleOutline className="icon" />
               <h5 className="subTitle">
-                {' '}
-                There are {cart && cart.length} items in the shopping cart
+                {cart.length === 1 &&
+                  `There is ${cart && cart.length} Item in the  Shopping Cart`}
+                {cart.length > 1 &&
+                  `There are ${cart && cart.length} Items in the Shopping Cart`}
               </h5>
 
               {/* cart Single Items */}
               <div className="single-cart-wrapper">
                 {cart &&
-                  cart.map((i, index) => (
+                  cart.map((product) => (
                     <SingleCart
-                      key={index}
-                      data={i}
+                      key={product._id}
+                      data={product}
                       quantityChangeHandler={quantityChangeHandler}
                       removeFromCartHandler={removeFromCartHandler}
                     />

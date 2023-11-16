@@ -29,7 +29,7 @@ const cartReducer = createSlice({
     removeFromCart: (state, action) => {
       return {
         ...state,
-        cart: state.cart.filter((i) => i._id !== action.payload),
+        cart: state.cart.filter((product) => product._id !== action.payload),
       };
     },
   },

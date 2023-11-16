@@ -336,12 +336,33 @@
   }
 }
 
-@mixin deleteFromCart {
-  color: $tomato;
+@mixin close {
+  position: absolute;
+  top: 0;
+  right: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    color: $tomato;
+  }
+}
+
+@mixin deleteIcon {
+  color: $red;
   font-size: $aafs;
   cursor: pointer;
 
   &:hover {
-    color: $red;
+    color: $tomato;
+  }
+}
+
+@mixin addIcon {
+  color: $yellow;
+  font-size: $aafs;
+  cursor: pointer;
+
+  &:hover {
+    color: $tomato;
   }
 }

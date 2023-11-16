@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addToCart } from '../../../redux/reducers/cartReducer';
+import { addToWishlist, removeFromWishlist } from '../../../redux/reducers/wishListReducer';
 
 const ProductCartDetails = ({ setOpen, data }) => {
   // Global state variables
@@ -70,13 +71,13 @@ const ProductCartDetails = ({ setOpen, data }) => {
   // Remove from wishlist
   const removeFromWishlistHandler = (data) => {
     setClick(!click);
-    dispatch('removeFromWishlist'(data));
+    dispatch(removeFromWishlist(data));
   };
 
   // Add to wishlist
   const addToWishlistHandler = (data) => {
     setClick(!click);
-    dispatch('addToWishlist'(data));
+    dispatch(addToWishlist(data));
   };
 
   return (
@@ -138,7 +139,7 @@ const ProductCartDetails = ({ setOpen, data }) => {
                 {click ? (
                   <AiFillHeart
                     className="wishlist-icon"
-                    onClick={() => removeFromWishlistHandler(data)}
+                    onClick={() => removeFromWishlistHandler(data._id)}
                     color={click ? 'red' : '#333'}
                     title="Remove from wishlist"
                   />
