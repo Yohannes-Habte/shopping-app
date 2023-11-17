@@ -18,6 +18,7 @@ import PaymentMethod from '../../payment/paymentMethod/PaymentMethod';
 import ButtonLoader from '../../layout/loader/ButtonLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  clearErrors,
   updateUserFilure,
   updateUserStart,
   updateUserSuccess,
@@ -43,6 +44,17 @@ const UserProfile = ({ active }) => {
       navigate('/login');
     }
   });
+
+  // Display error on browser
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+
+      // To clear error
+      dispatch(clearErrors());
+    }
+  });
+
   // Update image
   const updateImage = (e) => {
     setImage(e.target.files[0]);

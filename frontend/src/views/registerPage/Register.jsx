@@ -31,6 +31,7 @@ const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [phone, setPhone] = useState('');
   const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,12 +54,23 @@ const Register = () => {
       case 'password':
         setPassword(e.target.value);
         break;
+      case 'phone':
+        setPhone(e.target.value);
+        break;
       case 'agree':
         setAgree(e.target.checked);
         break;
       default:
         break;
     }
+  };
+
+  // Reset input values
+  const reset = (e) => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setPhone('');
   };
 
   // Function to show/hide password
@@ -103,6 +115,7 @@ const Register = () => {
         name: name,
         email: email,
         password: password,
+        phone: phone,
         image: url,
       };
 
@@ -111,11 +124,9 @@ const Register = () => {
         newUser
       );
 
-      resetVariables();
+      reset();
       navigate('/login');
       setLoading(false);
-
-      return toast.success('Open your email to activate your account!');
     } catch (err) {
       console.log(err);
       setLoading(false);
@@ -212,6 +223,26 @@ const Register = () => {
               <span onClick={displayPassword} className="password-display">
                 {showPassword ? <AiFillEyeInvisible /> : <HiOutlineEye />}
               </span>
+            </div>
+
+            {/* Phone number */}
+            <div className="input-container">
+              <MdEmail className="icon" />
+              <input
+                type="number"
+                name="phone"
+                id="phone"
+                autoComplete="phone"
+                required
+                value={phone}
+                onChange={updateChange}
+                placeholder="Enter Phone Number"
+                className="input-field"
+              />
+              <label htmlFor="phone" className="input-label">
+                Phone Number
+              </label>
+              <span className="input-highlight"></span>
             </div>
 
             <div className="input-container">

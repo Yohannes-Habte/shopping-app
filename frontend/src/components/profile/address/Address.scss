@@ -141,6 +141,10 @@
 
   // Previous address
   .previous-address {
+    .error {
+      background-color: $yellow;
+      font-size: $afs;
+    }
     .title-add-new-address-wrapper {
       display: flex;
       flex-direction: row;
@@ -148,10 +152,43 @@
       justify-content: space-between;
 
       .address-title {
+        @include subTitle;
+        font-size: $aafs;
       }
 
       .add-new-address-btn {
         @include button1;
+      }
+    }
+
+    .table-address {
+      width: 100%;
+
+      .table-head {
+        background-color: $header-bg;
+        .head-row {
+          .head-cell {
+            text-align: start;
+            font-size: $afs;
+            padding: 1rem;
+            border-bottom: 1px solid $blue;
+          }
+        }
+      }
+
+      .table-body {
+        .body-row {
+          .body-cell {
+            text-align: start;
+            font-size: $afs;
+            padding: 1rem;
+            border-bottom: 1px solid $gray;
+
+            .delete-icon {
+              @include deleteIcon;
+            }
+          }
+        }
       }
     }
   }

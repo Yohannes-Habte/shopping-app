@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Address.scss';
+import axios from 'axios';
 import { FaAddressCard } from 'react-icons/fa';
 import { RxCross1 } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +8,19 @@ import { Country, State, City } from 'country-state-city';
 import { toast } from 'react-toastify';
 import { RiFileZipFill } from 'react-icons/ri';
 import { MdLocationPin } from 'react-icons/md';
+import {
+  deleteUserAddressFilure,
+  deleteUserAddressStart,
+  deleteUserAddressSuccess,
+  updateUserAddressFilure,
+  updateUserAddressStart,
+  updateUserAddressSuccess,
+} from '../../../redux/reducers/userReducer';
+import { MdDelete } from 'react-icons/md';
 
 const Address = () => {
   // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // Local state variables
@@ -81,27 +91,47 @@ const Address = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (addressType === '' || country === '' || city === '') {
-      toast.error('Please fill all the fields!');
-    } else {
-      dispatch(
-        'updatUserAddress'(
-          country,
-          city,
-          address1,
-          address2,
-          zipCode,
-          addressType
-        )
-      );
-      reset();
+    try {
+      if (addressType === '' || country === '' || city === '') {
+        toast.error('Please fill all the fields!');
+      } else {
+        dispatch(updateUserAddressStart());
+        const newAddress = {
+          country: country,
+          state: state,
+          city: city,
+          address1: address1,
+          address2: address2,
+          zipCode: zipCode,
+          addressType: addressType,
+        };
+        const { data } = await axios.put(
+          'http://localhost:5000/api/users/update-user-address',
+          newAddress,
+          { withCredentials: true }
+        );
+
+        dispatch(updateUserAddressSuccess(data));
+        reset();
+      }
+    } catch (error) {
+      dispatch(updateUserAddressFilure(error.response.data.message));
     }
   };
 
   // Delete user address
-  const handleDelete = (item) => {
-    const id = item._id;
-    // dispatch(deleteUserAddress(id));
+  const handleDelete = async (address) => {
+    try {
+      dispatch(deleteUserAddressStart());
+      const { data } = await axios.delete(
+        `http://localhost:5000/api/users/delete-user-address/${address._id}`,
+
+        { withCredentials: true }
+      );
+      dispatch(deleteUserAddressSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserAddressFilure(error.response.data.message));
+    }
   };
 
   return (
@@ -116,6 +146,122 @@ const Address = () => {
             <h2 className="new-address-title"> Add New Address </h2>
 
             <form onSubmit={handleSubmit} action="" className="form-address">
+              {/* Choose Country using select */}
+              <div className="select-container">
+                <MdLocationPin className="select-icon" />
+                <div className="select-label-wrapper">
+                  <label htmlFor={'country'} className="label">
+                    Country:
+                  </label>
+                  <select
+                    name="country"
+                    id="country"
+                    value={country}
+                    onChange={updateChange}
+                    className="select-options"
+                  >
+                    <option value=""> Choose your country </option>
+                    {Country &&
+                      Country.getAllCountries().map((country) => (
+                        <option
+                          className="option"
+                          key={country.isoCode}
+                          value={country.isoCode}
+                        >
+                          {country.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Choose State using select */}
+              <div className="select-container">
+                <MdLocationPin className="select-icon" />
+                <div className="select-label-wrapper">
+                  <label htmlFor={'state'} className="label">
+                    State:
+                  </label>
+                  <select
+                    name="state"
+                    id="state"
+                    value={state}
+                    onChange={updateChange}
+                    className="select-options"
+                  >
+                    <option value=""> Choose your state </option>
+                    {State &&
+                      State.getStatesOfCountry(country).map((item) => (
+                        <option
+                          className="option"
+                          key={item.isoCode}
+                          value={item.isoCode}
+                        >
+                          {item.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Choose City using select */}
+              <div className="select-container">
+                <MdLocationPin className="select-icon" />
+                <div className="select-label-wrapper">
+                  <label htmlFor={'city'} className="label">
+                    City:
+                  </label>
+                  <select
+                    name="city"
+                    id="city"
+                    value={city}
+                    onChange={updateChange}
+                    className="select-options"
+                  >
+                    <option value=""> Choose your city </option>
+                    {City &&
+                      City.getCitiesOfCountry(country).map((item) => (
+                        <option
+                          className="option"
+                          key={item.isoCode}
+                          value={item.isoCode}
+                        >
+                          {item.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Address type using select */}
+              <div className="select-container">
+                <MdLocationPin className="select-icon" />
+                <div className="select-label-wrapper">
+                  <label htmlFor={'addressType'} className="label">
+                    Address Type:
+                  </label>
+                  <select
+                    name="addressType"
+                    id="addressType"
+                    value={addressType}
+                    onChange={updateChange}
+                    className="select-options"
+                  >
+                    <option value=""> Choose Address Type </option>
+                    {addressTypeData &&
+                      addressTypeData.map((address) => (
+                        <option
+                          className="option"
+                          key={address.name}
+                          value={address.name}
+                        >
+                          {address.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+
               {/* Address 1 */}
               <div className="input-container">
                 <FaAddressCard className="icon" />
@@ -179,122 +325,6 @@ const Address = () => {
                 <span className="input-highlight"></span>
               </div>
 
-              {/* Choose Country using select */}
-              <div className="select-container">
-                <MdLocationPin className="select-icon" />
-                <div className="select-label-wrapper">
-                  <label htmlFor={'country'} className="label">
-                    Country:
-                  </label>
-                  <select
-                    name="country"
-                    id="country"
-                    value={country}
-                    onChange={updateChange}
-                    className="select-options"
-                  >
-                    <option value=""> Choose your country </option>
-                    {Country &&
-                      Country.getAllCountries().map((item) => (
-                        <option
-                          className="option"
-                          key={item.isoCode}
-                          value={item.isoCode}
-                        >
-                          {item.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Choose State using select */}
-              <div className="select-container">
-                <MdLocationPin className="select-icon" />
-                <div className="select-label-wrapper">
-                  <label htmlFor={'state'} className="label">
-                    State:
-                  </label>
-                  <select
-                    name="state"
-                    id="state"
-                    value={state}
-                    onChange={updateChange}
-                    className="select-options"
-                  >
-                    <option value=""> Choose your state </option>
-                    {State &&
-                      State.getStatesOfCountry().map((item) => (
-                        <option
-                          className="option"
-                          key={item.isoCode}
-                          value={item.isoCode}
-                        >
-                          {item.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Choose City using select */}
-              <div className="select-container">
-                <MdLocationPin className="select-icon" />
-                <div className="select-label-wrapper">
-                  <label htmlFor={'city'} className="label">
-                    City:
-                  </label>
-                  <select
-                    name="city"
-                    id="city"
-                    value={city}
-                    onChange={updateChange}
-                    className="select-options"
-                  >
-                    <option value=""> Choose your city </option>
-                    {City &&
-                      City.getCitiesOfState().map((item) => (
-                        <option
-                          className="option"
-                          key={item.isoCode}
-                          value={item.isoCode}
-                        >
-                          {item.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Address type using select */}
-              <div className="select-container">
-                <MdLocationPin className="select-icon" />
-                <div className="select-label-wrapper">
-                  <label htmlFor={'addressType'} className="label">
-                    Address Type:
-                  </label>
-                  <select
-                    name="addressType"
-                    id="addressType"
-                    value={addressType}
-                    onChange={updateChange}
-                    className="select-options"
-                  >
-                    <option value=""> Choose Address Type </option>
-                    {addressTypeData &&
-                      addressTypeData.map((address) => (
-                        <option
-                          className="option"
-                          key={address.name}
-                          value={address.name}
-                        >
-                          {address.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-              </div>
-
               <button className="address-btn">Submit</button>
             </form>
           </section>
@@ -302,6 +332,7 @@ const Address = () => {
       </div>
 
       <section className="previous-address">
+        {error && <h2 className="error"> {error} </h2>}
         <article className="title-add-new-address-wrapper">
           <h2 className="address-title">My Addresses</h2>
           <button onClick={() => setOpen(true)} className="add-new-address-btn">
@@ -309,33 +340,47 @@ const Address = () => {
           </button>
         </article>
 
-        {/* {currentUser &&
-          currentUser.addresses.map((item, index) => (
-            <article className="" key={index}>
-              <h5 className="subTitle">{item.addressType}</h5>
+        {/* Table addresses */}
 
-              <h6 className="subTitle">
-                {item.address1} {item.address2}
-              </h6>
-
-              <h6 className="subTitle">
-                {currentUser && currentUser.phoneNumber}
-              </h6>
-
-              <button className="delete-btn">
-                <AiOutlineDelete
-                  className="delete-icon"
-                  onClick={() => handleDelete(item)}
-                />
-              </button>
-            </article>
-          ))}
+        <table className="table-address">
+          <thead className="table-head">
+            <tr className="head-row">
+              <th className="head-cell"> Address Type</th>
+              <th className="head-cell"> Address 1 </th>
+              <th className="head-cell"> Address 2 </th>
+              <th className="head-cell"> Phone </th>
+              <th className="head-cell"> Action</th>
+            </tr>
+          </thead>
+          <tbody className="table-body">
+            {currentUser &&
+              currentUser.addresses &&
+              currentUser.addresses.map((address) => {
+                return (
+                  <tr key={address._id} className="body-row">
+                    <td className="body-cell"> {address.addressType} </td>
+                    <td className="body-cell">
+                      {address.address1} {address.zipCode}
+                    </td>
+                    <td className="body-cell">
+                      {address.address2} {address.zipCode}
+                    </td>
+                    <td className="body-cell"> {currentUser.phone} </td>
+                    <td className="body-cell">
+                      <MdDelete
+                        className="delete-icon"
+                        onClick={() => handleDelete(address)}
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
 
         {currentUser && currentUser.addresses.length === 0 && (
-          <h5 className="text-center pt-8 text-[18px]">
-            You not have any saved address!
-          </h5>
-        )} */}
+          <h5 className="subTitle">You do not have any saved address!</h5>
+        )}
       </section>
     </div>
   );

@@ -4,6 +4,8 @@ const initialState = {
   currentUser: null,
   error: null,
   loading: false,
+  addressLoading: false,
+  successMessage: null,
 };
 
 const userReducer = createSlice({
@@ -38,6 +40,20 @@ const userReducer = createSlice({
       state.loading = false;
     },
 
+    // User log out
+    userLogoutStart: (state) => {
+      state.loading = true;
+    },
+    userLogoutSuccess: (state) => {
+      state.currentUser = null;
+      state.loading = false;
+      state.error = null;
+    },
+    userLogoutFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
     // Delete user
     deleteUserStart: (state) => {
       state.loading = true;
@@ -52,18 +68,31 @@ const userReducer = createSlice({
       state.loading = false;
     },
 
-    // User log out
-    userLogoutStart: (state) => {
+    // Update user address
+    updateUserAddressStart: (state) => {
       state.loading = true;
     },
-    userLogoutSuccess: (state) => {
-      state.currentUser = null;
+    updateUserAddressSuccess: (state, action) => {
+      state.currentUser = action.payload;
       state.loading = false;
-      state.error = null;
     },
-    userLogoutFailure: (state, action) => {
+    updateUserAddressFilure: (state, action) => {
       state.error = action.payload;
       state.loading = false;
+    },
+
+    // delete user address
+    deleteUserAddressStart: (state) => {
+      state.addressLoading = true;
+    },
+    deleteUserAddressSuccess: (state, action) => {
+      state.Filure = false;
+      // state.successMessage = action.payload.successMessage;
+      state.currentUser = action.payload;
+    },
+    deleteUserAddressFilure: (state, action) => {
+      state.addressLoading = false;
+      state.error = action.payload;
     },
 
     // Clear errors
@@ -83,13 +112,23 @@ export const {
   updateUserSuccess,
   updateUserFilure,
 
+  userLogoutStart,
+  userLogoutSuccess,
+  userLogoutFailure,
+
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
 
-  userLogoutStart,
-  userLogoutSuccess,
-  userLogoutFailure,
+  updateUserAddressStart,
+  updateUserAddressSuccess,
+  updateUserAddressFilure,
+
+  deleteUserAddressStart,
+  deleteUserAddressSuccess,
+  deleteUserAddressFilure,
+
+  clearErrors,
 } = userReducer.actions;
 
 // exoirt userSlice
