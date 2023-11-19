@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  changeUserPassword,
   createAccount,
   deleteAccount,
   loginUser,
@@ -14,6 +15,7 @@ const authRouter = express.Router();
 // Auth routes
 authRouter.post('/register', createAccount);
 authRouter.put('/update-user-profile', updateUserProfile);
+authRouter.put('/:id/change-user-password', changeUserPassword);
 authRouter.post('/login', loginUser);
 authRouter.get('/logout/:id', userLogout);
 authRouter.delete('/delete-account/:account', authUser, deleteAccount);

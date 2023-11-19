@@ -40,6 +40,19 @@ const userReducer = createSlice({
       state.loading = false;
     },
 
+    // Change user password
+    changeUserPasswordStart: (state) => {
+      state.loading = true;
+    },
+    changeUserPasswordSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+    },
+    changeUserPasswordFilure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
     // User log out
     userLogoutStart: (state) => {
       state.loading = true;
@@ -111,6 +124,10 @@ export const {
   updateUserStart,
   updateUserSuccess,
   updateUserFilure,
+
+  changeUserPasswordStart,
+  changeUserPasswordSuccess,
+  changeUserPasswordFilure,
 
   userLogoutStart,
   userLogoutSuccess,

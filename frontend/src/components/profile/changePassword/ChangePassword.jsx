@@ -7,6 +7,11 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {
+  changeUserPasswordFilure,
+  changeUserPasswordStart,
+  changeUserPasswordSuccess,
+} from '../../../redux/reducers/userReducer';
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -60,19 +65,22 @@ const ChangePassword = () => {
   const passwordChangeHandler = async (e) => {
     e.preventDefault();
     try {
+      // dispatch(changeUserPasswordStart());
       // The body
-      const changePass = {
+      const changeUserpassword = {
         oldPassword: oldPassword,
         newPassword: newPassword,
+        confirmPassword: confirmPassword,
       };
-      const { data } = await axios.post(
-        'http://localhost:5000/api/auths/user/change-password',
-        changePass,
-        { withCredentials: true }
+      const { data } = await axios.put(
+        `http://localhost:5000/api/auths/${currentUser._id}/change-user-password`,
+        changeUserpassword
       );
-
+      // dispatch(changeUserPasswordSuccess(data));
+      toast.success(data)
       resetVariables();
     } catch (error) {
+      // dispatch(changeUserPasswordFilure(error.response.data.message));
       toast.error(error.response.data.message);
     }
   };

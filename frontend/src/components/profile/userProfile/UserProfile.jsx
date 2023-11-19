@@ -307,6 +307,7 @@ const UserProfile = ({ active }) => {
         {active === 6 && <ChangePassword />}
 
         {active === 7 && <Address />}
+        
         {active === 8 && <PaymentMethod />}
       </section>
     </main>

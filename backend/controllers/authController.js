@@ -52,7 +52,7 @@ export const createAccount = async (req, res, next) => {
 };
 
 //=========================================================================
-// Activate user profile
+// Update user profile
 //=========================================================================
 
 export const updateUserProfile = async (req, res, next) => {
@@ -102,9 +102,36 @@ export const updateUserProfile = async (req, res, next) => {
       .json(updatedUser);
   } catch (error) {
     console.log(error);
-    next(
-      createError(500, 'User account could not be activated! Please try again!')
-    );
+    next(createError(500, 'User account could not update! Please try again!'));
+  }
+};
+
+//=========================================================================
+// Change user password
+//=========================================================================
+
+export const changeUserPassword = async (req, res, next) => {
+
+  try {
+    const user = await User.findById(req.params.id).select('+password');
+
+    if (!user) {
+      return next(createError(400, 'User not found'));
+    }
+
+    const isPasswordValid = await bcrypt.compare(req.body.oldPassword, user.password);
+    if (!isPasswordValid) {
+      return next(createError(400, 'Invalid old password! Please try again!'));
+    }
+
+    user.password = req.body.newPassword;
+
+    await user.save();
+
+    res.status(200).json('Password updated successfully!');
+  } catch (error) {
+    console.log(error);
+    next(createError(500, 'User password could not update! Please try again!'));
   }
 };
 
