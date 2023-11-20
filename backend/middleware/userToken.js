@@ -6,9 +6,4 @@ export const userToken = (id) => {
   return token;
 };
 
-// Create activation token
-export const activationToken = (id) => {
-  return JWT.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '5m',
-  });
-};
+export default userToken;

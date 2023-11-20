@@ -70,9 +70,8 @@ export const getAllShopProducts = async (req, res, next) => {
     }
 
     // if shop and products exist, get the products for that particular shop
-    if (shop && products) {
-      return res.status(200).json(products);
-    }
+
+    return res.status(200).json(products);
   } catch (error) {
     console.log(error);
     next(createError(500, 'Products could not query! Please try again!'));
@@ -101,33 +100,18 @@ export const getAllShopsProducts = async (req, res, next) => {
 //==============================================================================
 export const deleteSingleProduct = async (req, res, next) => {
   try {
-    // the ids of the shop and product
-    const shopID = req.params.shopID;
+    // Find product id
     const productID = req.params.productID;
-
-    // find the shop id (seller id) and then find the product id
-    const shop = await Shop.findById(shopID);
-    if (!shop) {
-      return next(createError(400, 'Shop not found!'));
-    }
 
     // product id
     const product = await Product.findById(productID);
     if (!product) {
-      return next(
-        createError(400, `Product not found  in ${shop.name} shop !`)
-      );
+      return next(createError(400, `Product not found!`));
     }
 
-    // If shop and product exist, then you can get the product for that particular shop
-    if (shop && product) {
-      await Product.findByIdAndDelete(productID);
-      return res
-        .status(200)
-        .json(
-          `The ${product.name} form ${shop.name} has been successfully deleted!`
-        );
-    }
+    // If product exist, then you can get the product
+    await Product.findByIdAndDelete(productID);
+    return res.status(200).json(`The product has been successfully deleted!`);
   } catch (error) {
     console.log(error);
     next(createError(500, 'Product could not be deleted! Please try again!'));

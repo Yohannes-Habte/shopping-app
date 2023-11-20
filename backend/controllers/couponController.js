@@ -14,9 +14,14 @@ export const createCouponCode = async (req, res, next) => {
 
     const couponCode = await Coupon.create(req.body);
 
-    const savedCouponCode = await couponCode.save();
+    // Save coupon code
+    try {
+      await couponCode.save();
+    } catch {
+      return next(createError(500, "couldn't save coupon. please try again!"));
+    }
 
-    res.status(201).json(savedCouponCode);
+    return res.status(201).json(couponCode);
   } catch (error) {
     console.log(error);
     next(createError(400, 'Coupon could not query!'));
@@ -47,7 +52,8 @@ export const getAllCouponCodes = async (req, res, next) => {
 // ==============================================================================
 export const getCouponCodePercent = async (req, res, next) => {
   try {
-    const coupon = await Coupon.find({ percent: req.params.percent });
+    const coupon = await Coupon.findOne({ name: req.params.name });
+
     if (!coupon) {
       return next(createError(400, 'Coupon does not exist!'));
     }

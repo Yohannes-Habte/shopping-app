@@ -1,7 +1,7 @@
 import User from '../models/userModel.js';
 import createError from 'http-errors';
 import bcrypt from 'bcryptjs';
-import { userToken } from '../middleware/generateToken.js';
+import userToken from '../middleware/userToken.js';
 
 //=========================================================================
 // Create an account
@@ -19,32 +19,36 @@ export const createAccount = async (req, res, next) => {
     }
 
     // If user does not exist in the database, ....
-    if (!user) {
-      const newUser = new User({
-        name: name,
-        email: email,
-        password: password,
-        phone: phone,
-        image: image,
-        role: role,
-        agree: agree,
-      });
+    const newUser = new User({
+      name: name,
+      email: email,
+      password: password,
+      phone: phone,
+      image: image,
+      role: role,
+      agree: agree,
+    });
 
-      const saveNewUser = await newUser.save();
-      // generate user token
-      const registerToken = userToken(saveNewUser._id);
-
-      return res
-        .cookie('access_token', registerToken, {
-          path: '/',
-          httpOnly: true,
-          expires: new Date(Date.now() + 60 * 60 * 1000),
-          sameSite: 'none',
-          secure: true,
-        })
-        .status(201)
-        .json(saveNewUser);
+    // Save user in the database
+    try {
+      await newUser.save();
+    } catch (error) {
+      return next(createError(500, 'User could not be saved'));
     }
+
+    // generate user token
+    const userRegisterToken = userToken(newUser._id);
+
+    return res
+      .cookie('user_token', userRegisterToken, {
+        path: '/',
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 60 * 1000),
+        sameSite: 'none',
+        secure: true,
+      })
+      .status(201)
+      .json({ user: newUser, token: userRegisterToken });
   } catch (error) {
     console.log(error);
     next(createError(500, 'User could not sign up. Please try again!'));
@@ -71,7 +75,7 @@ export const updateUserProfile = async (req, res, next) => {
       return next(createError(400, 'Invalid password'));
     }
 
-    const updated = await User.findByIdAndUpdate(
+    const updateUser = await User.findByIdAndUpdate(
       user._id,
       {
         $set: {
@@ -84,14 +88,18 @@ export const updateUserProfile = async (req, res, next) => {
       { new: true, runValidators: true }
     );
 
-    // save updated user in the database
-    const updatedUser = await updated.save();
+    // Save user in the database
+    try {
+      await updateUser.save();
+    } catch (error) {
+      return next(createError(500, 'User could not be saved'));
+    }
 
     // generate user token
-    const updatedUserToken = userToken(updatedUser._id);
+    const updatedUserToken = userToken(updateUser._id);
 
     return res
-      .cookie('access_token', updatedUserToken, {
+      .cookie('user_token', updatedUserToken, {
         path: '/',
         httpOnly: true,
         expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -99,7 +107,7 @@ export const updateUserProfile = async (req, res, next) => {
         secure: true,
       })
       .status(201)
-      .json(updatedUser);
+      .json(updateUser);
   } catch (error) {
     console.log(error);
     next(createError(500, 'User account could not update! Please try again!'));
@@ -111,7 +119,6 @@ export const updateUserProfile = async (req, res, next) => {
 //=========================================================================
 
 export const changeUserPassword = async (req, res, next) => {
-
   try {
     const user = await User.findById(req.params.id).select('+password');
 
@@ -119,7 +126,10 @@ export const changeUserPassword = async (req, res, next) => {
       return next(createError(400, 'User not found'));
     }
 
-    const isPasswordValid = await bcrypt.compare(req.body.oldPassword, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      req.body.oldPassword,
+      user.password
+    );
     if (!isPasswordValid) {
       return next(createError(400, 'Invalid old password! Please try again!'));
     }
@@ -164,7 +174,7 @@ export const loginUser = async (req, res, next) => {
       const loginToken = userToken(user._id);
 
       return res
-        .cookie('access_token', loginToken, {
+        .cookie('user_token', loginToken, {
           path: '/',
           httpOnly: true,
           expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -193,7 +203,7 @@ export const userLogout = async (req, res, next) => {
     }
 
     // First Option to log out a user
-    res.clearCookie('access_token');
+    res.clearCookie('user_token');
     res.status(200).json(`You have successfully logged out`);
 
     // Second option to log out a user:
@@ -222,7 +232,7 @@ export const deleteAccount = async (req, res, next) => {
     if (user) {
       await User.findByIdAndDelete(req.params.account);
 
-      res.clearCookie('access_token');
+      res.clearCookie('user_token');
       res.status(200).json(`User has been successfully deleted!`);
     } else {
       return next(createError(404, 'User not found!'));

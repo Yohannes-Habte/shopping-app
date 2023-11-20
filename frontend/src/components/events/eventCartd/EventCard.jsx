@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import CountDown from '../countDown/CountDown';
+import { addToCart } from '../../../redux/reducers/cartReducer';
 
 const EventCard = ({ active, data }) => {
   // Global state variables
@@ -20,7 +21,7 @@ const EventCard = ({ active, data }) => {
         toast.error('Product stock limited!');
       } else {
         const cartData = { ...data, qty: 1 };
-        dispatch('addTocart'(cartData));
+        dispatch(addToCart(cartData));
         toast.success('Item added to cart successfully!');
       }
     }
@@ -51,7 +52,7 @@ const EventCard = ({ active, data }) => {
             Add to cart
           </button>
           <CountDown data={data} />
-          <Link to={`/product/${data._id}?isEvent=true`}>
+          <Link to={`/product/${data._id}`}>
             <h4 className={`see-details-btn`}>See Details</h4>
           </Link>
         </article>

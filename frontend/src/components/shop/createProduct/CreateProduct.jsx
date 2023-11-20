@@ -60,6 +60,17 @@ const CreateProduct = () => {
     }
   };
 
+  const reset = () => {
+    setImages('');
+    setName('');
+    setDescription('');
+    setCategory('');
+    setTags("")
+    setOriginalPrice('');
+    setDiscountPrice('');
+    setStock('');
+  };
+
   //& Handle multiple image changes
   // const handleImageChange = (e) => {
   //   const files = Array.from(e.target.files);
@@ -118,6 +129,7 @@ const CreateProduct = () => {
       );
       console.log('The product data are', data);
       dispatch(productPostSuccess(data));
+      reset()
     } catch (error) {
       console.log(error);
       dispatch(productPostFailure(error.response.data.message));

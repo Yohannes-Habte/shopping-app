@@ -1,48 +1,19 @@
-@import '../../styles/Variables.scss';
-@import '../../styles/Mixins.scss';
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
 
-.cart-page {
+.cart-checkout-wrapper {
   width: 100%;
   min-height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-
-  background-color: $popup-bg;
-
-  .cart-page-container {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 30%;
-    height: 100vh;
-    background-color: $popu-display-bg;
-    @include shadow1;
 
 
-    .close {
-      position: absolute;
-      top: 0.6rem;
-      right: 1rem;
-      cursor: pointer;
-
-      &:hover {
-        color: $tomato;
-      }
-    }
-
-    .title {
-      @include subTitle;
-    }
+  .shipping-and-cart-info-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
   }
-}
 
-// Single cart
-.single-cart {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
-  @include shadow3;
+  .proceed-payment {
+    @include button1;
+    width: fit-content;
+  }
 }

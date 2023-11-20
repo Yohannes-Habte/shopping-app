@@ -18,8 +18,9 @@ const CountDown = ({ data }) => {
 
   function calculateTimeLeft() {
     //! The dynamic timer works only in the EventPage.jsx, but not in the Events.jsx component.  Why?
-    // const difference = +new Date(data.endDate) - +new Date();
-    const difference = +new Date(2023 - 11 - 11) - +new Date();
+    // const difference = +new Date(2023 - 11 - 11) - +new Date();
+    const difference = +new Date(data.endDate) - +new Date();
+
     let timeLeft = {};
 
     if (difference > 0) {

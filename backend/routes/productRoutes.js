@@ -6,7 +6,6 @@ import {
   getAllShopsProducts,
   getSingleProduct,
 } from '../controllers/productController.js';
-import { authSeller } from '../middleware/auth.js';
 
 // product Router
 const productRouter = express.Router();
@@ -16,7 +15,7 @@ productRouter.post('/create-product', createProduct);
 productRouter.get('/', getAllShopsProducts);
 productRouter.get('/:shopID/shop-products', getAllShopProducts);
 productRouter.get('/:productID', getSingleProduct);
-productRouter.delete('/:shopID/shop-products/:productID', deleteSingleProduct);
+productRouter.delete('/:productID', deleteSingleProduct);
 
 // Export product Router
 export default productRouter;

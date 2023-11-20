@@ -7,7 +7,6 @@ import {
 } from '../controllers/userController.js';
 import { authAdmin, authUser } from '../middleware/auth.js';
 
-
 // Auth Router
 const userRouter = express.Router();
 

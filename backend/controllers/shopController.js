@@ -1,49 +1,50 @@
 import createError from 'http-errors';
 import Shop from '../models/shopModel.js';
 import bcrypt from 'bcryptjs';
-import { generateSellerToken } from '../middleware/auth.js';
+import sellerToken from '../middleware/shopToken.js';
 
 //=========================================================================
 // Create a seller
 //=========================================================================
 export const createShop = async (req, res, next) => {
   try {
-    const { name, email, password, address, phoneNumber, image, zipCode } =
-      req.body;
+    const { name, email, password, image, phoneNumber, zipCode } = req.body;
     const sellerEmail = await Shop.findOne({ email: email });
 
     if (sellerEmail) {
-      return next(
-        createError(
-          400,
-          'Seller email already exists! Please try with new email!'
-        )
-      );
+      return next(createError(400, 'Seller email already exists!'));
     }
 
+    // New seller or new shop
     const newSeller = new Shop({
       name: name,
       email: email,
       password: password,
       phoneNumber: phoneNumber,
       image: image,
-      address: address,
       zipCode: zipCode,
     });
 
     // Save the new seller in the database
-    const saveSeller = await newSeller.save();
-    const sellerToken = generateSellerToken(saveSeller._id);
+    try {
+      await newSeller.save();
+    } catch (error) {
+      return next(createError(500, 'New seller could not be saved'));
+    }
+
+    // Generate Seller token
+    const registerShopToken = sellerToken(newSeller._id);
+    // Response
     return res
-      .cookie('seller_token', sellerToken, {
+      .cookie('shop_token', registerShopToken, {
         path: '/',
         httpOnly: true,
-        expires: new Date(Date.now() + 60 * 60 * 1000),
+        expires: new Date(Date.now() + 120 * 60 * 1000),
         sameSite: 'none',
         secure: true,
       })
       .status(201)
-      .json(saveSeller);
+      .json({ shop: newSeller, token: registerShopToken });
   } catch (error) {
     console.log(error);
     return next(
@@ -77,11 +78,11 @@ export const loginSeller = async (req, res, next) => {
     if (seller && isPasswordValid) {
       const { password, ...rest } = seller._doc;
 
-      // generate user token
-      const shopLoginToken = generateSellerToken(seller._id);
+      // generate login shop token
+      const shopLoginToken = sellerToken(seller._id);
 
       return res
-        .cookie('seller_token', shopLoginToken, {
+        .cookie('shop_token', shopLoginToken, {
           path: '/',
           httpOnly: true,
           expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -109,7 +110,7 @@ export const sellerLogout = async (req, res, next) => {
       return next(createError(400, 'Seller not found!'));
     }
 
-    res.cookie('seller_token', null, {
+    res.cookie('shop_token', null, {
       httpOnly: true,
       expires: new Date(0),
       sameSite: 'none',

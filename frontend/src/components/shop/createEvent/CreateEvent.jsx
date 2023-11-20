@@ -56,7 +56,7 @@ const CreateEvent = () => {
   // Minimum start date will be today
   const today = new Date().toISOString().slice(0, 10);
 
-   // Minimum end date will be three days from today
+  // Minimum end date will be three days from today
   const minEndDate = startDate
     ? new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000)
         .toISOString()
@@ -99,6 +99,20 @@ const CreateEvent = () => {
     }
   };
 
+  // Reset
+  const reset = () => {
+    setImages('');
+    setName('');
+    setDescription('');
+    setCategory('');
+    setTags('');
+    setOriginalPrice('');
+    setDiscountPrice('');
+    setStock('');
+    setStartDate('');
+    setEndDate('');
+  };
+
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,6 +153,7 @@ const CreateEvent = () => {
       );
 
       dispatch(eventShopPostSuccess(data));
+      reset()
     } catch (error) {
       console.log(error);
       dispatch(eventShopPostFailure(error.response.data.message));

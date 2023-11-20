@@ -5,7 +5,6 @@ import Categories from '../../components/categories/Categories';
 import FeaturedProducts from '../../components/products/featuredProducts/FeaturedProducts';
 import Header from '../../components/layout/header/Header';
 import Footer from '../../components/layout/footer/Footer';
-import CountDown from '../../components/events/countDown/CountDown';
 import BestDealProducts from '../../components/products/bestDealProducts/BestDealProducts';
 import Events from '../../components/events/events/Events';
 
@@ -14,8 +13,6 @@ const Home = () => {
     <main className="home-page">
       <Header />
       <section className="home-page-container">
-        <CountDown />
-
         <Blog />
 
         <Categories />

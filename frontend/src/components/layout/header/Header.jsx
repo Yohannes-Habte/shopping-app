@@ -202,7 +202,7 @@ const Header = () => {
             <AiOutlineHeart className="icon" />
 
             <span className="wishlist-item">
-              {wishList && wishList.length === 0 ? 0 : wishList.length}
+              {wishList && wishList.length !== 0 && wishList.length}
             </span>
           </div>
 

@@ -46,8 +46,8 @@ const AllShopProducts = () => {
     console.log('Product id is', productID);
     try {
       dispatch(productShopDeleteStart());
-      const { data } = await axios.get(
-        `http://localhost:5000/api/products/${currentSeller._id}shop-products/${productID}`
+      const { data } = await axios.delete(
+        `http://localhost:5000/api/products/${productID}`
       );
       dispatch(productShopDeleteSuccess(data));
       window.location.reload();

@@ -14,6 +14,8 @@ const AllCoupons = () => {
   const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
+  console.log("THe seller is", currentSeller)
+
   // Local state variables
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
@@ -24,27 +26,26 @@ const AllCoupons = () => {
   const [coupouns, setCoupouns] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-    // local state variables 
-    const [shopProducts, setShopProducts] = useState([])
+  // local state variables
+  const [shopProducts, setShopProducts] = useState([]);
 
-    // Display products for a single shop
-    useEffect(() => {
-      const shopProducts = async () => {
-        try {
-          // dispatch(productsShopFetchStart());
-          const { data } = await axios.get(
-            `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
-          );
-          // dispatch(productsShopFetchSuccess(data));
-          setShopProducts(data)
-          console.log("Selam shop products are", data)
-        } catch (error) {
-          console.log(error)
-          // dispatch(productsShopFetchFailure(error.response.data.message));
-        }
-      };
-      shopProducts();
-    }, [dispatch]);
+  // Display products for a single shop
+  useEffect(() => {
+    const shopProducts = async () => {
+      try {
+        // dispatch(productsShopFetchStart());
+        const { data } = await axios.get(
+          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+        );
+        // dispatch(productsShopFetchSuccess(data));
+        setShopProducts(data);
+      } catch (error) {
+        console.log(error);
+        // dispatch(productsShopFetchFailure(error.response.data.message));
+      }
+    };
+    shopProducts();
+  }, [dispatch]);
 
   // Display coupon data
   useEffect(() => {
@@ -65,6 +66,16 @@ const AllCoupons = () => {
     fechtCoupons();
   }, []);
 
+  // Reset
+  const reset = () => {
+    setName('');
+    setPercent(null);
+    setMinAmout(null);
+    setMaxAmount(null);
+    setSelectedProduct(null);
+    setIsLoading(false);
+    setSuccess(false);
+  };
   // Delete coupon
   const handleDelete = async (couponID) => {
     try {
@@ -104,8 +115,9 @@ const AllCoupons = () => {
         `http://localhost:5000/api/coupons/create-coupon`,
         newCoupon
       );
-      setIsLoading(false);
+
       toast.success('Coupon code created successfully!');
+      reset();
       setOpen(false);
       window.location.reload();
     } catch (error) {

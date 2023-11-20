@@ -15,7 +15,7 @@ import Profile from './views/userProtectedPages/profilePage/Profile';
 import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
 import UserInbox from './views/inboxPage/UserInbox';
-import Cart from './views/userProtectedPages/cartPage/Cart';
+import CheckoutPage from './views/userProtectedPages/checkoutPage/CheckoutPage';
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
 import ShopSettingsPage from './views/shopPages/shopSettingsPage/ShopSettingsPage';
@@ -78,7 +78,7 @@ const App = () => {
             path="/checkout"
             element={
               <UserProtectedRoute>
-                <Cart />
+                <CheckoutPage />
               </UserProtectedRoute>
             }
           />

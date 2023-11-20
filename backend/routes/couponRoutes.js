@@ -12,7 +12,7 @@ const couponRouter = express.Router();
 // coupon routes
 couponRouter.post('/create-coupon', createCouponCode);
 couponRouter.get('/shop/:shopID', getAllCouponCodes);
-couponRouter.get('/shop/value/:percent', getCouponCodePercent);
+couponRouter.get('/shop/value/:name', getCouponCodePercent);
 couponRouter.delete('/:couponID', deleteCouponCode);
 
 // Export coupon Router
