@@ -1,0 +1,14 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.payment-page {
+  .payment-page-container {
+    width: $laptop;
+    min-height: 100vh;
+    margin: 1rem auto;
+
+    .payment-page-title {
+      @include title;
+    }
+  }
+}

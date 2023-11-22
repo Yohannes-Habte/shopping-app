@@ -12,7 +12,6 @@ const Events = () => {
   // local state variables
   const [eventsData, setEventsData] = useState([]);
 
-  console.log('the events data are', eventsData);
   // Display events data
   useEffect(() => {
     const getAllEvents = async () => {

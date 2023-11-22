@@ -5,7 +5,7 @@ const CountDown = ({ data }) => {
   // calculateTimeLeft is a function
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-  console.log('Timer', data);
+  // console.log('Timer', data);
   // Use Effect Hook
   useEffect(() => {
     // setTimeout function
@@ -36,19 +36,19 @@ const CountDown = ({ data }) => {
   }
 
   // Timer components
-  const timerComponents = Object.keys(timeLeft).map((interval) => {
+  const timerComponents = Object.keys(timeLeft).map((interval, index) => {
     if (!timeLeft[interval]) {
       return null;
     }
 
     return (
-      <span className="timer">
+      <span key={index} className="timer">
         {timeLeft[interval]} {interval}
       </span>
     );
   });
 
-  console.log('Timer component is', timerComponents);
+  // console.log('Timer component is', timerComponents);
   return (
     <section className="event-timer">
       {timerComponents.length ? (

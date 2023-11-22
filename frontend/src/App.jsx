@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './views/homePage/Home';
 import Contact from './views/contactPage/Contact';
@@ -10,7 +10,6 @@ import NotFound from './views/notFound/NotFound';
 import Products from './views/productsPage/Products';
 import EventsPage from './views/eventsPage/EventsPage';
 import BestSellings from './views/bestSellingpage/BestSellings';
-import Orders from './views/ordersPage/Orders';
 import Profile from './views/userProtectedPages/profilePage/Profile';
 import Forgotpassword from './views/passwordPage/Forgotpassword';
 import ResetPassword from './views/passwordPage/ResetPassword';
@@ -30,24 +29,49 @@ import SingleProduct from './views/productPage/SingleProduct';
 import ShopHome from './views/shopPages/shopHomePage/ShopHome';
 import ShopDashboard from './views/shopPages/shopDashboarPage/ShopDashboard';
 import ShopPreviewPage from './views/shopPages/shopPreviewPage/ShopPreviewPage';
+import PaymentPage from './views/paymentPage/PaymentPage';
+import axios from 'axios';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import OrderDetailsPage from './views/orderDetailsPage/OrderDetailsPage';
+import OrderSuccess from './views/orderSuccessPage/OrderSuccess';
 
 const App = () => {
+  const [stripeApikey, setStripeApiKey] = useState('');
+  console.log('Stripe API key is', stripeApikey);
+
+  const getStripeApikey = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:5000/api/payment/stripeapikey`
+      );
+      setStripeApiKey(data.stripeApikey);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+  useEffect(() => {
+    getStripeApikey();
+  });
+
   return (
     <div>
       <Router>
-        <ToastContainer
-          position="top-right"
-          limit={1}
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+        {stripeApikey && (
+          <Elements stripe={loadStripe(stripeApikey)}>
+            <Routes>
+              <Route
+                path="/payment"
+                element={
+                  <UserProtectedRoute>
+                    <PaymentPage />
+                  </UserProtectedRoute>
+                }
+              />
+            </Routes>
+          </Elements>
+        )}
 
         <Routes>
           <Route path="/" element={<Home />} />
@@ -58,11 +82,11 @@ const App = () => {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productID" element={<SingleProduct />} />
-          <Route path="/orders" element={<Orders />} />
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
+          <Route path="/order/success" element={<OrderSuccess />} />
 
           {/* User Pages */}
           <Route
@@ -79,6 +103,15 @@ const App = () => {
             element={
               <UserProtectedRoute>
                 <CheckoutPage />
+              </UserProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/user/order/:id"
+            element={
+              <UserProtectedRoute>
+                <OrderDetailsPage />
               </UserProtectedRoute>
             }
           />
@@ -176,6 +209,20 @@ const App = () => {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+
+        <ToastContainer
+          position="top-right"
+          limit={1}
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </Router>
     </div>
   );

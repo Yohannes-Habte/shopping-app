@@ -5,13 +5,24 @@
   width: 100%;
   min-height: 100vh;
 
-  .title-wrapper {
-    .title {
-      @include title;
+  .header-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .add-payment-methods-title {
+      @include subTitle;
     }
 
     .add-new {
       @include button1;
     }
+  }
+
+  .paymentInfo-cardData-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
   }
 }

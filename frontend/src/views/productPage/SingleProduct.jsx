@@ -20,6 +20,7 @@ const SingleProduct = () => {
   const { events } = useSelector((state) => state.event);
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get('isEvent');
+  console.log('eventdata is', eventData);
 
   // Display products
   // useEffect(() => {
@@ -36,10 +37,15 @@ const SingleProduct = () => {
   useEffect(() => {
     const shopProducts = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
-        );
-        setProductData(data);
+        if (eventData !== null) {
+          // const data = events && events.find((i) => i._id === productID);
+          // setProductData(data);
+        } else {
+          const { data } = await axios.get(
+            `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          );
+          setProductData(data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -64,7 +70,7 @@ const SingleProduct = () => {
         {/* Single product details */}
         {productData && foundProduct && <ProductDetails data={foundProduct} />}
 
-        <h2 className='related-prdoucts-title'>Related Product</h2>
+        <h2 className="related-prdoucts-title">Related Product</h2>
         {/* Related product details */}
         {!eventData && productData && <RelatedProducts data={productData} />}
       </section>

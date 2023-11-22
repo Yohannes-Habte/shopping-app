@@ -26,7 +26,7 @@ const EventCard = ({ active, data }) => {
       }
     }
   };
-  console.log('The image is', data);
+
   return (
     <section className={active ? 'event-cart-container' : 'event-cart-wrapper'}>
       <figure className="image-container">
@@ -52,7 +52,7 @@ const EventCard = ({ active, data }) => {
             Add to cart
           </button>
           <CountDown data={data} />
-          <Link to={`/product/${data._id}`}>
+          <Link to={`/products/${data._id}?isEvent=true`}>
             <h4 className={`see-details-btn`}>See Details</h4>
           </Link>
         </article>

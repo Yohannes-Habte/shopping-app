@@ -32,11 +32,16 @@ const cartReducer = createSlice({
         cart: state.cart.filter((product) => product._id !== action.payload),
       };
     },
+
+    // Clear cart after placing an order
+    clearFromCart: (state, action) => {
+      return { ...state, cart: [] };
+    },
   },
 });
 
 // Destructure wishlist reducer methods
-export const { addToCart, removeFromCart } = cartReducer.actions;
+export const { addToCart, removeFromCart, clearFromCart } = cartReducer.actions;
 
 // export wishlist reducer
 export default cartReducer.reducer;

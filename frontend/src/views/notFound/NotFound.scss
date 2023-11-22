@@ -1,0 +1,18 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.not-found-page {
+  @include page;
+  .title {
+    @include title;
+  }
+
+  .go-back-home-page {
+    @include paragraph;
+
+    .link {
+      color: $blue;
+      font-size: $afs;
+    }
+  }
+}
