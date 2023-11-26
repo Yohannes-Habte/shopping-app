@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  orders: null,
-  error: null,
+  orders: [],
+  error: '',
   loading: false,
 };
 
@@ -10,27 +10,45 @@ const orderReducer = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    // Get order
-    orderFetchStart: (state) => {
+    // Get all orders of a user
+    userOrdersRequest: (state) => {
       state.loading = true;
-      state.error = null;
-      state.orders = null;
     },
-    orderFetchSuccess: (state, action) => {
+    userOrdersSuccess: (state, action) => {
       state.orders = action.payload;
       state.loading = false;
-      state.error = null;
     },
-    orderFetchFailure: (state, action) => {
+    userOrdersFail: (state, action) => {
       state.error = action.payload;
       state.loading = false;
-      state.orders = null;
+    },
+
+    // Get all orders of a seller/shop
+    sellerOrdersRequest: (state) => {
+      state.loading = true;
+    },
+    sellerOrdersSuccess: (state, action) => {
+      state.orders = action.payload;
+      state.loading = false;
+    },
+    sellerOrdersFail: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
     },
   },
 });
 
 // Destructure order reducer methods under the reducers key
-export const { orderFetchStart, orderFetchSuccess, orderFetchFailure } =
-  orderReducer.actions;
+export const {
+  // User orders
+  userOrdersRequest,
+  userOrdersSuccess,
+  userOrdersFail,
+
+  // Seller orders
+  sellerOrdersRequest,
+  sellerOrdersSuccess,
+  sellerOrdersFail,
+} = orderReducer.actions;
 
 export default orderReducer.reducer;

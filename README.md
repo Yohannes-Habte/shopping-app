@@ -1,5 +1,5 @@
 # shopping-app
 
-## Multiple images 
+## Multiple images
 
-## Change password has an issue with authentication. 
+## Change password has an issue with authentication.

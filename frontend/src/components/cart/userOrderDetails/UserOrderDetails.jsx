@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import './UserOrderDetails.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RxCross1 } from 'react-icons/rx';
+import { MdTextsms } from 'react-icons/md';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import {
+  userOrdersFail,
+  userOrdersRequest,
+  userOrdersSuccess,
+} from '../../../redux/reducers/orderReducer';
 
 const UserOrderDetails = () => {
   const { id } = useParams();
   // Global state variables
   const { orders } = useSelector((state) => state.order);
-  const { user } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // Local state variables
@@ -21,9 +28,21 @@ const UserOrderDetails = () => {
 
   // Display all orders of a user
   useEffect(() => {
-    dispatch('getAllOrdersOfUser'(user._id));
-  }, [dispatch, user._id]);
+    const userOrders = async () => {
+      try {
+        dispatch(userOrdersRequest());
 
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/user/${currentUser._id}`
+        );
+
+        dispatch(userOrdersSuccess(data.orders));
+      } catch (error) {
+        dispatch(userOrdersFail(error.response.data.message));
+      }
+    };
+    userOrders();
+  }, []);
   // Find order
   const data = orders && orders.find((item) => item._id === id);
 
@@ -31,7 +50,7 @@ const UserOrderDetails = () => {
   const reviewHandler = async (e) => {
     try {
       const newReview = {
-        user: user,
+        user: currentUser,
         rating: rating,
         comment: comment,
         productId: selectedItem?._id,
@@ -44,7 +63,7 @@ const UserOrderDetails = () => {
       );
 
       toast.success(data.message);
-      dispatch('getAllOrdersOfUser'(user._id));
+      dispatch('getAllOrdersOfUser'(currentUser._id));
       setComment('');
       setRating(null);
       setOpen(false);
@@ -63,7 +82,7 @@ const UserOrderDetails = () => {
         }
       );
       toast.success(data.message);
-      dispatch('getAllOrdersOfUser'(user._id));
+      dispatch('getAllOrdersOfUser'(currentUser._id));
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -71,103 +90,104 @@ const UserOrderDetails = () => {
 
   return (
     <section className={`user-order-details-container`}>
-      <h1 className="title">Order Details</h1>
-
+      <h1 className="title"> Order Details</h1>
+      {/* order id and date */}
       <article className="order-id-and-date">
-        <h5 className="subTitle">
+        <p className="order-id">
           Order ID: <span>#{data?._id?.slice(0, 8)}</span>
-        </h5>
-        <p className="text-[#00000084]">
-          Placed on: <span>{data?.createdAt?.slice(0, 10)}</span>
         </p>
+        <h5 className="order-placed-date">
+          Order placed on: <span>{data?.createdAt?.slice(0, 10)}</span>
+        </h5>
       </article>
-
       {/* order items */}
-      {data &&
-        data?.cart.map((item, index) => {
-          return (
-            <div className="review-wrapper">
-              <figure className="image-container">
-                <img src={`${item.images[0]?.url}`} alt="" className="image" />
-              </figure>
+      <div className="ordered-items-wrapper">
+        {data &&
+          data?.cart.map((item, index) => {
+            return (
+              <section key={index} className="image-name-quantity-wrapper">
+                <figure className="image-container">
+                  <img src={item.images} alt="" className="image" />
+                </figure>
 
-              <article className="price-wrapper">
-                <h5 className="subTitle">{item.name}</h5>
-                <p className="price">
-                  US${item.discountPrice} x {item.qty}
-                </p>
-              </article>
-              {!item.isReviewed && data?.status === 'Delivered' ? (
-                <button
-                  className={`review-btn`}
-                  onClick={() => setOpen(true) || setSelectedItem(item)}
-                >
-                  Write a review
-                </button>
-              ) : null}
-            </div>
-          );
-        })}
-
+                <article className="name-price-wrapper">
+                  <h4 className="subTitle">{item.name}</h4>
+                  <p className="price">
+                   PQ: ${item.discountPrice} x {item.qty}
+                  </p>
+                </article>
+                {!item.isReviewed && data?.status === 'Delivered' ? (
+                  <h4
+                    className={`review-btn`}
+                    onClick={() => setOpen(true) || setSelectedItem(item)}
+                  >
+                    Write a review
+                  </h4>
+                ) : null}
+              </section>
+            );
+          })}
+      </div>
       {/* review popup */}
       {open && (
-        <div className="review-container">
-          <article className="">
-            <RxCross1 onClick={() => setOpen(false)} className="icon" />
+        <div className="modal-container">
+          <article className="review-order-wrapper">
+            <RxCross1 onClick={() => setOpen(false)} className="close-icon" />
 
-            <h2 className="title">Give a Review</h2>
+            <h2 className="review-title">Give a Review</h2>
 
-            <div className="w-full flex">
-              <img
-                src={`${selectedItem?.images[0]?.url}`}
-                alt=""
-                className="w-[80px] h-[80px]"
-              />
-              <article>
-                <p className="selected-item">{selectedItem?.name}</p>
-                <h4 className="subTitle">
-                  US${selectedItem?.discountPrice} x {selectedItem?.qty}
-                </h4>
+            <div className="selected-item-wrapper">
+              <figure className="image-container">
+                <img src={selectedItem?.images} alt="" className="image" />
+              </figure>
+
+              <article className="name-quantity-rating">
+                <h3 className="name">{selectedItem?.name}</h3>
+                <p className="quanity">
+                  ${selectedItem?.discountPrice} x {selectedItem?.qty}
+                </p>
+
+                {/* ratings */}
+                <h3 className="rating">
+                  Rating <span style={{ color: 'red' }}>*</span>
+                </h3>
+                <div className="rating-wrapper">
+                  {[1, 2, 3, 4, 5].map((i) =>
+                    rating >= i ? (
+                      <AiFillStar
+                        key={i}
+                        className="icon"
+                        onClick={() => setRating(i)}
+                      />
+                    ) : (
+                      <AiOutlineStar
+                        key={i}
+                        className="icon"
+                        onClick={() => setRating(i)}
+                      />
+                    )
+                  )}
+                </div>
               </article>
-            </div>
-
-            {/* ratings */}
-            <h5 className="subTitle">
-              Give a Rating <span className="text-red-500">*</span>
-            </h5>
-            <div className="rating-wrapper">
-              {[1, 2, 3, 4, 5].map((i) =>
-                rating >= i ? (
-                  <AiFillStar
-                    key={i}
-                    className="icon"
-                    onClick={() => setRating(i)}
-                  />
-                ) : (
-                  <AiOutlineStar
-                    key={i}
-                    className="icon"
-                    onClick={() => setRating(i)}
-                  />
-                )
-              )}
             </div>
 
             <form className="form">
-              <label className="label">
-                Write a comment
-                <span className="optional">(optional)</span>
-              </label>
-              <textarea
-                name="comment"
-                id=""
-                cols="20"
-                rows="5"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="How was your product? write your expresion about it!"
-                className="text-area"
-              ></textarea>
+              <div className="input-container">
+                <textarea
+                  name="comment"
+                  id="comment"
+                  cols="20"
+                  rows="5"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder="How was your product? Write your feeling about it!"
+                  className="text-area"
+                ></textarea>
+                <label htmlFor="comment" className="input-label">
+                  Write a comment
+                </label>
+                <span className="input-highlight"></span>
+              </div>
               <button className="comment-btn" type="submit">
                 Submit
               </button>
@@ -175,42 +195,42 @@ const UserOrderDetails = () => {
           </article>
         </div>
       )}
-
-      <h5 className="subTitle">
-        Total Price: <strong>US${data?.totalPrice}</strong>
-      </h5>
-
-      <div className="shipping-address">
+      <hr className="hr" />
+      {/* Total Price */}
+      <h2 className="total-price">
+        Total Price: <strong>${data?.totalPrice}</strong>
+      </h2>
+      <hr className="hr" />
+      {/* Shopping address */}
+      <div className="shipping-paymentinfo-refund-container">
         <article className="shipping-address">
           <h4 className="subTitle">Shipping Address:</h4>
           <p className="address">
-            {data?.shippingAddress.address1 +
-              ' ' +
-              data?.shippingAddress.address2}
+            {`${data?.shippingAddress.address1} / ${data?.shippingAddress.address2}`}
           </p>
           <p className="address">{data?.shippingAddress.country}</p>
+          <p className="address">{data?.shippingAddress.state}</p>
           <p className="address">{data?.shippingAddress.city}</p>
           <p className="address">{data?.user?.phoneNumber}</p>
         </article>
 
-        <article className="w-full 800px:w-[40%]">
+        <article className="status-wrapper">
           <h4 className="subTitle">Payment Info:</h4>
           <p>
-            Status:{' '}
+            Status:
             {data?.paymentInfo?.status ? data?.paymentInfo?.status : 'Not Paid'}
           </p>
 
           {data?.status === 'Delivered' && (
-            <p className={`give-refund`} onClick={refundHandler}>
+            <button className={`give-refund-btn`} onClick={refundHandler}>
               Give a Refund
-            </p>
+            </button>
           )}
         </article>
       </div>
-
       <Link to="/">
         <button className={`send-message-btn`}>Send Message</button>
-      </Link>
+      </Link>{' '}
     </section>
   );
 };

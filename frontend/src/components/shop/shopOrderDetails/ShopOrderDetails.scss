@@ -1,0 +1,101 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.order-detail-wrapper {
+  .order-details-list-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .subTitle {
+      @include subTitle;
+    }
+
+    .order-list {
+      @include button1;
+
+      .link {
+        color: $white;
+        font-weight: $aafw;
+      }
+    }
+  }
+  .order-id-and-date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .order-id {
+      @include paragraph;
+      color: $gray;
+    }
+
+    .order-placed-date {
+      color: $blue;
+    }
+  }
+
+  // Order items
+  .order-items-wrapper {
+    @include productsGrid;
+
+    .order {
+      @include shadow3;
+
+      .image-container {
+        .image {
+          @include image;
+        }
+      }
+
+      .name-and-quantity {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-size: $afs;
+        padding: 0 0.5rem;
+      }
+    }
+  }
+
+  .hr {
+    @include hr;
+  }
+
+  // Total price
+  .total-price {
+    text-align: right;
+  }
+
+  // Shipping address
+  .shipping-address-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    @include shadow3;
+    margin: 1rem 0;
+
+    .shipping-box {
+      .address {
+        font-size: $afs;
+      }
+    }
+  }
+
+  .order-status {
+  }
+
+  .section-option {
+    @include inputField;
+    width: fit-content;
+  }
+
+  .update-status-btn {
+    @include button1;
+    width: fit-content;
+  }
+}

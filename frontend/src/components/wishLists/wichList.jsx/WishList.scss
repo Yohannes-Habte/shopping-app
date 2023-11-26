@@ -18,6 +18,9 @@
     height: 100vh;
     background-color: $popup-display-bg;
     @include shadow1;
+    overflow: scroll;
+    scrollbar-color: $red $yellow;
+    scrollbar-width: thin;
 
     // When there is no order
     .empty-wishlist-wrapper {

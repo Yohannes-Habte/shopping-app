@@ -78,7 +78,7 @@ const ProfileSidebar = ({ active, setActive }) => {
         <HiOutlineShoppingBag
           className={active === 2 ? 'active-icon ' : 'passive-icon'}
         />
-        <span className={active === 2 ? 'active' : 'passive'}>Order</span>
+        <span className={active === 2 ? 'active' : 'passive'}>Orders</span>
       </div>
 
       {/* Orders section */}
@@ -120,14 +120,6 @@ const ProfileSidebar = ({ active, setActive }) => {
       <div className="tab-box address" onClick={() => setActive(7)}>
         <TbAddressBook className={active === 7 ? 'active' : 'passive'} />
         <span className={active === 7 ? 'active' : 'passive'}>Address</span>
-      </div>
-
-      {/* Payment Method section */}
-      <div className="tab-box address" onClick={() => setActive(8)}>
-        <TbAddressBook className={active === 8 ? 'active' : 'passive'} />
-        <span className={active === 8 ? 'active' : 'passive'}>
-          Payment Methods
-        </span>
       </div>
 
       {/* Admin dashboar section */}

@@ -165,7 +165,7 @@ const Header = () => {
             className="link"
           >
             <h3 className="sub-title">
-              {currentSeller ? 'Go Dashboard' : 'Become Seller'}
+              {currentSeller ? 'Shop Dashboard' : 'Create Online Shop'}
             </h3>
           </Link>
           <RiArrowRightSLine className="icon" />

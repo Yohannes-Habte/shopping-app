@@ -9,7 +9,6 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
-import AllOrders from '../allOrders/AllOrders';
 import AllRefundOrders from '../refunds/AllRefundOrders';
 import ChangePassword from '../changePassword/ChangePassword';
 import TrackOrderTable from '../trackOrderTable/TrackOrderTable';
@@ -23,6 +22,9 @@ import {
   updateUserStart,
   updateUserSuccess,
 } from '../../../redux/reducers/userReducer';
+import UserOrders from '../allOrders/UserOrders';
+
+
 const UserProfile = ({ active }) => {
   const navigate = useNavigate();
   // Global state variables
@@ -298,7 +300,7 @@ const UserProfile = ({ active }) => {
       )}
 
       <section className="profile-form-container">
-        {active === 2 && <AllOrders />}
+        {active === 2 && <UserOrders />}
 
         {active === 3 && <AllRefundOrders />}
 
@@ -307,8 +309,6 @@ const UserProfile = ({ active }) => {
         {active === 6 && <ChangePassword />}
 
         {active === 7 && <Address />}
-        
-        {active === 8 && <PaymentMethod />}
       </section>
     </main>
   );

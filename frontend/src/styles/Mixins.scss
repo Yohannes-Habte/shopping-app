@@ -366,3 +366,15 @@
     color: $tomato;
   }
 }
+
+@mixin hr {
+  border-bottom: 2px solid $border-bottom;
+  margin: 1rem 0 0.5rem 0;
+}
+
+@mixin image {
+  width: 23rem;
+  height: 16rem;
+  object-fit: cover;
+  border-radius: $radius;
+}

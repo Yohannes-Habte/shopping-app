@@ -33,12 +33,13 @@ import PaymentPage from './views/paymentPage/PaymentPage';
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import OrderDetailsPage from './views/orderDetailsPage/OrderDetailsPage';
 import OrderSuccess from './views/orderSuccessPage/OrderSuccess';
+import ShopAllOrders from './views/shopPages/shopAllOrdersPage/ShopAllOrders';
+import UserOrderDetailsPage from './views/userOrderDetailsPage/UserOrderDetailsPage';
+import ShopOrderDetailsPage from './views/shopPages/shopOrderDetailsPage/ShopOrderDetailsPage';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');
-  console.log('Stripe API key is', stripeApikey);
 
   const getStripeApikey = async () => {
     try {
@@ -111,7 +112,7 @@ const App = () => {
             path="/user/order/:id"
             element={
               <UserProtectedRoute>
-                <OrderDetailsPage />
+                <UserOrderDetailsPage />
               </UserProtectedRoute>
             }
           />
@@ -176,6 +177,24 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopAllCoupons />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/shop/order/:id"
+            element={
+              <SellerProtectedRoute>
+                <ShopOrderDetailsPage />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="dashboard-orders"
+            element={
+              <SellerProtectedRoute>
+                <ShopAllOrders />
               </SellerProtectedRoute>
             }
           />

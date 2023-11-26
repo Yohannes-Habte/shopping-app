@@ -1,37 +1,53 @@
 import React, { useEffect } from 'react';
+import './AllSellerOrders.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { RxArrowRight } from 'react-icons/rx';
 import { DataGrid } from '@mui/x-data-grid';
+import axios from 'axios';
+import {
+  sellerOrdersFail,
+  sellerOrdersRequest,
+  sellerOrdersSuccess,
+} from '../../../redux/reducers/orderReducer';
 
-const AllOrders = () => {
-  const { currentUser } = useSelector((state) => state.user);
+const AllSellerOrders = () => {
+  // Global variables
+  const { currentSeller } = useSelector((state) => state.seller);
   const { orders } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //   dispatch(getAllOrdersOfUser(user._id));
+    const sellerOrders = async () => {
+      try {
+        dispatch(sellerOrdersRequest());
+
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/seller/${currentSeller._id}`
+        );
+
+        dispatch(sellerOrdersSuccess(data.orders));
+      } catch (error) {
+        dispatch(sellerOrdersFail(error.response.data.message));
+      }
+    };
+    sellerOrders();
   }, []);
 
   const columns = [
-    { field: 'id', headerName: 'Order ID', minWidth: 150, flex: 0.7 },
+    { field: 'id', headerName: 'Order ID', minWidth: 250, flex: 0.7 },
 
     {
       field: 'status',
       headerName: 'Status',
-      minWidth: 130,
+      minWidth: 150,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, 'status') === 'Delivered'
-          ? 'greenColor'
-          : 'redColor';
-      },
     },
     {
-      field: 'itemsQty',
-      headerName: 'Items Qty',
+      field: 'quantity',
+      headerName: 'Quantity',
       type: 'number',
-      minWidth: 130,
+      minWidth: 150,
       flex: 0.7,
     },
 
@@ -39,7 +55,7 @@ const AllOrders = () => {
       field: 'total',
       headerName: 'Total',
       type: 'number',
-      minWidth: 130,
+      minWidth: 150,
       flex: 0.8,
     },
 
@@ -52,13 +68,9 @@ const AllOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <>
-            <Link to={`/user/order/${params.id}`}>
-              <button>
-                <RxArrowRight size={20} />
-              </button>
-            </Link>
-          </>
+          <Link to={`/shop/order/${params.id}`}>
+            <RxArrowRight size={20} />
+          </Link>
         );
       },
     },
@@ -70,13 +82,14 @@ const AllOrders = () => {
     orders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.cart.length,
+        quantity: item.cart.length,
         total: 'US$ ' + item.totalPrice,
         status: item.status,
       });
     });
+
   return (
-    <div className="data-grid-wrapper">
+    <div className="shop-orders-wrapper">
       <DataGrid
         rows={row}
         columns={columns}
@@ -88,4 +101,4 @@ const AllOrders = () => {
   );
 };
 
-export default AllOrders;
+export default AllSellerOrders;

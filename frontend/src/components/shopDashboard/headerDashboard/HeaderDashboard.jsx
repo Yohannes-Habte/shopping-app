@@ -29,8 +29,7 @@ const HeaderDashboard = ({ isOwner }) => {
     try {
       dispatch(logoutSellerStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/shops/logout-shop/${currentSeller._id}`,
-        { withCredentials: true }
+        `http://localhost:5000/api/shops/logout-shop/${currentSeller._id}`
       );
 
       dispatch(logoutSellerSuccess());
@@ -95,7 +94,7 @@ const HeaderDashboard = ({ isOwner }) => {
           />
         </figure>
 
-        {currentSeller && isOwner && open && (
+        {currentSeller && open && (
           <ul className="shop-profile-logout-wrapper">
             <li className="item shop-profile">
               <Link

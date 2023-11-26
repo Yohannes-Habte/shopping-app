@@ -28,11 +28,11 @@ const OverviewDashboard = () => {
       headerName: 'Status',
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, 'status') === 'Delivered'
-          ? 'greenColor'
-          : 'redColor';
-      },
+      // cellClassName: (params) => {
+      //   return params.getValue(params.id, 'status') === 'Delivered'
+      //     ? 'greenColor'
+      //     : 'redColor';
+      // },
     },
     {
       field: 'itemsQty',
@@ -92,10 +92,7 @@ const OverviewDashboard = () => {
         <article className="article-box account-balance">
           <aside className=" aside-box account-balance">
             <AiOutlineMoneyCollect className="icon" />
-            <h3 className={`subTitle`}>
-              Account Balance{' '}
-              <span className="service">(with 10% service charge)</span>{' '}
-            </h3>
+            <h3 className={`subTitle`}>Account Balance</h3>
           </aside>
 
           <h3 className="subTitle">${availableBalance}</h3>
@@ -122,7 +119,7 @@ const OverviewDashboard = () => {
             <AiOutlineMoneyCollect className="icon" />
             <h3 className={`subTitle`}>All Products</h3>
           </aside>
-          <h3 className="sibTitle">{products ? products.length : '0'}</h3>
+          <h3 className="subTitle">{products ? products.length : '0'}</h3>
           <Link to="/dashboard-products">View Products</Link>
         </article>
       </div>

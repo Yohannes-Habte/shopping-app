@@ -14,7 +14,7 @@ const WishList = ({ setOpenWishList }) => {
 
   // Total price
   const totalPrice = wishList.reduce(
-    (acc, item) => acc + item.qty * item.discountPrice,
+    (acc, item) => acc + item.discountPrice,
     0
   );
 
@@ -72,7 +72,7 @@ const WishList = ({ setOpenWishList }) => {
             </div>
           </section>
         )}
-        <h3> Total Price: {totalPrice} </h3>
+        <h3> Total Price: ${totalPrice} </h3>
       </article>
     </main>
   );

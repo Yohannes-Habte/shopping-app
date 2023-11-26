@@ -48,56 +48,67 @@ export const createOrder = async (req, res, next) => {
 };
 
 //=========================================================================
-// Update order status for a seller
+// Update order status for a shop
 //=========================================================================
 
-export const updateSellerOrders = async (req, res, next) => {
+export const updateShopOrders = async (req, res, next) => {
   try {
+    // Find order by id
     const order = await Order.findById(req.params.id);
 
     if (!order) {
       return next(createError(400, 'Order not found!'));
     }
 
+    // Update each ordered product using forEach method and updateOrder function
     if (req.body.status === 'Transferred to delivery partner') {
-      order.cart.forEach(async (o) => {
-        await updateOrder(o._id, o.qty);
+      order.cart.forEach(async (product) => {
+        await updateOrder(product._id, product.qty);
       });
     }
 
+    // The order status in the database will be ...
     order.status = req.body.status;
 
+    // Update shop info using updateShopInfo function
     if (req.body.status === 'Delivered') {
       order.deliveredAt = Date.now();
       order.paymentInfo.status = 'Succeeded';
       const serviceCharge = order.totalPrice * 0.1;
-      await updateSellerInfo(order.totalPrice - serviceCharge);
+      const ammount = order.totalPrice - serviceCharge;
+      await updateShopInfo(ammount);
     }
 
+    // Save the order
     await order.save({ validateBeforeSave: false });
 
+    // Response is ...
     res.status(200).json({
       success: true,
       order,
     });
 
+    // update product after an order has been transferred to delivery partner
     async function updateOrder(id, qty) {
       const product = await Product.findById(id);
 
-      product.stock -= qty;
-      product.sold_out += qty;
+      product.stock = product.stock - qty;
+      product.sold_out = product.sold_out + qty;
 
       await product.save({ validateBeforeSave: false });
     }
 
-    async function updateSellerInfo(amount) {
-      const seller = await Shop.findById(req.seller.id);
+    // update shop info after an order has been delivered to a user
+    async function updateShopInfo(amount) {
+      //! The shop is not identified! Why?
+      const shop = await Shop.findById(req.shop.id);
 
-      seller.availableBalance = amount;
+      shop.availableBalance = amount;
 
-      await seller.save();
+      await shop.save();
     }
   } catch (error) {
+    console.log(error);
     next(createError(500, 'Order is not updated! Please try again!'));
   }
 };
@@ -132,7 +143,7 @@ export const orderUserRefund = async (req, res, next) => {
 // Accept the refund by the seller
 //=========================================================================
 
-export const orderSellerRefund = async (req, res, next) => {
+export const orderShopRefund = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
 
@@ -190,6 +201,10 @@ export const getAllUserOrders = async (req, res, next) => {
       createdAt: -1,
     });
 
+    if (!orders) {
+      return next(createError(400, 'User orders not found! Please try again!'));
+    }
+
     res.status(200).json({
       success: true,
       orders,
@@ -203,13 +218,19 @@ export const getAllUserOrders = async (req, res, next) => {
 // Get all orders for a seller
 //=========================================================================
 
-export const getAllSellerOrders = async (req, res, next) => {
+export const allShopOrders = async (req, res, next) => {
   try {
     const orders = await Order.find({
       'cart.shopId': req.params.shopId,
     }).sort({
       createdAt: -1,
     });
+
+    if (!orders) {
+      return next(
+        createError(400, 'Seller orders not found! Please try again!')
+      );
+    }
 
     res.status(200).json({
       success: true,

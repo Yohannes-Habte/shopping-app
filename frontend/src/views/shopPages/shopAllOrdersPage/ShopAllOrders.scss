@@ -1,0 +1,21 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.shop-all-orders-page {
+  width: 100%;
+  min-width: 100vh;
+  .shop-all-orders-page-container {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      @include title;
+    }
+
+    .sidebar-and-orders {
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+    }
+  }
+}
