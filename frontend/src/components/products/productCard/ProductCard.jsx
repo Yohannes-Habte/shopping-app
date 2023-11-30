@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import Ratings from '../ratings/Ratings';
-import ProductCartDetails from '../productCartDetails/ProductCartDetails';
+import ProductCartDetails from '../productCardDetails/ProductCardDetails';
 import { addToCart } from '../../../redux/reducers/cartReducer';
 import {
   addToWishlist,
@@ -99,7 +99,8 @@ const ProductCard = ({ product, isEvent }) => {
             : product.name}
         </h4>
 
-        <Ratings rating={product?.ratings} />
+        {/* Ratings component */}
+        <Ratings averageRating={product?.ratings} />
 
         <article className="product-price-wrapper">
           <h5 className={`subTitle`}>

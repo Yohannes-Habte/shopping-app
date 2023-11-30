@@ -1,38 +1,105 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-.shop-info-container {
-  width: 20%;
+.shop-info-contianer {
+  width: 100%;
   @include shadow3;
-  background-color: $sidebar-bg;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  position: relative;
 
-  .article-box {
-    .image-container {
-      .image {
-        width: 10rem;
-        height: 7rem;
-        object-fit: cover;
-        border-radius: $radius;
+  .shop-title {
+    @include title;
+  }
+
+  .go-board {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    @include button4;
+  }
+
+  // taps wrapper
+  .tabs-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .active {
+      position: relative;
+      @include subTitle;
+      @include button4;
+      color: $tomato;
+      cursor: pointer;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -0.2rem;
+        width: 100%;
+        height: 2px;
+        background-color: $red;
       }
     }
 
-    .subTitle {
+    .passive {
       @include subTitle;
+      color: $black;
+      cursor: pointer;
+      @include button4;
+    }
+  }
+
+  // Shop Products
+  .shop-products {
+    @include productsGrid;
+  }
+
+  // Shop Events
+  .shop-events-wrapper {
+    .shop-events {
     }
 
-    .text {
+    .no-events {
+    }
+  }
+
+  // Shop reviews
+  .shop-reviews-wrapper {
+    @include productsGrid;
+
+    .shop-review {
+      flex: 1;
+      @include shadow3;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+
+      .image-container {
+        .image {
+          width: 5rem;
+          height: 5rem;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .user-rating {
+        .reviewer-name {
+        }
+
+        .comment {
+          font-size: $afs;
+        }
+
+        .review-date {
+          font-size: $afs;
+          color: $blue;
+        }
+      }
     }
 
-    .edit-shop {
-        @include edit;
-        margin-bottom: 1rem;
-    }
-
-    .logout {
-        @include edit;
+    .no-review {
     }
   }
 }

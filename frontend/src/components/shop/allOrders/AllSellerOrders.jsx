@@ -23,7 +23,7 @@ const AllSellerOrders = () => {
         dispatch(sellerOrdersRequest());
 
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/seller/${currentSeller._id}`
+          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
         );
 
         dispatch(sellerOrdersSuccess(data.orders));
@@ -83,7 +83,7 @@ const AllSellerOrders = () => {
       row.push({
         id: item._id,
         quantity: item.cart.length,
-        total: 'US$ ' + item.totalPrice,
+        total: '$ ' + item.totalPrice,
         status: item.status,
       });
     });

@@ -85,11 +85,13 @@ const UserOrders = () => {
     orders.forEach((item) => {
       row.push({
         id: item._id,
-        Quantity: item.cart.length,
+        quantity: item.cart.length,
         total: 'US$ ' + item.totalPrice,
         status: item.status,
       });
     });
+
+    
   return (
     <div className="data-grid-wrapper">
       <DataGrid

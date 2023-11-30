@@ -3,7 +3,6 @@ import './UserOrderDetails.scss';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RxCross1 } from 'react-icons/rx';
-import { MdTextsms } from 'react-icons/md';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -14,17 +13,19 @@ import {
 } from '../../../redux/reducers/orderReducer';
 
 const UserOrderDetails = () => {
+  // The orderId is ...
   const { id } = useParams();
+  console.log('param id = ', id);
   // Global state variables
   const { orders } = useSelector((state) => state.order);
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // Local state variables
+  // Local state variables for reviewing a product
   const [open, setOpen] = useState(false);
+  const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [rating, setRating] = useState(1);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   // Display all orders of a user
   useEffect(() => {
@@ -43,30 +44,36 @@ const UserOrderDetails = () => {
     };
     userOrders();
   }, []);
-  // Find order
-  const data = orders && orders.find((item) => item._id === id);
 
-  // Review handler
+  // Find a specific order
+  const order = orders && orders.find((item) => item._id === id);
+
+  const rest = () => {
+    setComment('');
+    setRating(0);
+    setOpen(false);
+  };
+
+  // Product Review handler
   const reviewHandler = async (e) => {
+    e.preventDefault();
     try {
-      const newReview = {
+      const newProductReview = {
         user: currentUser,
         rating: rating,
         comment: comment,
-        productId: selectedItem?._id,
+        productId: selectedProduct?._id,
         orderId: id,
       };
+
       const { data } = await axios.put(
-        `http://localhost:5000/product/create-new-review`,
-        newReview,
+        `http://localhost:5000/api/products/product/review`,
+        newProductReview,
         { withCredentials: true }
       );
 
       toast.success(data.message);
-      dispatch('getAllOrdersOfUser'(currentUser._id));
-      setComment('');
-      setRating(null);
-      setOpen(false);
+      rest();
     } catch (error) {
       toast.error(error);
     }
@@ -76,7 +83,7 @@ const UserOrderDetails = () => {
   const refundHandler = async () => {
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/order/order-refund/${id}`,
+        `http://localhost:5000/api/orders/order/refund/${id}`,
         {
           status: 'Processing refund',
         }
@@ -90,36 +97,43 @@ const UserOrderDetails = () => {
 
   return (
     <section className={`user-order-details-container`}>
-      <h1 className="title"> Order Details</h1>
+      <h1 className="title"> Single Order Details</h1>
       {/* order id and date */}
       <article className="order-id-and-date">
         <p className="order-id">
-          Order ID: <span>#{data?._id?.slice(0, 8)}</span>
+          Order ID: <span>#{order?._id?.slice(0, 8)}</span>
         </p>
         <h5 className="order-placed-date">
-          Order placed on: <span>{data?.createdAt?.slice(0, 10)}</span>
+          Order placed on: <span>{order?.createdAt?.slice(0, 10)}</span>
         </h5>
       </article>
       {/* order items */}
       <div className="ordered-items-wrapper">
-        {data &&
-          data?.cart.map((item, index) => {
+        {order &&
+          order?.cart.map((product) => {
             return (
-              <section key={index} className="image-name-quantity-wrapper">
+              <section
+                key={product._id}
+                className="image-name-quantity-wrapper"
+              >
                 <figure className="image-container">
-                  <img src={item.images} alt="" className="image" />
+                  <img
+                    src={product.images}
+                    alt={product.name}
+                    className="image"
+                  />
                 </figure>
 
                 <article className="name-price-wrapper">
-                  <h4 className="subTitle">{item.name}</h4>
+                  <h4 className="subTitle">{product.name}</h4>
                   <p className="price">
-                   PQ: ${item.discountPrice} x {item.qty}
+                    PQ: ${product.discountPrice} x {product.qty}
                   </p>
                 </article>
-                {!item.isReviewed && data?.status === 'Delivered' ? (
+                {!product.isReviewed && order?.status === 'Delivered' ? (
                   <h4
                     className={`review-btn`}
-                    onClick={() => setOpen(true) || setSelectedItem(item)}
+                    onClick={() => setOpen(true) || setSelectedProduct(product)}
                   >
                     Write a review
                   </h4>
@@ -138,31 +152,37 @@ const UserOrderDetails = () => {
 
             <div className="selected-item-wrapper">
               <figure className="image-container">
-                <img src={selectedItem?.images} alt="" className="image" />
+                <img
+                  src={selectedProduct?.images}
+                  alt={selectedProduct.name}
+                  className="image"
+                />
               </figure>
 
               <article className="name-quantity-rating">
-                <h3 className="name">{selectedItem?.name}</h3>
+                <h3 className="name">{selectedProduct?.name}</h3>
                 <p className="quanity">
-                  ${selectedItem?.discountPrice} x {selectedItem?.qty}
+                  ${selectedProduct?.discountPrice} x {selectedProduct?.qty}
                 </p>
 
                 {/* ratings */}
                 <h3 className="rating">
                   Rating <span style={{ color: 'red' }}>*</span>
                 </h3>
-                <div className="rating-wrapper">
+
+                {/* Rating usring Starts of 1 to 5 scale */}
+                <div className="star-rating-wrapper">
                   {[1, 2, 3, 4, 5].map((i) =>
                     rating >= i ? (
                       <AiFillStar
                         key={i}
-                        className="icon"
+                        className="rated-icon"
                         onClick={() => setRating(i)}
                       />
                     ) : (
                       <AiOutlineStar
                         key={i}
-                        className="icon"
+                        className="unratedicon"
                         onClick={() => setRating(i)}
                       />
                     )
@@ -171,6 +191,7 @@ const UserOrderDetails = () => {
               </article>
             </div>
 
+            {/* Form */}
             <form className="form">
               <div className="input-container">
                 <textarea
@@ -180,7 +201,7 @@ const UserOrderDetails = () => {
                   rows="5"
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="How was your product? Write your feeling about it!"
+                  placeholder="How was your product? Write your feeling about it! (Optional)"
                   className="text-area"
                 ></textarea>
                 <label htmlFor="comment" className="input-label">
@@ -188,7 +209,11 @@ const UserOrderDetails = () => {
                 </label>
                 <span className="input-highlight"></span>
               </div>
-              <button className="comment-btn" type="submit">
+              <button
+                onClick={rating > 0 ? reviewHandler : null}
+                className="comment-btn"
+                type="submit"
+              >
                 Submit
               </button>
             </form>
@@ -198,7 +223,7 @@ const UserOrderDetails = () => {
       <hr className="hr" />
       {/* Total Price */}
       <h2 className="total-price">
-        Total Price: <strong>${data?.totalPrice}</strong>
+        Total Price: <strong>${order?.totalPrice}</strong>
       </h2>
       <hr className="hr" />
       {/* Shopping address */}
@@ -206,22 +231,24 @@ const UserOrderDetails = () => {
         <article className="shipping-address">
           <h4 className="subTitle">Shipping Address:</h4>
           <p className="address">
-            {`${data?.shippingAddress.address1} / ${data?.shippingAddress.address2}`}
+            {`${order?.shippingAddress.address1} / ${order?.shippingAddress.address2}`}
           </p>
-          <p className="address">{data?.shippingAddress.country}</p>
-          <p className="address">{data?.shippingAddress.state}</p>
-          <p className="address">{data?.shippingAddress.city}</p>
-          <p className="address">{data?.user?.phoneNumber}</p>
+          <p className="address">{order?.shippingAddress.country}</p>
+          <p className="address">{order?.shippingAddress.state}</p>
+          <p className="address">{order?.shippingAddress.city}</p>
+          <p className="address">{order?.user?.phoneNumber}</p>
         </article>
 
         <article className="status-wrapper">
           <h4 className="subTitle">Payment Info:</h4>
           <p>
             Status:
-            {data?.paymentInfo?.status ? data?.paymentInfo?.status : 'Not Paid'}
+            {order?.paymentInfo?.status
+              ? order?.paymentInfo?.status
+              : 'Not Paid'}
           </p>
 
-          {data?.status === 'Delivered' && (
+          {order?.status === 'Delivered' && (
             <button className={`give-refund-btn`} onClick={refundHandler}>
               Give a Refund
             </button>

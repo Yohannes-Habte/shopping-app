@@ -28,7 +28,6 @@ import ShopAllCoupons from './views/shopPages/shopAllCouponsPage/ShopAllCoupons'
 import SingleProduct from './views/productPage/SingleProduct';
 import ShopHome from './views/shopPages/shopHomePage/ShopHome';
 import ShopDashboard from './views/shopPages/shopDashboarPage/ShopDashboard';
-import ShopPreviewPage from './views/shopPages/shopPreviewPage/ShopPreviewPage';
 import PaymentPage from './views/paymentPage/PaymentPage';
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
@@ -37,6 +36,7 @@ import OrderSuccess from './views/orderSuccessPage/OrderSuccess';
 import ShopAllOrders from './views/shopPages/shopAllOrdersPage/ShopAllOrders';
 import UserOrderDetailsPage from './views/userOrderDetailsPage/UserOrderDetailsPage';
 import ShopOrderDetailsPage from './views/shopPages/shopOrderDetailsPage/ShopOrderDetailsPage';
+import ShopDetailsPage from './views/shopPages/shopDetailsPage/ShopDetailsPage';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');
@@ -86,7 +86,7 @@ const App = () => {
           <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<EventsPage />} />
-          <Route path="/shop/preview/:id" element={<ShopPreviewPage />} />
+          <Route path="/shop/preview/:id" element={<ShopDetailsPage />} />
           <Route path="/order/success" element={<OrderSuccess />} />
 
           {/* User Pages */}

@@ -40,7 +40,7 @@ export const createAccount = async (req, res, next) => {
     const userRegisterToken = userToken(newUser._id);
 
     return res
-      .cookie('user_token', userRegisterToken, {
+      .cookie('userToken', userRegisterToken, {
         path: '/',
         httpOnly: true,
         expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -99,7 +99,7 @@ export const updateUserProfile = async (req, res, next) => {
     const updatedUserToken = userToken(updateUser._id);
 
     return res
-      .cookie('user_token', updatedUserToken, {
+      .cookie('userToken', updatedUserToken, {
         path: '/',
         httpOnly: true,
         expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -174,7 +174,7 @@ export const loginUser = async (req, res, next) => {
       const loginToken = userToken(user._id);
 
       return res
-        .cookie('user_token', loginToken, {
+        .cookie('userToken', loginToken, {
           path: '/',
           httpOnly: true,
           expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -203,7 +203,7 @@ export const userLogout = async (req, res, next) => {
     }
 
     // First Option to log out a user
-    res.clearCookie('user_token');
+    res.clearCookie('userToken');
     res.status(200).json(`You have successfully logged out`);
 
     // Second option to log out a user:
@@ -232,7 +232,7 @@ export const deleteAccount = async (req, res, next) => {
     if (user) {
       await User.findByIdAndDelete(req.params.account);
 
-      res.clearCookie('user_token');
+      res.clearCookie('userToken');
       res.status(200).json(`User has been successfully deleted!`);
     } else {
       return next(createError(404, 'User not found!'));

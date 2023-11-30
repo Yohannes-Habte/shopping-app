@@ -5,18 +5,20 @@ const { Schema } = mongoose;
 const productSchema = new Schema(
   {
     name: { type: String, required: true },
+    images: { type: String, required: true },
+    // images: [],
     description: { type: String, required: true },
     category: { type: String, required: true },
     tags: { type: String },
+    shop: { type: Object },
+    shopId: { type: String, required: true },
     originalPrice: { type: Number },
     discountPrice: { type: Number, required: true },
     stock: { type: Number, required: true },
-    ratings: { type: Number },
-    shopId: { type: String, required: true },
-    shop: { type: Object },
     sold_out: { type: Number, default: 0 },
-    images: {type: String, required: true},
-    // images: [],
+    // Average rating of a product
+    ratings: { type: Number },
+    // Individual user product review for rating a product
     reviews: [
       {
         user: { type: Object },

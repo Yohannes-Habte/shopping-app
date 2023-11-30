@@ -16,7 +16,7 @@ export const generateSellerToken = (id) => {
 //====================================================================
 export const authUser = async (req, res, next) => {
   try {
-    const token = req.cookies.user_token;
+    const token = req.cookies.userToken;
 
     // If there is not token, then...
     if (!token) {
@@ -28,8 +28,6 @@ export const authUser = async (req, res, next) => {
 
     // Find user using the decoded token
     const user = await User.findById(decodedToken.id);
-
-    console.log("The user is", user)
 
     // If user does not exist, it is unauthorized
     if (!user) {
@@ -49,7 +47,7 @@ export const authUser = async (req, res, next) => {
 //====================================================================
 export const authSeller = async (req, res, next) => {
   try {
-    const shopToken = req.cookies.shop_token;
+    const shopToken = req.cookies.shopToken;
 
     if (!shopToken) {
       return next(
@@ -60,8 +58,6 @@ export const authSeller = async (req, res, next) => {
     const decodedToken = JWT.verify(shopToken, process.env.JWT_SHOP_SECRET);
 
     const shop = await Shop.findById(decodedToken.id);
-
-    console.log("The shop id is", shop)
 
     if (!shop) {
       return next(createError(403, 'You are not authorized.'));
@@ -80,7 +76,7 @@ export const authSeller = async (req, res, next) => {
 //====================================================================
 export const authAdmin = async (req, res, next) => {
   try {
-    const token = req.cookies.shop_token;
+    const token = req.cookies.shopToken;
 
     if (!token) {
       return next(createError(401, 'User is not authenticated. Please login!'));

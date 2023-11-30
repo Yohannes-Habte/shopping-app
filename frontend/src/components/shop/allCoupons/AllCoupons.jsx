@@ -14,8 +14,6 @@ const AllCoupons = () => {
   const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
-  console.log("THe seller is", currentSeller)
-
   // Local state variables
   const [open, setOpen] = useState(false);
   const [name, setName] = useState('');
@@ -54,7 +52,8 @@ const AllCoupons = () => {
         setIsLoading(true);
 
         const { data } = await axios.get(
-          `http://localhost:5000/api/coupons/shop/${currentSeller._id}`
+          `http://localhost:5000/api/coupons/shop/${currentSeller._id}`,
+          { withCredentials: true }
         );
         setIsLoading(false);
         setCoupouns(data);
@@ -113,7 +112,8 @@ const AllCoupons = () => {
 
       const { data } = await axios.post(
         `http://localhost:5000/api/coupons/create-coupon`,
-        newCoupon
+        newCoupon,
+        { withCredentials: true }
       );
 
       toast.success('Coupon code created successfully!');

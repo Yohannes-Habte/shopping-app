@@ -100,7 +100,6 @@ export const updateShopOrders = async (req, res, next) => {
 
     // update shop info after an order has been delivered to a user
     async function updateShopInfo(amount) {
-      //! The shop is not identified! Why?
       const shop = await Shop.findById(req.shop.id);
 
       shop.availableBalance = amount;

@@ -4,6 +4,8 @@ import { Country, State, City } from 'country-state-city';
 import { FaAddressCard, FaPhoneSquareAlt, FaUserTie } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { RiFileZipFill } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Shipping = ({
   user,
@@ -207,8 +209,9 @@ const Shipping = ({
       </form>
 
       <h3 className="saved-address" onClick={() => setUserInfo(!userInfo)}>
-        Choose From saved address
+        Choose From saved address{' '}
       </h3>
+
       {userInfo && (
         <div className="user-infos-wrapper">
           {user &&
@@ -228,6 +231,7 @@ const Shipping = ({
                     setZipCode(item.zipCode)
                   }
                 />
+
                 <h3 className="address-type">{item.addressType}</h3>
               </article>
             ))}

@@ -102,6 +102,24 @@
         padding: 0;
       }
 
+      // Rating icon
+
+      .star-rating-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+
+        .rated-icon {
+          color: $yellow;
+          font-size: $afs;
+        }
+
+        .unratedicon {
+          font-size: $afs;
+          color: $yellow;
+        }
+      }
+
       // Form
       .form {
         .input-container {

@@ -6,10 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { MdAddBox } from 'react-icons/md';
 import { TbSquareMinusFilled } from 'react-icons/tb';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai';
-import { FaHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import RelatedProducts from '../relatedProducts/RelatedProducts';
-import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
 import ProductInfos from '../productInfos/ProductInfos';
 import { addToCart } from '../../../redux/reducers/cartReducer';
 import {
@@ -27,31 +25,48 @@ const ProductDetails = ({ data }) => {
   const navigate = useNavigate();
 
   // Global state variables
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentSeller } = useSelector((state) => state.seller);
   const { wishList } = useSelector((state) => state.wishList);
   const { cart } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   // Local variables
-  const [count, setCount] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const bestdealtProducts = async () => {
+      try {
+        // dispatch(productsShopFetchStart());
+        const { data } = await axios.get(
+          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+        );
+        // dispatch(productsShopFetchSuccess(data));
+        setProducts(data);
+      } catch (error) {
+        console.log(error);
+        // dispatch(productsShopFetchFailure(error.response.data.message));
+      }
+    };
+    bestdealtProducts();
+  }, []);
 
   // Display all products for a shop
-  useEffect(() => {
-    dispatch(productsShopFetchSuccess(data && data._id));
-    if (wishList && wishList.find((i) => i._id === data?._id)) {
-      setClick(true);
-    } else {
-      setClick(false);
-    }
-  }, [data, wishList]);
+  // useEffect(() => {
+  //   dispatch(productsShopFetchSuccess(data && data._id));
+  //   if (wishList && wishList.find((i) => i._id === data?._id)) {
+  //     setClick(true);
+  //   } else {
+  //     setClick(false);
+  //   }
+  // }, [data, wishList]);
 
   // Increasing count by one
   const incrementCount = () => {
-    if (data.stock > count) {
-      setCount(count + 1);
+    if (data.stock > quantity) {
+      setQuantity(quantity + 1);
     } else {
       toast.error(
         'The maximum available in the stock is reached! If you want more, please send us message!'
@@ -61,8 +76,8 @@ const ProductDetails = ({ data }) => {
 
   // Decreasing count by one
   const decrementCount = () => {
-    if (count > 1) {
-      setCount(count - 1);
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
     }
   };
 
@@ -83,31 +98,34 @@ const ProductDetails = ({ data }) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
     if (isItemExists) {
       toast.error('Item already in cart!');
-    } else if (data.stock < count) {
+    } else if (data.stock < quantity) {
       toast.error('Product is out of stock!');
     } else {
-      const cartData = { ...data, qty: count };
+      const cartData = { ...data, qty: quantity };
       dispatch(addToCart(cartData));
       toast.success('Item added to cart successfully!');
     }
   };
 
-  // const totalReviewsLength =
-  //   products &&
-  //   products.reduce((acc, product) => acc + product.reviews.length, 0);
+  // How many times a particular product is reviewed
+  const totalReviewsLength =
+    products &&
+    products.reduce((acc, product) => acc + product.reviews.length, 0);
 
-  // const totalRatings =
-  //   products &&
-  //   products.reduce(
-  //     (acc, product) =>
-  //       acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
-  //     0
-  //   );
+  // The total sum of rating done by users
+  const totalRatings =
+    products &&
+    products.reduce(
+      (acc, product) =>
+        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+      0
+    );
 
-  // const avg = totalRatings / totalReviewsLength || 0;
+  const average = totalRatings / totalReviewsLength || 0;
 
-  // const averageRating = avg.toFixed(2);
+  const averageRating = average.toFixed(2);
 
+  // Handle Message Submit Function
   const handleMessageSubmit = async () => {
     if ('isAuthenticated') {
       //   const groupTitle = data._id + user._id;
@@ -135,7 +153,7 @@ const ProductDetails = ({ data }) => {
       <article className="product-details">
         {/* Product image */}
         <figure className="image-container">
-          <img className="image" src={data.images} alt="" />
+          <img className="image" src={data.images} alt={data.name} />
         </figure>
 
         {/* Product Description and add to cart */}
@@ -151,7 +169,7 @@ const ProductDetails = ({ data }) => {
                 className="icon-add-to-cart"
               />
 
-              <h3 className="amount-subTitle"> {count} </h3>
+              <h3 className="amount-subTitle"> {quantity} </h3>
 
               <MdAddBox onClick={incrementCount} className="icon-add-to-cart" />
             </section>
@@ -184,10 +202,9 @@ const ProductDetails = ({ data }) => {
           <aside className="product-rating">
             <img src="" alt="" />
             <h3>
-              {' '}
-              <Link to={`/shop/${data._id}`}>{data.name} </Link>{' '}
+              <Link to={`/shop/${data._id}`}>{data.name} </Link>
             </h3>
-            <p> Rating (4.5) </p>
+            <p> Rating: {averageRating} </p>
             <span onClick={handleMessageSubmit} className="send-message">
               Send Message <AiOutlineMessage />
             </span>
@@ -198,8 +215,8 @@ const ProductDetails = ({ data }) => {
       <ProductInfos
         data={data}
         products={products}
-        // totalReviewsLength={totalReviewsLength}
-        // averageRating={averageRating}
+        totalReviewsLength={totalReviewsLength}
+        averageRating={averageRating}
       />
 
       {/* Include related Products */}

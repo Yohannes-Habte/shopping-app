@@ -1,2 +1,18 @@
 @import '../../styles/Variables.scss';
 @import '../../styles/Mixins.scss';
+
+.order-success-page {
+  .order-success-page-container {
+    width: $laptop;
+    margin: 1rem auto;
+    min-height: 100vh;
+
+    .success-title {
+      @include title;
+    }
+
+    .welcome-back {
+      @include paragraph;
+    }
+  }
+}

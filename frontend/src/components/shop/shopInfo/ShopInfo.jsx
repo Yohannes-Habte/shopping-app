@@ -1,111 +1,151 @@
-import axios from 'axios';
-import './ShopInfo.scss';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import './ShopInfo.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import { Link, useParams } from 'react-router-dom';
+import Ratings from '../../products/ratings/Ratings';
+import { eventsShopFetchSuccess } from '../../../redux/reducers/eventReducer';
+import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
+import ProductCard from '../../products/productCard/ProductCard';
+import axios from 'axios';
 
+// The isOwner comes from ShopHome.jsx page
 const ShopInfo = ({ isOwner }) => {
-
+  const { id } = useParams();
+  console.log('product id', id);
   // Global state variables
-  const { products } = useSelector((state) => state.product);
   const { currentSeller } = useSelector((state) => state.seller);
+  const { products } = useSelector((state) => state.product);
+  const { events } = useSelector((state) => state.event);
   const dispatch = useDispatch();
 
   // Local state variables
-  const [data, setData] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [active, setActive] = useState(1);
+  const [shopProducts, setShopProducts] = useState([]);
 
-  // Get shop info
+  // Display products for a single shop
   useEffect(() => {
-    const getShopInfo = async () => {
+    const shopProducts = async () => {
       try {
-        setIsLoading(true);
+        // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/shops/${currentSeller._id}`
+          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
         );
-        setData(data);
-        setIsLoading(false);
-      } catch (err) {
-        toast.error(err.response.data.message);
-        setIsLoading(false);
+        // dispatch(productsShopFetchSuccess(data));
+        setShopProducts(data);
+      } catch (error) {
+        console.log(error);
+        // dispatch(productsShopFetchFailure(error.response.data.message));
       }
     };
-    getShopInfo();
+    shopProducts();
   }, []);
 
-  // Logout handler
-  const logoutHandler = async () => {
-    try {
-      const { data } = await axios.get(`http://localhost:5000/shop/logout`, {
-        withCredentials: true,
-      });
-      window.location.reload();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    dispatch(eventsShopFetchSuccess(id));
+    dispatch(productsShopFetchSuccess(id));
+  }, [dispatch]);
 
-  // const totalReviewsLength =
-  //   products &&
-  //   products.reduce((acc, product) => acc + product.reviews.length, 0);
+  // All reviews
+  const allReviews =
+    shopProducts && shopProducts.map((product) => product.reviews).flat();
 
-  // const totalRatings =
-  //   products &&
-  //   products.reduce(
-  //     (acc, product) =>
-  //       acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
-  //     0
-  //   );
+  // Total millisenconds per day
+  const totalMillisecondsPerDay = 1000 * 60 * 60 * 24;
+  // Date now
+  const now = new Date();
+  const dateNow = now.getTime();
 
-  // const averageRating = totalRatings / totalReviewsLength || 0;
+  // Review Created Date
 
   return (
-    <div className="shop-info-container">
-      <article className="article-box">
-        <figure className="image-container">
-          <img src={`${data.image}`} alt="Profile" className="image" />
-        </figure>
-        <h3 className="subTitle">{data.name}</h3>
-        <p className="text description">{data.description}</p>
-      </article>
-
-      <article className="article-box">
-        <h3 className="subTitle">Address</h3>
-        <p className="text address">{data.address}</p>
-      </article>
-
-      <article className="article-box">
-        <h3 className="subTitle">Phone Number</h3>
-        <p className="text phone">{data.phoneNumber}</p>
-      </article>
-
-      <div className="article-box">
-        <h3 className="subTitle">Total Products</h3>
-        <p className="text product-length">{products && products.length}</p>
-      </div>
-
-      <article className="article-box">
-        <h3 className="subTitle">Shop Ratings</h3>
-        <p className="text average">4/5</p>
-      </article>
-
-      <article className="article-box">
-        <h3 className="subTitle">Joined On</h3>
-        <p className="text createdAt">{data?.createdAt?.slice(0, 10)}</p>
-      </article>
-
+    <section className="shop-info-contianer">
+      <h1 className="shop-title"> {currentSeller.name} </h1>
       {isOwner && (
-        <article className="article-box">
-          <Link to="/settings">
-            <p className="edit-shop">Edit Shop</p>
-          </Link>
-          <h3 onClick={logoutHandler} className="logout">
-            Log Out
-          </h3>
+        <span className="go-board">
+          <Link to="/dashboard">Go Dashboard</Link>
+        </span>
+      )}
+      <article className="tabs-wrapper">
+        <h3
+          onClick={() => setActive(1)}
+          className={active === 1 ? 'active' : 'passive'}
+        >
+          Shop Products
+        </h3>
+
+        <p
+          onClick={() => setActive(2)}
+          className={active === 2 ? 'active' : 'passive'}
+        >
+          Running Events
+        </p>
+
+        <p
+          onClick={() => setActive(3)}
+          className={active === 3 ? 'active' : 'passive'}
+        >
+          Shop Reviews
+        </p>
+      </article>
+
+      {/* Shop Products */}
+      {active === 1 && (
+        <div className="shop-products">
+          {shopProducts &&
+            shopProducts.map((product, index) => (
+              <ProductCard product={product} key={index} isShop={true} />
+            ))}
+        </div>
+      )}
+
+      {/* Shop Events */}
+      {active === 2 && (
+        <article className="shop-events-wrapper">
+          <div className="shop-events">
+            {/* {events &&
+              events.map((i, index) => (
+                <ProductCard
+                  data={i}
+                  key={index}
+                  isShop={true}
+                  isEvent={true}
+                />
+              ))} */}
+          </div>
+          {events && events.length === 0 && (
+            <h3 className="no-events">No Events have for this shop!</h3>
+          )}
         </article>
       )}
-    </div>
+
+      {/* Shop Reviews */}
+      {active === 3 && (
+        <article className="shop-reviews-wrapper">
+          {allReviews &&
+            allReviews.map((reviewer) => (
+              <div key={reviewer._id} className="shop-review">
+                <figure className="image-container">
+                  <img
+                    src={`${reviewer.user.image}`}
+                    className="image"
+                    alt=""
+                  />
+                </figure>
+                <section className="user-rating">
+                  <h3 className="reviewer-name">{reviewer.user.name}</h3>
+                  <Ratings averageRating={reviewer.rating} />
+
+                  <p className="comment">{reviewer?.comment}</p>
+                  <p className="review-date">2days ago</p>
+                </section>
+              </div>
+            ))}
+          {allReviews && allReviews.length === 0 && (
+            <h3 className="no-review">No Reviews have for this shop!</h3>
+          )}
+        </article>
+      )}
+    </section>
   );
 };
 

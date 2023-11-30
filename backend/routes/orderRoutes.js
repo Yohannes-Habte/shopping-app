@@ -11,15 +11,16 @@ import {
   orderUserRefund,
   updateShopOrders,
 } from '../controllers/orderController.js';
+import { authSeller } from '../middleware/auth.js';
 
 // order Router
 const orderRouter = express.Router();
 
 // order routes
 orderRouter.post('/new-order', createOrder);
-orderRouter.put('/update-order-status/:id', updateShopOrders);
+orderRouter.put('/update-order-status/:id', authSeller, updateShopOrders);
 orderRouter.put('/order-refund/:id', orderUserRefund);
-orderRouter.put('/order-refund-success/:id', orderShopRefund);
+orderRouter.put('/order-refund-success/:id', authSeller, orderShopRefund);
 orderRouter.get('/order/:id', getOrder);
 orderRouter.get('/user/:userId', getAllUserOrders);
 orderRouter.get('/shop/:shopId', allShopOrders);

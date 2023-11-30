@@ -1,6 +1,7 @@
 import Product from '../models/productModel.js';
 import createError from 'http-errors';
 import Shop from '../models/shopModel.js';
+import Order from '../models/orderModel.js';
 
 //==============================================================================
 // Create Product
@@ -115,5 +116,98 @@ export const deleteSingleProduct = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(createError(500, 'Product could not be deleted! Please try again!'));
+  }
+};
+
+//==============================================================================
+// Product Review
+//==============================================================================
+
+export const productReview = async (req, res, next) => {
+  try {
+    const { user, rating, comment, productId, orderId } = req.body;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return next(createError(400, `Product not found!`));
+    }
+
+    // New Review for a product
+    const newReview = {
+      user,
+      rating,
+      comment,
+      productId,
+    };
+
+    // Is product reviewed?
+    const isReviewed = product.reviews.find(
+      (review) => review.user._id === req.user._id
+    );
+
+    // If product is reviewed, ..., otherwise, push the new review of a product to a product model
+    if (isReviewed) {
+      product.reviews.forEach((accessed) => {
+        if (accessed.user._id === req.user._id) {
+          (accessed.rating = rating),
+            (accessed.comment = comment),
+            (accessed.user = user);
+        }
+      });
+    } else {
+      product.reviews.push(newReview);
+    }
+
+    // Ratings sum for a product
+    let totalSum = 0;
+
+    product.reviews.forEach((review) => {
+      totalSum = totalSum + review.rating;
+    });
+
+    // Average rating for a product is
+    product.ratings = totalSum / product.reviews.length;
+
+    await product.save({ validateBeforeSave: false });
+
+    // Update order after the product is reviewed. If the product is reviewed, isReviewed will be true in the orders collection under the cart
+    await Order.findByIdAndUpdate(
+      orderId,
+      { $set: { 'cart.$[element].isReviewed': true } },
+      { arrayFilters: [{ 'element._id': productId }], new: true }
+    );
+
+    res.status(201).json({
+      success: true,
+      message: 'Reviwed succesfully!',
+    });
+  } catch (error) {
+    console.log(error);
+    next(createError(500, 'Product review did not succeed! Please try again!'));
+  }
+};
+
+//==============================================================================
+// Products that could be seen only by admin
+//==============================================================================
+export const shopsProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find().sort({
+      createdAt: -1,
+    });
+
+    res.status(201).json({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    next(
+      createError(
+        500,
+        'All shops products could not be accessed! Please try again!'
+      )
+    );
   }
 };

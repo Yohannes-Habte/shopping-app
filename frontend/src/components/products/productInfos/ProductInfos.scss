@@ -2,39 +2,140 @@
 @import '../../../styles/Mixins.scss';
 
 .product-infos {
+  display: flex;
+  flex-direction: column;
+  gap: 1ren;
+
   .tabs-wrapper {
-    .active {
-    }
-
-    .passive {
-    }
-  }
-
-  // active tap 3
-
-  .active-tab {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+
+    .active {
+      position: relative;
+      @include subTitle;
+      @include button4;
+      color: $tomato;
+      cursor: pointer;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -0.2rem;
+        width: 100%;
+        height: 2px;
+        background-color: $red;
+      }
+    }
+
+    .passive {
+      @include subTitle;
+      color: $black;
+      cursor: pointer;
+      @include button4;
+    }
+  }
+
+  // Product details
+
+  .product-details-wrapper {
+    @include shadow3;
+
+    .product-name {
+      @include subTitle;
+    }
+
+    .description {
+      @include paragraph;
+    }
+  }
+
+  // Product details
+  .product-reviews-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 1rem;
 
-    .preview {
+    .single-review-container {
+      flex: 1;
+      @include shadow3;
       display: flex;
       flex-direction: row;
       gap: 1rem;
 
       .image-container {
         .image {
-          width: 20rem;
-          height: 20rem;
+          width: 5rem;
+          height: 5rem;
           object-fit: cover;
-          border-radius: $radius;
+          border-radius: 50%;
         }
       }
     }
 
-    .text-right {
+    .no-product-review {
       @include shadow3;
+      @include subTitle;
+    }
+  }
+
+  // Shop Information
+  .product-and-shop-information-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+
+    .product-information-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+
+      .image-container {
+        .image {
+          width: 19rem;
+          height: 19rem;
+          object-fit: cover;
+          border-radius: $radius;
+        }
+      }
+
+      .shop-name {
+        @include subTitle;
+      }
+
+      .shop-rating {
+        color: $blue;
+        padding: 0 0.5rem;
+      }
+
+      .product-description {
+        @include paragraph;
+      }
+    }
+
+    .shop-information-wrapper {
+      @include shadow3;
+      height: fit-content;
+      background-color: $popup-bg;
+
+      .shop {
+        @include subTitle;
+
+        .span {
+          color: $blue;
+          padding-left: $radius;
+        }
+      }
+
+      .visit-shop {
+        @include button1;
+      }
     }
   }
 }

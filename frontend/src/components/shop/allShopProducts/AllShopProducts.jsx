@@ -33,7 +33,6 @@ const AllShopProducts = () => {
         );
         // dispatch(productsShopFetchSuccess(data));
         setShopProducts(data);
-        console.log('Selam shop products are', data);
       } catch (error) {
         dispatch(productsShopFetchFailure(error.response.data.message));
       }

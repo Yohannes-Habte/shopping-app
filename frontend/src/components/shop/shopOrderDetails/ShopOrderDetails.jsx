@@ -19,8 +19,6 @@ const ShopOrderDetails = () => {
   const { currentSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
 
-  console.log("order id is", id, "current seller id", currentSeller._id)
-
   // Local variables
   const [status, setStatus] = useState('');
 
@@ -32,6 +30,7 @@ const ShopOrderDetails = () => {
           `http://localhost:5000/api/orders/shop/${currentSeller._id}`
         );
         dispatch(sellerOrdersSuccess(data.orders));
+      
       } catch (error) {
         dispatch(sellerOrdersFail(error.response.data.message));
       }
@@ -41,6 +40,7 @@ const ShopOrderDetails = () => {
 
   // Order details
   const data = orders && orders.find((item) => item._id === id);
+  console.log('Order data is:', orders);
 
   // Update order
   const orderUpdateHandler = async (e) => {

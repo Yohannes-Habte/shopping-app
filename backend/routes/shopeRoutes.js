@@ -15,7 +15,7 @@ const shopRouter = express.Router();
 shopRouter.post('/create-shop', createShop);
 shopRouter.post('/login-shop', loginSeller);
 shopRouter.get('/logout-shop/:id', sellerLogout);
-shopRouter.get('/:id', getShop);
+shopRouter.get('/:id', authSeller, getShop);
 shopRouter.get('/', authAdmin, getShops);
 
 // Export shop Router

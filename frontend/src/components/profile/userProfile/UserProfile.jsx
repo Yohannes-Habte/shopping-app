@@ -13,7 +13,6 @@ import AllRefundOrders from '../refunds/AllRefundOrders';
 import ChangePassword from '../changePassword/ChangePassword';
 import TrackOrderTable from '../trackOrderTable/TrackOrderTable';
 import Address from '../address/Address';
-import PaymentMethod from '../../payment/paymentMethod/PaymentMethod';
 import ButtonLoader from '../../layout/loader/ButtonLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import {

@@ -36,7 +36,7 @@ export const createShop = async (req, res, next) => {
     const registerShopToken = sellerToken(newSeller._id);
     // Response
     return res
-      .cookie('shop_token', registerShopToken, {
+      .cookie('shopToken', registerShopToken, {
         path: '/',
         httpOnly: true,
         expires: new Date(Date.now() + 120 * 60 * 1000),
@@ -82,7 +82,7 @@ export const loginSeller = async (req, res, next) => {
       const shopLoginToken = sellerToken(seller._id);
 
       return res
-        .cookie('shop_token', shopLoginToken, {
+        .cookie('shopToken', shopLoginToken, {
           path: '/',
           httpOnly: true,
           expires: new Date(Date.now() + 60 * 60 * 1000),
@@ -110,7 +110,7 @@ export const sellerLogout = async (req, res, next) => {
       return next(createError(400, 'Seller not found!'));
     }
 
-    res.cookie('shop_token', null, {
+    res.cookie('shopToken', null, {
       httpOnly: true,
       expires: new Date(0),
       sameSite: 'none',
@@ -127,7 +127,7 @@ export const sellerLogout = async (req, res, next) => {
 //====================================================================
 export const getShop = async (req, res, next) => {
   try {
-    const shop = await Shop.findById(req.params.id);
+    const shop = await Shop.findById(req.shop._id);
     console.log('The shop is', shop);
 
     if (!shop) {

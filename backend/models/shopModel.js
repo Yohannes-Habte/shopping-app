@@ -23,8 +23,6 @@ const shopSchema = new Schema(
       {
         amount: { type: Number, required: true },
         status: { type: String, default: 'Processing' },
-        createdAt: { type: Date, default: Date.now() },
-        updatedAt: { type: Date },
       },
     ],
     resetPasswordToken: String,

@@ -1,0 +1,12 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.featured-products-container {
+  .featured-products-title {
+    @include subTitle;
+  }
+
+  .featured-products {
+    @include productsGrid;
+  }
+}

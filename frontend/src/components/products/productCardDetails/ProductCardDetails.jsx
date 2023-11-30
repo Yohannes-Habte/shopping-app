@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './ProductCartDetails.scss';
+import './ProductCardDetails.scss';
 import {
   AiFillHeart,
   AiOutlineHeart,

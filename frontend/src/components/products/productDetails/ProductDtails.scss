@@ -91,33 +91,3 @@
   }
 }
 
-// Further Production Informations
-
-.product-infos {
-  width: 100%;
-  margin: 1rem auto;
-
-  .tabs-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    @include shadow3;
-
-    .active {
-      @include subTitle;
-      color: $tomato;
-      @include button4;
-      text-decoration: underline;
-    }
-
-    .passive {
-      @include subTitle;
-      @include button4;
-      color: $black;
-    }
-  }
-
-  .active-tab {
-    @include shadow3;
-  }
-}

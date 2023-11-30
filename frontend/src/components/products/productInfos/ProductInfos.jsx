@@ -3,7 +3,12 @@ import './ProductInfos.scss';
 import Ratings from '../ratings/Ratings';
 import { Link } from 'react-router-dom';
 
-const ProductInfos = ({ data, product, totalReviewsLength, averageRating }) => {
+const ProductInfos = ({
+  data,
+  products,
+  totalReviewsLength,
+  averageRating,
+}) => {
   const [active, setActive] = useState(1);
 
   return (
@@ -31,39 +36,49 @@ const ProductInfos = ({ data, product, totalReviewsLength, averageRating }) => {
         </h5>
       </article>
 
+      {/* product Details */}
       {active === 1 ? (
-        <div className="active-tab">
+        <article className="product-details-wrapper">
+          <h3 className="product-name"> {data.name} </h3>
           <p className="description">{data.description}</p>
-        </div>
+        </article>
       ) : null}
 
+      {/* product reviews */}
       {active === 2 ? (
-        <div className="active-tab">
+        <section className="product-reviews-wrapper">
           {data &&
             data.reviews.map((item) => (
-              <div className="comment-container">
-                <img src={`${item.user.image}`} alt="" className="image" />
-                <div className="rating-wrapper ">
-                  <article className="rating">
-                    <h3 className="subTitle">{item.user.name}</h3>
-                    <Ratings rating={data?.ratings} />
-                  </article>
+              <div className="single-review-container">
+                <figure className="image-container">
+                  <img
+                    src={`${item.user.image}`}
+                    alt={item.user.name}
+                    className="image"
+                  />
+                </figure>
+
+                <article className="reviewer-rating-comment">
+                  <h3 className="subTitle">{item.user.name}</h3>
+                  {/* Ratings Component */}
+                  <Ratings averageRating={data?.ratings} />
                   <p className="comment">{item.comment}</p>
-                </div>
+                </article>
               </div>
             ))}
 
-          <div className="no-product-review">
-            {data && data.reviews.length === 0 && (
-              <h5>No Reviews have for this product!</h5>
-            )}
-          </div>
-        </div>
+          {data && data.reviews.length === 0 && (
+            <h3 className="no-product-review">
+              No Reviews have for this product!
+            </h3>
+          )}
+        </section>
       ) : null}
 
+      {/* Shop Information */}
       {active === 3 && (
-        <div className="active-tab">
-          <article className="preview">
+        <div className="product-and-shop-information-wrapper">
+          <article className="product-information-wrapper">
             <figure className="image-container">
               <Link to={`/shop/preview/${data._id}`} className="link">
                 <img
@@ -76,30 +91,26 @@ const ProductInfos = ({ data, product, totalReviewsLength, averageRating }) => {
 
             <Link to={`/shop/preview/${data.shop._id}`} className="link">
               <h3 className={`shop-name`}>{data.name}</h3>
-              <p className="shop-rating">({'averageRating'}/5) Ratings</p>
-              <p className="paragraph">{data.description}</p>{' '}
+              <p className="shop-rating">Average Rating: {averageRating}</p>
+              <p className="product-description">{data.description}</p>{' '}
             </Link>
           </article>
 
-          <article className="text-right">
-            <h5 className="subTitle">
+          <article className="shop-information-wrapper">
+            <hp className="shop">
               Joined on:
-              <span className="shop">{data.createdAt?.slice(0, 10)}</span>
-            </h5>
-            <h5 className="subTitle">
+              <span className="span">{data.createdAt?.slice(0, 10)}</span>
+            </hp>
+            <p className="shop">
               Total Products:
-              <span className="length">
-                {/* {products && products.length} */}
-              </span>
-            </h5>
-            <h5 className="subTitle">
+              <span className="span">{products && products.length}</span>
+            </p>
+            <h3 className="shop">
               Total Reviews:
-              <span className="total-review-length">
-                {'totalReviewsLength'}
-              </span>
-            </h5>
+              <span className="span">{totalReviewsLength}</span>
+            </h3>
             <Link to="/">
-              <h4 className="visit-shop">Visit Shop</h4>
+              <p className="visit-shop">Go to Shoping</p>
             </Link>
           </article>
         </div>
