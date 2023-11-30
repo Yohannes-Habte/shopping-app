@@ -81,7 +81,7 @@ const ProfileSidebar = ({ active, setActive }) => {
         <span className={active === 2 ? 'active' : 'passive'}>Orders</span>
       </div>
 
-      {/* Orders section */}
+      {/* Refunds section */}
       <div className="tab-box refunds" onClick={() => setActive(3)}>
         <HiOutlineReceiptRefund
           className={active === 3 ? 'active-icon ' : 'passive-icon'}

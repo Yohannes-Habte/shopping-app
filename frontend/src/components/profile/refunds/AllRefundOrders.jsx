@@ -3,19 +3,44 @@ import { RxArrowRight } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { DataGrid } from '@mui/x-data-grid';
+import {
+  userOrdersFail,
+  userOrdersRequest,
+  userOrdersSuccess,
+} from '../../../redux/reducers/orderReducer';
+import axios from 'axios';
 
 const AllRefundOrders = () => {
-  const { curentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const { orders } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
+  // Display all orders of a user
   useEffect(() => {
-    //   dispatch(getAllOrdersOfUser(user._id));
+    const userOrders = async () => {
+      try {
+        dispatch(userOrdersRequest());
+
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/user/${currentUser._id}`
+        );
+
+        dispatch(userOrdersSuccess(data.orders));
+      } catch (error) {
+        dispatch(userOrdersFail(error.response.data.message));
+      }
+    };
+    userOrders();
   }, []);
 
-  const eligibleOrders =
-    orders && orders.filter((item) => item.status === 'Processing refund');
+  // ===================================================================================
+  // Filter all 'Processing refund' orders
+  // ===================================================================================
+  const refundOrders =
+    orders &&
+    orders.filter((product) => product.status === 'Processing refund');
 
+  // Columns of 'Processing refund' orders
   const columns = [
     { field: 'id', headerName: 'Order ID', minWidth: 150, flex: 0.7 },
 
@@ -24,15 +49,15 @@ const AllRefundOrders = () => {
       headerName: 'Status',
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, 'status') === 'Delivered'
-          ? 'greenColor'
-          : 'redColor';
-      },
+      // cellClassName: (params) => {
+      //   return params.getValue(params.id, 'status') === 'Delivered'
+      //     ? 'greenColor'
+      //     : 'redColor';
+      // },
     },
     {
-      field: 'itemsQty',
-      headerName: 'Items Qty',
+      field: 'quantity',
+      headerName: 'Product Quantity',
       type: 'number',
       minWidth: 130,
       flex: 0.7,
@@ -55,27 +80,24 @@ const AllRefundOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <>
-            <Link to={`/user/order/${params.id}`}>
-              <button>
-                <RxArrowRight size={20} />
-              </button>
-            </Link>
-          </>
+          <Link to={`/user/order/${params.id}`}>
+            <RxArrowRight size={20} />
+          </Link>
         );
       },
     },
   ];
 
+  // Rows of 'Processing refund' orders
   const row = [];
 
-  eligibleOrders &&
-    eligibleOrders.forEach((item) => {
+  refundOrders &&
+    refundOrders.forEach((order) => {
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: 'US$ ' + item.totalPrice,
-        status: item.status,
+        id: order._id,
+        quantity: order.cart.length,
+        total: '$' + order.totalPrice,
+        status: order.status,
       });
     });
 

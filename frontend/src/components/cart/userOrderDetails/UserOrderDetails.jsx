@@ -79,17 +79,19 @@ const UserOrderDetails = () => {
     }
   };
 
-  // Refund handler
+  // ==============================================================================
+  // Refund handler function to refund a user for failing to user ordered product
+  // ==============================================================================
   const refundHandler = async () => {
     try {
+      const refundStatus = {
+        status: 'Processing refund',
+      };
       const { data } = await axios.put(
-        `http://localhost:5000/api/orders/order/refund/${id}`,
-        {
-          status: 'Processing refund',
-        }
+        `http://localhost:5000/api/orders/${id}/refund-order`,
+        refundStatus
       );
       toast.success(data.message);
-      dispatch('getAllOrdersOfUser'(currentUser._id));
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -250,7 +252,7 @@ const UserOrderDetails = () => {
 
           {order?.status === 'Delivered' && (
             <button className={`give-refund-btn`} onClick={refundHandler}>
-              Give a Refund
+              Refund Me
             </button>
           )}
         </article>

@@ -116,22 +116,24 @@ export const updateShopOrders = async (req, res, next) => {
 // Order Refund for a user
 //=========================================================================
 
-export const orderUserRefund = async (req, res, next) => {
+export const refundUserOrder = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
 
     if (!order) {
-      return next(createError(400, 'Order not found!'));
+      return next(createError(400, 'Order does not exist in the database!'));
     }
 
+    // Update status from the frontend
     order.status = req.body.status;
 
+    // Save order update
     await order.save({ validateBeforeSave: false });
 
     res.status(200).json({
       success: true,
       order,
-      message: 'Order Refund Request successfully!',
+      message: `Refund Request for your order is successful!`,
     });
   } catch (error) {
     next(createError(500, 'Database could not refund! Please try again!'));
