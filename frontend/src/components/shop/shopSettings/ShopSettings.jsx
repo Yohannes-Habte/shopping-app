@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import './ShopSettings.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineCamera } from 'react-icons/ai';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { MdEmojiEvents } from 'react-icons/md';
 import { FaAddressCard, FaPhoneVolume, FaUpload } from 'react-icons/fa';
 import { FaAudioDescription } from 'react-icons/fa';
 import { RiFileZipFill } from 'react-icons/ri';
+import {
+  updateSellerFilure,
+  updateSellerStart,
+  updateSellerSuccess,
+} from '../../../redux/reducers/sellerReducer';
 
 const ShopSettings = () => {
   // Global state variables
@@ -15,68 +19,67 @@ const ShopSettings = () => {
   const dispatch = useDispatch();
 
   // Local state variables
-  const [image, setImage] = useState();
-  const [name, setName] = useState(currentSeller && currentSeller.name);
+  const [image, setImage] = useState(
+    currentSeller && currentSeller.image ? currentSeller.image : ''
+  );
+  const [name, setName] = useState(
+    currentSeller && currentSeller.name ? currentSeller.name : ''
+  );
+  const [zipCode, setZipcode] = useState(
+    currentSeller && currentSeller.zipCode ? currentSeller.zipCode : ''
+  );
+  const [phoneNumber, setPhoneNumber] = useState(
+    currentSeller && currentSeller.phoneNumber ? currentSeller.phoneNumber : ''
+  );
+  const [shopAddress, setShopAddress] = useState(
+    currentSeller && currentSeller.shopAddress ? currentSeller.shopAddress : ''
+  );
   const [description, setDescription] = useState(
     currentSeller && currentSeller.description ? currentSeller.description : ''
   );
-  const [address, setAddress] = useState(
-    currentSeller && currentSeller.address
-  );
-  const [phoneNumber, setPhoneNumber] = useState(
-    currentSeller && currentSeller.phoneNumber
-  );
-  const [zipCode, setZipcode] = useState(
-    currentSeller && currentSeller.zipCode
-  );
 
-  // Hanlde image
-  const handleImage = async (e) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setImage(reader.result);
-        axios
-          .put(
-            `http/shop/update-shop-avatar`,
-            { avatar: reader.result },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            dispatch('loadSeller'());
-            toast.success('Avatar updated successfully!');
-          })
-          .catch((error) => {
-            toast.error(error.response.data.message);
-          });
-      }
-    };
-
-    reader.readAsDataURL(e.target.files[0]);
+  // Handle image change
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
-  // Handle update
-  const updateHandler = async (e) => {
+  // Handle Setting update
+  const updateSettingHandler = async (e) => {
     e.preventDefault();
     try {
-      const seller = {
+      dispatch(updateSellerStart());
+      const shopImage = new FormData();
+      shopImage.append('file', image);
+      shopImage.append('cloud_name', 'dzlsa51a9');
+      shopImage.append('upload_preset', 'upload');
+
+      // Save image to cloudinary
+      const response = await axios.put(
+        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
+        shopImage
+      );
+      const { url } = response.data;
+
+      const updateShopProfile = {
+        image: url,
         name: name,
-        address: address,
         zipCode: zipCode,
         phoneNumber: phoneNumber,
+        shopAddress: shopAddress,
         description: description,
       };
-      const { data } = await axios.put(`http/shop/update-seller-info`, seller, {
-        withCredentials: true,
-      });
+      const { data } = await axios.put(
+        'http://localhost:5000/api/shops/update-shop-profile',
+        updateShopProfile,
+        {
+          withCredentials: true,
+        }
+      );
 
       toast.success('Shop info updated succesfully!');
-      dispatch('loadSeller'());
+      dispatch(updateSellerSuccess(data));
     } catch (error) {
-      toast.error(error.response.data.message);
+      dispatch(updateSellerFilure(error.response.data.message));
     }
   };
 
@@ -86,7 +89,7 @@ const ShopSettings = () => {
       <div className="image-form-wrapper">
         <figure className="image-container">
           <img
-            src={image ? currentSeller.image : image}
+            src={currentSeller ? currentSeller.image : image}
             alt="Profile"
             className="image"
           />
@@ -96,7 +99,7 @@ const ShopSettings = () => {
             type="file"
             id="image"
             name="image"
-            onChange={handleImage}
+            onChange={handleImageChange}
             className="input-field"
           />
           <label htmlFor="image" className="image-label">
@@ -106,7 +109,7 @@ const ShopSettings = () => {
       </div>
 
       {/* setting form */}
-      <form aria-aria-required={true} className="form" onSubmit={updateHandler}>
+      <form className="form" onSubmit={updateSettingHandler}>
         {/* Event name */}
         <div className="input-container">
           <MdEmojiEvents className="icon" />
@@ -115,10 +118,11 @@ const ShopSettings = () => {
             name="name"
             id="name"
             autoComplete="name"
-            required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder={`${currentSeller.name}`}
+            placeholder={
+              currentSeller?.name ? currentSeller.name : 'Enter Shop Name'
+            }
             className="input-field"
           />
           <label htmlFor="name" className="input-label">
@@ -134,10 +138,13 @@ const ShopSettings = () => {
             type="number"
             name="phoneNumber"
             id="phoneNumber"
-            required
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            placeholder={currentSeller?.phoneNumber}
+            placeholder={
+              currentSeller?.phoneNumber
+                ? currentSeller.phoneNumber
+                : 'Enter Phone Number'
+            }
             className="input-field"
           />
           <label htmlFor="phoneNumber" className="input-label">
@@ -150,17 +157,20 @@ const ShopSettings = () => {
         <div className="input-container">
           <FaAddressCard className="icon" />
           <input
-            type="address"
-            name="address"
-            id="address"
-            required
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder={currentSeller?.address}
+            type="text"
+            name="shopAddress"
+            id="shopAddress"
+            value={shopAddress}
+            onChange={(e) => setShopAddress(e.target.value)}
+            placeholder={
+              currentSeller?.shopAddress
+                ? currentSeller.shopAddress
+                : 'Enter Shop Address'
+            }
             className="input-field"
           />
-          <label htmlFor="email" className="input-label">
-            Address
+          <label htmlFor="shopAddress" className="input-label">
+           Shop Address
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -175,11 +185,13 @@ const ShopSettings = () => {
             required
             value={zipCode}
             onChange={(e) => setZipcode(e.target.value)}
-            placeholder={currentSeller?.zipCode}
+            placeholder={
+              currentSeller?.zipCode ? currentSeller.zipCode : 'Enter Zip Code'
+            }
             className="input-field"
           />
           <label htmlFor="zipCode" className="input-label">
-            Shop Zip Code
+            Zip Code
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -197,11 +209,11 @@ const ShopSettings = () => {
             required
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder={`${
+            placeholder={
               currentSeller?.description
                 ? currentSeller.description
                 : 'Enter your shop description'
-            }`}
+            }
             className="input-field"
           ></textarea>
           <label htmlFor="description" className="input-label">

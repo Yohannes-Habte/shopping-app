@@ -122,6 +122,35 @@ export const sellerLogout = async (req, res, next) => {
   }
 };
 
+//=========================================================================
+// Update shop Profile
+//=========================================================================
+
+export const updateShopProfile = async (req, res, next) => {
+  try {
+    const { image, name, zipCode, phoneNumber, shopAddress, description } =
+      req.body;
+
+    const shop = await Shop.findById(req.shop._id);
+
+    if (!shop) {
+      return next(createError(400, 'Shop not found!'));
+    }
+    shop.image = image;
+    shop.name = name;
+    shop.zipCode = zipCode;
+    shop.phoneNumber = phoneNumber;
+    shop.shopAddress = shopAddress;
+    shop.description = description;
+
+    await shop.save();
+
+    res.status(201).json(shop);
+  } catch (error) {
+    next(createError(500, 'Seller profile is not update. Please try again!'));
+  }
+};
+
 //====================================================================
 // Get a Seller/shop
 //====================================================================

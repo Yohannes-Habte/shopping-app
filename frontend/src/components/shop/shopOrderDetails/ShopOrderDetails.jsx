@@ -22,24 +22,26 @@ const ShopOrderDetails = () => {
 
   // Local variables
   const [status, setStatus] = useState('');
+  const [shopOrders, setShopOrders] = useState([]);
 
   useEffect(() => {
     const fetchAllShopOrders = async () => {
       try {
-        dispatch(sellerOrdersRequest());
+        // dispatch(sellerOrdersRequest());
         const { data } = await axios.get(
           `http://localhost:5000/api/orders/shop/${currentSeller._id}`
         );
-        dispatch(sellerOrdersSuccess(data.orders));
+        // dispatch(sellerOrdersSuccess(data.orders));
+        setShopOrders(data.orders);
       } catch (error) {
-        dispatch(sellerOrdersFail(error.response.data.message));
+        // dispatch(sellerOrdersFail(error.response.data.message));
       }
     };
     fetchAllShopOrders();
   }, [dispatch]);
 
   // Order details
-  const data = orders && orders.find((item) => item._id === id);
+  const data = shopOrders && shopOrders.find((order) => order._id === id);
   console.log('Order data is:', orders);
 
   // Update order
@@ -234,7 +236,9 @@ const ShopOrderDetails = () => {
           >
             {['Processing refund', 'Successfully refunded']
               .slice(
-                ['Processing refund', 'Successfully refunded'].indexOf(data?.status)
+                ['Processing refund', 'Successfully refunded'].indexOf(
+                  data?.status
+                )
               )
               .map((option, index) => (
                 <option

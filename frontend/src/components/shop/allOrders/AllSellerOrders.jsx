@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AllSellerOrders.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -17,22 +17,24 @@ const AllSellerOrders = () => {
   const { orders } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const sellerOrders = async () => {
-      try {
-        dispatch(sellerOrdersRequest());
+  // Local state variable
+  const [shopOrders, setShopOrders] = useState([]);
 
+  useEffect(() => {
+    const fetchAllShopOrders = async () => {
+      try {
+        // dispatch(sellerOrdersRequest());
         const { data } = await axios.get(
           `http://localhost:5000/api/orders/shop/${currentSeller._id}`
         );
-
-        dispatch(sellerOrdersSuccess(data.orders));
+        // dispatch(sellerOrdersSuccess(data.orders));
+        setShopOrders(data.orders);
       } catch (error) {
-        dispatch(sellerOrdersFail(error.response.data.message));
+        // dispatch(sellerOrdersFail(error.response.data.message));
       }
     };
-    sellerOrders();
-  }, []);
+    fetchAllShopOrders();
+  }, [dispatch]);
 
   const columns = [
     { field: 'id', headerName: 'Order ID', minWidth: 250, flex: 0.7 },
@@ -78,8 +80,8 @@ const AllSellerOrders = () => {
 
   const row = [];
 
-  orders &&
-    orders.forEach((item) => {
+  shopOrders &&
+  shopOrders.forEach((item) => {
       row.push({
         id: item._id,
         quantity: item.cart.length,

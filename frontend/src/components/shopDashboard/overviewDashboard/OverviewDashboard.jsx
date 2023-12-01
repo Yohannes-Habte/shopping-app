@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './OverviewDashboard.scss';
-import {AiOutlineMoneyCollect } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import { MdBorderClear } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { RxArrowRight } from 'react-icons/rx';
+import { MdPriceChange } from 'react-icons/md';
+import { FaFirstOrderAlt } from 'react-icons/fa6';
+import { FaProductHunt } from 'react-icons/fa';
+import {
+  sellerOrdersFail,
+  sellerOrdersRequest,
+  sellerOrdersSuccess,
+} from '../../../redux/reducers/orderReducer';
 
 const OverviewDashboard = () => {
   // Global state variables
@@ -17,33 +23,58 @@ const OverviewDashboard = () => {
 
   // Local state variables
   const [shopProducts, setShopProducts] = useState([]);
+  const [deliveredShopOrders, setDeliveredShopOrders] = useState([]);
 
-  // useEffect(() => {
-  //    dispatch(getAllOrdersOfShop(seller._id));
-  //    dispatch(getAllProductsShop(seller._id));
-  // }, [dispatch]);
-
+  // Display shop products
   useEffect(() => {
-    const bestdealtProducts = async () => {
+    const getShopProducts = async () => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
           `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
         );
-        // dispatch(productsShopFetchSuccess(data));
         setShopProducts(data);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));
       }
     };
-    bestdealtProducts();
+    getShopProducts();
   }, []);
 
+  // Display all delivered shop orders
+  useEffect(() => {
+    const getShopOrders = async () => {
+      try {
+        dispatch(sellerOrdersRequest());
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+        );
+        const orderData = data.orders.filter(
+          (shopOrderData) => shopOrderData.status === 'Delivered'
+        );
+        setDeliveredShopOrders(orderData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getShopOrders();
+  }, []);
+
+  // Total earning without tax
+  const totalEaringWithoutTax =
+    deliveredShopOrders &&
+    deliveredShopOrders.reduce((acc, order) => acc + order.totalPrice, 0);
+
+  const serviceCharge = totalEaringWithoutTax * 0.1;
+  const totalEarning = totalEaringWithoutTax - serviceCharge;
+  const shopIncome = totalEarning.toFixed(2);
+
+  //! Available Balance will be done in the backend
   const availableBalance = currentSeller?.availableBalance.toFixed(2);
 
   const columns = [
-    { field: 'id', headerName: 'Order ID', minWidth: 150, flex: 0.7 },
+    { field: 'id', headerName: 'Order ID', minWidth: 250, flex: 0.7 },
 
     {
       field: 'status',
@@ -57,8 +88,8 @@ const OverviewDashboard = () => {
       // },
     },
     {
-      field: 'itemsQty',
-      headerName: 'Items Qty',
+      field: 'quantity',
+      headerName: 'Quantity',
       type: 'number',
       minWidth: 130,
       flex: 0.7,
@@ -91,13 +122,13 @@ const OverviewDashboard = () => {
 
   const row = [];
 
-  orders &&
-    orders.forEach((item) => {
+  deliveredShopOrders &&
+    deliveredShopOrders.forEach((order) => {
       row.push({
-        id: item._id,
-        itemsQty: item.cart.reduce((acc, item) => acc + item.qty, 0),
-        total: 'US$ ' + item.totalPrice,
-        status: item.status,
+        id: order._id,
+        quantity: order.cart.reduce((acc, item) => acc + item.qty, 0),
+        total: '$' + order.totalPrice,
+        status: order.status,
       });
     });
 
@@ -109,13 +140,13 @@ const OverviewDashboard = () => {
         {/* Account balance wrapper */}
         <article className="article-box account-balance">
           <aside className=" aside-box account-balance">
-            <AiOutlineMoneyCollect className="icon" />
+            <MdPriceChange className="icon" />
             <h3 className={`subTitle`}>
               Account Balance of {currentSeller.name}
             </h3>
           </aside>
 
-          <h3 className="subTitle">${availableBalance}</h3>
+          <h3 className="subTitle">${shopIncome}</h3>
           <Link to="/dashboard-withdraw-money" className="link">
             Withdraw Money
           </Link>
@@ -124,7 +155,7 @@ const OverviewDashboard = () => {
         {/* Orders wrapper */}
         <article className="article-box orders-wrapper">
           <aside className="aside-box all-orders">
-            <MdBorderClear className="icon" />
+            <FaFirstOrderAlt className="icon" />
             <h3 className={`subTitle`}>
               All Orders from {currentSeller.name}{' '}
             </h3>
@@ -138,7 +169,7 @@ const OverviewDashboard = () => {
         {/* Products wrapper */}
         <article className="article-box all-products-wrapper">
           <aside className="aside-box all-products">
-            <AiOutlineMoneyCollect className="icon" />
+            <FaProductHunt className="icon" />
             <h3 className={`subTitle`}>All Products of {currentSeller.name}</h3>
           </aside>
           <h3 className="subTitle">
@@ -149,7 +180,9 @@ const OverviewDashboard = () => {
       </div>
 
       {/* Latest orders */}
-      <h3 className="latest-orders">Latest Orders</h3>
+      <h3 className="latest-orders">
+        Delivered Orders of {currentSeller.name}
+      </h3>
 
       {/* Data Grid */}
       <div className="data-grid-wrapper">

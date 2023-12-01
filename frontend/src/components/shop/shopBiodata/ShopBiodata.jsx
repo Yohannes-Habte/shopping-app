@@ -88,13 +88,12 @@ const ShopBiodata = ({ isOwner }) => {
           <img src={`${data.image}`} alt={data.name} className="image" />
         </figure>
         <h3 className="subTitle">{data.name}</h3>
-        <p className="text description">{data.email}</p>
         <p className="text description">{data.description}</p>
       </article>
 
       <article className="article-box">
         <h3 className="subTitle">Address</h3>
-        <p className="text address">{data.zipCode}</p>
+        <p className="text address">{data.shopAddress}</p>
       </article>
 
       <article className="article-box">

@@ -15,8 +15,8 @@ const shopSchema = new Schema(
     },
     phoneNumber: { type: Number, required: true },
     zipCode: { type: Number, required: true },
-    role: { type: String, default: 'seller', enum: ['seller', 'admin'] },
     description: { type: String },
+    shopAddress: { type: String },
     withdrawMethod: { type: Object },
     availableBalance: { type: Number, default: 0 },
     transections: [
@@ -27,6 +27,7 @@ const shopSchema = new Schema(
     ],
     resetPasswordToken: String,
     resetPasswordTime: Date,
+    role: { type: String, default: 'seller', enum: ['seller', 'admin'] },
   },
   { timestamps: true }
 );
