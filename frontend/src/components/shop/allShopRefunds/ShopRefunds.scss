@@ -1,0 +1,9 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.shop-refunds-container {
+  width: 100%;
+  .shop-refunds-title {
+    @include title;
+  }
+}

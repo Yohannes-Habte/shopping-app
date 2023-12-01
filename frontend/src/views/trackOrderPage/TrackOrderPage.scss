@@ -1,0 +1,15 @@
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
+
+.track-order-page {
+  width: 100%;
+  .track-order-page-container {
+    width: $laptop;
+    margin: 1rem auto;
+    min-height: 100vh;
+
+    .track-order-title {
+      @include title;
+    }
+  }
+}

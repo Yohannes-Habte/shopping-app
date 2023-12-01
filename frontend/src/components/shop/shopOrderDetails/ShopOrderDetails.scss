@@ -70,8 +70,8 @@
     text-align: right;
   }
 
-  // Shipping address
-  .shipping-address-wrapper {
+  // Shipping address and payment status
+  .shipping-address-and-payment-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -79,19 +79,61 @@
     @include shadow3;
     margin: 1rem 0;
 
-    .shipping-box {
+    // Shipping -address
+    .shipping-address-wrapper {
+      .shipping-address-title {
+        @include subTitle;
+      }
       .address {
         font-size: $afs;
+        padding-left: 0.5rem;
+
+        .addrress-span {
+          margin-left: $radius;
+          color: $blue;
+        }
+      }
+    }
+
+    // Payment info status
+    .payment-info-status {
+      @include subTitle;
+
+      .status-result {
+        font-size: $afs;
+        color: $blue;
+        font-weight: $afw;
       }
     }
   }
 
+  // Order Processing and refunding
   .order-status {
+    @include subTitle;
   }
 
-  .section-option {
-    @include inputField;
-    width: fit-content;
+  .form-process-and-refund-order {
+    .section-order-process {
+      @include inputField;
+      padding: 1rem;
+      font-size: $afs;
+      cursor: pointer;
+
+      .option-order-process {
+        color: $blue;
+
+        &:hover {
+          color: $red;
+          background-color: $popup-bg;
+        }
+
+        &::before {
+          content: '>';
+          padding-right: 10px;
+          padding-left: 5px;
+        }
+      }
+    }
   }
 
   .update-status-btn {

@@ -141,39 +141,43 @@ export const refundUserOrder = async (req, res, next) => {
 };
 
 //=========================================================================
-// Accept the refund by the seller
+// Shop Refunds back to a user ordered products
 //=========================================================================
 
-export const orderShopRefund = async (req, res, next) => {
+export const orderRefundByShop = async (req, res, next) => {
   try {
     const order = await Order.findById(req.params.id);
 
     if (!order) {
-      return next(new ErrorHandler('Order not found with this id', 400));
+      return next(createError(400, 'Order does not exist!'));
     }
 
+    // Update status from the frontend
     order.status = req.body.status;
 
+    // Save refund status
     await order.save();
 
     res.status(200).json({
       success: true,
-      message: 'Order Refund successfull!',
+      message: 'Order Refund is successfull!',
     });
 
-    if (req.body.status === 'Refund Success') {
-      order.cart.forEach(async (o) => {
-        await updateOrder(o._id, o.qty);
-      });
-    }
-
-    async function updateOrder(id, qty) {
+    // Update order function
+    const updateOrder = async (id, qty) => {
       const product = await Product.findById(id);
 
-      product.stock += qty;
-      product.sold_out -= qty;
+      product.stock = product.stock + qty;
+      product.sold_out = product.sold_out - qty;
 
       await product.save({ validateBeforeSave: false });
+    };
+
+    // If status is 'Successfully refunded', then ...
+    if (req.body.status === 'Successfully refunded') {
+      order.cart.forEach(async (order) => {
+        await updateOrder(order._id, order.qty);
+      });
     }
   } catch (error) {
     next(createError(500, 'Database could not refund! Please try again!'));

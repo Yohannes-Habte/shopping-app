@@ -1,49 +1,91 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './TrackOrder.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import TrackOrderCard from '../trackOrderCard/TrackOrderCard';
 
 const TrackOrder = () => {
+  const { id } = useParams();
   // Global state variables
   const { orders } = useSelector((state) => state.order);
   const { currentUser } = useSelector((state) => state.user);
+  const { currentSeller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
+  const [userOrders, setUserOrders] = useState([]);
 
-  const { id } = useParams();
-
+  // Get all user orders
   useEffect(() => {
-    //dispatch(getAllOrdersOfUser(currentUser._id));
-  }, [dispatch]);
+    const getAllUserOrders = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/user/${currentUser._id}`
+        );
+        setUserOrders(data.orders);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    getAllUserOrders();
+  }, []);
 
-  // Find orders
-  const data = orders && orders.find((order) => order._id === id);
+  // =============================================================
+  // Find the order that a user want to track
+  // =============================================================
+  const orderData = userOrders && userOrders.find((order) => order._id === id);
+  console.log('order data', orderData);
 
   return (
     <section className="user-orders-wrraper">
-      {data && data?.status === 'Processing' ? (
-        <h2 className="subTitle">Your Order is processing in shop.</h2>
-      ) : data?.status === 'Transferred to delivery partner' ? (
-        <h2 className="subTitle">
-          Your Order is on the way for delivery partner.
-        </h2>
-      ) : data?.status === 'Shipping' ? (
-        <h2 className="subTitle">
-          Your Order is on the way with our delivery partner.
-        </h2>
-      ) : data?.status === 'Received' ? (
-        <h2 className="subTitle">
-          Your Order is in your city. Our Delivery person will deliver it.
-        </h2>
-      ) : data?.status === 'On the way' ? (
-        <h2 className="subTitle">
-          Our Delivery person is going to deliver your order.
-        </h2>
-      ) : data?.status === 'Delivered' ? (
-        <h2 className="subTitle">Your order is delivered!</h2>
-      ) : data?.status === 'Processing refund' ? (
-        <h2 className="subTitle">Your refund is processing!</h2>
-      ) : data?.status === 'Refund Success' ? (
-        <h2 className="subTitle">Your Refund is success!</h2>
+      {orderData && orderData?.status === 'Processing' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
+      ) : orderData?.status === 'Transferred to delivery partner' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
+      ) : orderData?.status === 'Shipping' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
+      ) : orderData?.status === 'Received' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
+      ) : orderData?.status === 'On the way' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
+      ) : orderData?.status === 'Delivered' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
+      ) : orderData?.status === 'Processing refund' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
+      ) : orderData?.status === 'Successfully refunded' ? (
+        <TrackOrderCard
+          user={currentUser}
+          shop={currentSeller}
+          order={orderData}
+        />
       ) : null}
     </section>
   );

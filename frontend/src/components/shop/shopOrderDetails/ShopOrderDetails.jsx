@@ -17,6 +17,7 @@ const ShopOrderDetails = () => {
   // Global vairables
   const { orders, loading } = useSelector((state) => state.order);
   const { currentSeller } = useSelector((state) => state.seller);
+  const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   // Local variables
@@ -30,7 +31,6 @@ const ShopOrderDetails = () => {
           `http://localhost:5000/api/orders/shop/${currentSeller._id}`
         );
         dispatch(sellerOrdersSuccess(data.orders));
-      
       } catch (error) {
         dispatch(sellerOrdersFail(error.response.data.message));
       }
@@ -63,17 +63,18 @@ const ShopOrderDetails = () => {
 
   // Refund order
   const refundOrderUpdateHandler = async (e) => {
+    e.preventDefault();
     try {
+      const updateStatus = {
+        status: status,
+      };
       const { data } = await axios.put(
-        `http://localhost:5000/api/orders/order-refund-success/${id}`,
-        {
-          status,
-        },
+        `http://localhost:5000/api/orders/refund-order-successful/${id}`,
+        updateStatus,
         { withCredentials: true }
       );
 
       toast.success('Order updated!');
-      dispatch('getAllOrdersOfShop'(currentSeller._id));
     } catch (error) {
       toast.error(error.response.data.message);
     }
@@ -102,7 +103,7 @@ const ShopOrderDetails = () => {
         </h5>
       </article>
 
-      {/* order items */}
+      {/* ordered items */}
       <div className="order-items-wrapper">
         {data &&
           data?.cart.map((item) => (
@@ -120,88 +121,135 @@ const ShopOrderDetails = () => {
           ))}
       </div>
 
+      {/* Total order price */}
       <hr className="hr" />
       <h2 className="total-price">
         Total Price: <strong>US${data?.totalPrice}</strong>
       </h2>
       <hr className="hr" />
 
-      {/* Shipping adddress */}
-      <section className="shipping-address-wrapper">
-        <article className="shipping-box">
-          <h4 className="subTitle">Shipping Address:</h4>
+      {/* Shipping adddress and payment status */}
+      <section className="shipping-address-and-payment-wrapper">
+        <article className="shipping-address-wrapper">
+          <h3 className="shipping-address-title">Shipping Address:</h3>
           <p className="address">
-            {`${data?.shippingAddress.address1} / ${data?.shippingAddress.address2}`}
+            Name:
+            <span className="addrress-span">{currentUser?.name}</span>
           </p>
-          <p className="address">Country: {data?.shippingAddress.country}</p>
-          <p className="address"> State: {data?.shippingAddress.state}</p>
-          <p className="address">City:{data?.shippingAddress.city}</p>
-          <p className="address"> Phone: {data?.user?.phone}</p>
+          <p className="address">
+            Street:
+            <span className="addrress-span">
+              {data?.shippingAddress.address1}
+            </span>
+          </p>
+          <p className="address">
+            Zip Code:
+            <span className="addrress-span">
+              {data?.shippingAddress?.zipCode}
+            </span>
+          </p>
+          <p className="address">
+            City:
+            <span className="addrress-span">{data?.shippingAddress?.city}</span>
+          </p>
+          <p className="address">
+            State:
+            <span className="addrress-span">
+              {data?.shippingAddress?.state}
+            </span>
+          </p>
+          <p className="address">
+            Country:
+            <span className="addrress-span">
+              {data?.shippingAddress?.country}
+            </span>
+          </p>
+          <p className="address">
+            Phone: <span className="addrress-span"> {data?.user?.phone}</span>
+          </p>
+          <p className="address">
+            Email: <span className="addrress-span">{data?.user?.email}</span>
+          </p>
         </article>
 
-        <h4 className="payment-info">Payment Info:</h4>
-        <h4 className="subTitle">
-          Status:
-          {data?.paymentInfo?.status ? data?.paymentInfo?.status : 'Not Paid'}
-        </h4>
+        <h3 className="payment-info-status">
+          Payment Info Status:
+          {data?.paymentInfo?.status ? (
+            <p className="status-result"> {data?.paymentInfo?.status} </p>
+          ) : (
+            'Not Paid'
+          )}{' '}
+        </h3>
       </section>
 
       {/* Order Processing */}
-      <h4 className="order-status">Order Status:</h4>
+      <h3 className="order-status">Order Status:</h3>
       {data?.status !== 'Processing refund' &&
-        data?.status !== 'Refund Success' && (
-          <select
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-            className="section-option"
-          >
-            {[
-              'Processing',
-              'Transferred to delivery partner',
-              'Shipping',
-              'Received',
-              'On the way',
-              'Delivered',
-            ]
-              .slice(
-                [
-                  'Processing',
-                  'Transferred to delivery partner',
-                  'Shipping',
-                  'Received',
-                  'On the way',
-                  'Delivered',
-                ].indexOf(data?.status)
-              )
-              .map((option, index) => (
-                <option value={option} key={index}>
-                  {option}
-                </option>
-              ))}
-          </select>
+        data?.status !== 'Successfully refunded' && (
+          <form action="" className="form-process-and-refund-order">
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="section-order-process"
+            >
+              {[
+                'Processing',
+                'Transferred to delivery partner',
+                'Shipping',
+                'Received',
+                'On the way',
+                'Delivered',
+              ]
+                .slice(
+                  [
+                    'Processing',
+                    'Transferred to delivery partner',
+                    'Shipping',
+                    'Received',
+                    'On the way',
+                    'Delivered',
+                  ].indexOf(data?.status)
+                )
+                .map((option, index) => (
+                  <option
+                    value={option}
+                    key={index}
+                    className="option-order-process"
+                  >
+                    {option}
+                  </option>
+                ))}
+            </select>
+          </form>
         )}
 
       {/* Refund Processing */}
       {data?.status === 'Processing refund' ||
-      data?.status === 'Refund Success' ? (
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="section-option"
-        >
-          {['Processing refund', 'Refund Success']
-            .slice(
-              ['Processing refund', 'Refund Success'].indexOf(data?.status)
-            )
-            .map((option, index) => (
-              <option value={option} key={index}>
-                {option}
-              </option>
-            ))}
-        </select>
+      data?.status === 'Successfully refunded' ? (
+        <form action="" className="form-process-and-refund-order">
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="section-order-process"
+          >
+            {['Processing refund', 'Successfully refunded']
+              .slice(
+                ['Processing refund', 'Successfully refunded'].indexOf(data?.status)
+              )
+              .map((option, index) => (
+                <option
+                  value={option}
+                  key={index}
+                  className="option-order-process"
+                >
+                  {option}
+                </option>
+              ))}
+          </select>
+        </form>
       ) : null}
 
-      {/* Update status */}
+      {/* Update status Button*/}
       <button
         type="submit"
         className={`update-status-btn`}

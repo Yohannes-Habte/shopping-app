@@ -1,37 +1,50 @@
 import React, { useEffect } from 'react';
+import './ShopRefunds.scss';
+import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { RxArrowRight } from 'react-icons/rx';
-import { DataGrid } from '@mui/x-data-grid';
+import { AiOutlineArrowRight } from 'react-icons/ai';
 import {
-  userOrdersFail,
-  userOrdersRequest,
-  userOrdersSuccess,
+  sellerOrdersFail,
+  sellerOrdersRequest,
+  sellerOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
 import axios from 'axios';
 
-const UserOrders = () => {
-  const { currentUser } = useSelector((state) => state.user);
+const ShopRefunds = () => {
+  // Global variables
+  const { currentSeller } = useSelector((state) => state.seller);
   const { orders } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
+  // Display all of a seller
   useEffect(() => {
-    const userOrders = async () => {
+    const sellerOrders = async () => {
       try {
-        dispatch(userOrdersRequest());
+        dispatch(sellerOrdersRequest());
 
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/user/${currentUser._id}`
+          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
         );
 
-        dispatch(userOrdersSuccess(data.orders));
+        dispatch(sellerOrdersSuccess(data.orders));
       } catch (error) {
-        dispatch(userOrdersFail(error.response.data.message));
+        dispatch(sellerOrdersFail(error.response.data.message));
       }
     };
-    userOrders();
+    sellerOrders();
   }, []);
 
+  // Filter all 'Processing refund' or 'Successfully refunded'
+  const refundOrders =
+    orders &&
+    orders.filter(
+      (order) =>
+        order.status === 'Processing refund' ||
+        order.status === 'Successfully refunded'
+    );
+
+  // Columns for 'Processing refund' or/and 'Successfully refunded' orders
   const columns = [
     { field: 'id', headerName: 'Order ID', minWidth: 150, flex: 0.7 },
 
@@ -71,28 +84,29 @@ const UserOrders = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <Link to={`/user/order/${params.id}`}>
-            <RxArrowRight size={20} />
+          <Link to={`/shop/order/${params.id}`}>
+            <AiOutlineArrowRight size={20} />
           </Link>
         );
       },
     },
   ];
 
+  // Rows for 'Processing refund' or/and 'Successfully refunded' orders
   const row = [];
 
-  orders &&
-    orders.forEach((item) => {
+  refundOrders &&
+    refundOrders.forEach((order) => {
       row.push({
-        id: item._id,
-        quantity: item.cart.length,
-        total: '$ ' + item.totalPrice,
-        status: item.status,
+        id: order._id,
+        quantity: order.cart.length,
+        total: '$ ' + order.totalPrice,
+        status: order.status,
       });
     });
-
   return (
-    <div className="data-grid-wrapper">
+    <section className="shop-refunds-container">
+      <h1 className="shop-refunds-title"> Shop Refunds</h1>
       <DataGrid
         rows={row}
         columns={columns}
@@ -100,8 +114,8 @@ const UserOrders = () => {
         disableSelectionOnClick
         autoHeight
       />
-    </div>
+    </section>
   );
 };
 
-export default UserOrders;
+export default ShopRefunds;

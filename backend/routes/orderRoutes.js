@@ -7,7 +7,7 @@ import {
   deleteOrders,
   getAllUserOrders,
   getOrder,
-  orderShopRefund,
+  orderRefundByShop,
   refundUserOrder,
   updateShopOrders,
 } from '../controllers/orderController.js';
@@ -20,7 +20,7 @@ const orderRouter = express.Router();
 orderRouter.post('/new-order', createOrder);
 orderRouter.put('/update-order-status/:id', authSeller, updateShopOrders);
 orderRouter.put('/:id/refund-order', refundUserOrder);
-orderRouter.put('/order-refund-success/:id', authSeller, orderShopRefund);
+orderRouter.put('/refund-order-successful/:id', authSeller, orderRefundByShop);
 orderRouter.get('/order/:id', getOrder);
 orderRouter.get('/user/:userId', getAllUserOrders);
 orderRouter.get('/shop/:shopId', allShopOrders);

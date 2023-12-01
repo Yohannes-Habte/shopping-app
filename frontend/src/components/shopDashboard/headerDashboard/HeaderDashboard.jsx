@@ -106,19 +106,25 @@ const HeaderDashboard = ({ isOwner }) => {
               </Link>
             </li>
 
+            <li className="item user-profile">
+              <NavLink to={`/profile`} className={'link'}>
+                User Profile
+              </NavLink>
+            </li>
+
             <li className="item shop-board">
               <Link
                 to={`/dashboard`}
                 onClick={() => setOpen(false)}
                 className="link"
               >
-                Shop Board
+                Shop Dashboard
               </Link>
             </li>
 
             <li onClick={logoutSeller} className="item shop-logout">
               <Link to={'/login-shop'} className="link">
-                Log Out
+                Shop Log Out
               </Link>
             </li>
           </ul>

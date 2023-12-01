@@ -243,7 +243,7 @@ const Header = () => {
                     )}
 
                     <li onClick={handleLogout} className="list-item">
-                      Log Out
+                      User Log Out
                     </li>
                   </ul>
                 )}

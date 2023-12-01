@@ -1,18 +1,39 @@
 import { DataGrid } from '@mui/x-data-grid';
-import React, { useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { RxArrowRight } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const TrackOrderTable = () => {
+  const params = useParams()
+  console.log("Params", params)
+
+  // Global state variables
   const { currentUser } = useSelector((state) => state.user);
   const { orders } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    //   dispatch(getAllOrdersOfUser(user._id));
+  // Local state variable
+  const [userOrders, setUserOrders] = useState([]);
+
+  // Get all user orders
+   useEffect(() => {
+    const getAllUserOrders = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/user/${currentUser._id}`
+        );
+        setUserOrders(data.orders);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    getAllUserOrders();
   }, []);
 
+  // Tack order columns
   const columns = [
     { field: 'id', headerName: 'Order ID', minWidth: 150, flex: 0.7 },
 
@@ -21,11 +42,11 @@ const TrackOrderTable = () => {
       headerName: 'Status',
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, 'status') === 'Delivered'
-          ? 'greenColor'
-          : 'redColor';
-      },
+      // cellClassName: (params) => {
+      //   return params.getValue(params.id, 'status') === 'Delivered'
+      //     ? 'greenColor'
+      //     : 'redColor';
+      // },
     },
     {
       field: 'itemsQty',
@@ -52,27 +73,24 @@ const TrackOrderTable = () => {
       sortable: false,
       renderCell: (params) => {
         return (
-          <>
-            <Link to={`/user/track/order/${params.id}`}>
-              <button>
-                <RxArrowRight size={20} />
-              </button>
-            </Link>
-          </>
+          <Link to={`/user/track/order/${params.id}`}>
+            <RxArrowRight size={20} />
+          </Link>
         );
       },
     },
   ];
 
+  // Tack order rows
   const row = [];
 
-  orders &&
-    orders.forEach((item) => {
+  userOrders &&
+  userOrders.forEach((product) => {
       row.push({
-        id: item._id,
-        itemsQty: item.cart.length,
-        total: 'US$ ' + item.totalPrice,
-        status: item.status,
+        id: product._id,
+        quantity: product.cart.length,
+        total: '$' + product.totalPrice,
+        status: product.status,
       });
     });
 

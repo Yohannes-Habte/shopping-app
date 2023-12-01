@@ -37,6 +37,8 @@ import ShopAllOrders from './views/shopPages/shopAllOrdersPage/ShopAllOrders';
 import UserOrderDetailsPage from './views/userOrderDetailsPage/UserOrderDetailsPage';
 import ShopOrderDetailsPage from './views/shopPages/shopOrderDetailsPage/ShopOrderDetailsPage';
 import ShopDetailsPage from './views/shopPages/shopDetailsPage/ShopDetailsPage';
+import TrackOrderPage from './views/trackOrderPage/TrackOrderPage';
+import ShopRefundsPage from './views/shopPages/shopRefundsPage/ShopRefundsPage';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');
@@ -113,6 +115,15 @@ const App = () => {
             element={
               <UserProtectedRoute>
                 <UserOrderDetailsPage />
+              </UserProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/user/track/order/:id"
+            element={
+              <UserProtectedRoute>
+                <TrackOrderPage />
               </UserProtectedRoute>
             }
           />
@@ -195,6 +206,15 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopAllOrders />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="dashboard-refunds"
+            element={
+              <SellerProtectedRoute>
+                <ShopRefundsPage />
               </SellerProtectedRoute>
             }
           />

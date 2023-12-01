@@ -1,0 +1,11 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.shop-refunds-page {
+  width: 100%;
+  min-width: 100vh;
+  .shop-refunds-page-container {
+    display: flex;
+    gap: 1rem;
+  }
+}

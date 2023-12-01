@@ -80,7 +80,7 @@ const UserOrderDetails = () => {
   };
 
   // ==============================================================================
-  // Refund handler function to refund a user for failing to user ordered product
+  // Refund handler function for a user request to a seller
   // ==============================================================================
   const refundHandler = async () => {
     try {
@@ -100,6 +100,7 @@ const UserOrderDetails = () => {
   return (
     <section className={`user-order-details-container`}>
       <h1 className="title"> Single Order Details</h1>
+
       {/* order id and date */}
       <article className="order-id-and-date">
         <p className="order-id">
@@ -109,7 +110,8 @@ const UserOrderDetails = () => {
           Order placed on: <span>{order?.createdAt?.slice(0, 10)}</span>
         </h5>
       </article>
-      {/* order items */}
+
+      {/* ordered products */}
       <div className="ordered-items-wrapper">
         {order &&
           order?.cart.map((product) => {
@@ -144,7 +146,8 @@ const UserOrderDetails = () => {
             );
           })}
       </div>
-      {/* review popup */}
+
+      {/* Ordered product review popup */}
       {open && (
         <div className="modal-container">
           <article className="review-order-wrapper">
@@ -152,6 +155,7 @@ const UserOrderDetails = () => {
 
             <h2 className="review-title">Give a Review</h2>
 
+            {/* Order product image */}
             <div className="selected-item-wrapper">
               <figure className="image-container">
                 <img
@@ -160,6 +164,8 @@ const UserOrderDetails = () => {
                   className="image"
                 />
               </figure>
+
+              {/* Order product name and ratings */}
 
               <article className="name-quantity-rating">
                 <h3 className="name">{selectedProduct?.name}</h3>
@@ -172,7 +178,7 @@ const UserOrderDetails = () => {
                   Rating <span style={{ color: 'red' }}>*</span>
                 </h3>
 
-                {/* Rating usring Starts of 1 to 5 scale */}
+                {/* Rating usring Starts of 1 to 5 scale for ordered products*/}
                 <div className="star-rating-wrapper">
                   {[1, 2, 3, 4, 5].map((i) =>
                     rating >= i ? (
@@ -193,7 +199,7 @@ const UserOrderDetails = () => {
               </article>
             </div>
 
-            {/* Form */}
+            {/* Form for user to write comment for the order placed */}
             <form className="form">
               <div className="input-container">
                 <textarea
@@ -222,22 +228,24 @@ const UserOrderDetails = () => {
           </article>
         </div>
       )}
+
       <hr className="hr" />
       {/* Total Price */}
       <h2 className="total-price">
         Total Price: <strong>${order?.totalPrice}</strong>
       </h2>
       <hr className="hr" />
+      
       {/* Shopping address */}
       <div className="shipping-paymentinfo-refund-container">
         <article className="shipping-address">
           <h4 className="subTitle">Shipping Address:</h4>
           <p className="address">
-            {`${order?.shippingAddress.address1} / ${order?.shippingAddress.address2}`}
+            {`${order?.shippingAddress?.address1} / ${order?.shippingAddress?.address2}`}
           </p>
-          <p className="address">{order?.shippingAddress.country}</p>
-          <p className="address">{order?.shippingAddress.state}</p>
-          <p className="address">{order?.shippingAddress.city}</p>
+          <p className="address">{order?.shippingAddress?.country}</p>
+          <p className="address">{order?.shippingAddress?.state}</p>
+          <p className="address">{order?.shippingAddress?.city}</p>
           <p className="address">{order?.user?.phoneNumber}</p>
         </article>
 
@@ -257,6 +265,8 @@ const UserOrderDetails = () => {
           )}
         </article>
       </div>
+
+      {/* Send Message button */}
       <Link to="/">
         <button className={`send-message-btn`}>Send Message</button>
       </Link>{' '}
