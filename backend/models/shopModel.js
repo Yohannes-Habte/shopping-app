@@ -8,26 +8,28 @@ const shopSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    phoneNumber: { type: Number, required: true },
+    description: { type: String },
+    shopAddress: { type: String, required: true },
+    withdrawMethod: { type: Object },
+    availableBalance: { type: Number, default: 0 },
+    role: { type: String, default: 'seller', enum: ['seller', 'admin'] },
     image: {
       type: String,
       required: true,
       default: 'https://i.ibb.co/4pDNDk1/avatar.png',
     },
-    phoneNumber: { type: Number, required: true },
-    zipCode: { type: Number, required: true },
-    description: { type: String },
-    shopAddress: { type: String },
-    withdrawMethod: { type: Object },
-    availableBalance: { type: Number, default: 0 },
     transections: [
       {
         amount: { type: Number, required: true },
         status: { type: String, default: 'Processing' },
+        createdAt: { type: Date, default: Date.now() },
+        updatedAt: { type: Date },
       },
     ],
     resetPasswordToken: String,
     resetPasswordTime: Date,
-    role: { type: String, default: 'seller', enum: ['seller', 'admin'] },
+    
   },
   { timestamps: true }
 );

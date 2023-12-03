@@ -24,6 +24,23 @@ const OverviewDashboard = () => {
   // Local state variables
   const [shopProducts, setShopProducts] = useState([]);
   const [deliveredShopOrders, setDeliveredShopOrders] = useState([]);
+  const [allShopOrders, setAllShopOrders] = useState([]);
+
+  useEffect(() => {
+    const fetchAllShopOrders = async () => {
+      try {
+        // dispatch(sellerOrdersRequest());
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+        );
+        // dispatch(sellerOrdersSuccess(data.orders));
+        setAllShopOrders(data.orders);
+      } catch (error) {
+        // dispatch(sellerOrdersFail(error.response.data.message));
+      }
+    };
+    fetchAllShopOrders();
+  }, [dispatch]);
 
   // Display shop products
   useEffect(() => {
@@ -160,7 +177,7 @@ const OverviewDashboard = () => {
               All Orders from {currentSeller.name}{' '}
             </h3>
           </aside>
-          <h3 className="subTitle">{orders ? orders.length : '0'}</h3>
+          <h3 className="subTitle">{allShopOrders ? allShopOrders.length : '0'}</h3>
           <Link to="/dashboard-orders" className="link">
             View Orders
           </Link>

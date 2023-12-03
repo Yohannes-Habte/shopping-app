@@ -19,7 +19,7 @@ const ShopCreate = () => {
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState();
   const [address, setAddress] = useState('');
-  const [zipCode, setZipCode] = useState();
+  const [shopAddress, setShopAddress] = useState();
   const [image, setImage] = useState();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -52,8 +52,8 @@ const ShopCreate = () => {
         setAddress(e.target.value);
         break;
 
-      case 'zipCode':
-        setZipCode(e.target.value);
+      case 'shopAddress':
+        setShopAddress(e.target.value);
         break;
 
       default:
@@ -68,7 +68,7 @@ const ShopCreate = () => {
     setPassword('');
     setPhoneNumber('');
     setAddress('');
-    setZipCode('');
+    setShopAddress('');
   };
 
   // Submit created shop
@@ -94,8 +94,7 @@ const ShopCreate = () => {
         email: email,
         password: password,
         phoneNumber: phoneNumber,
-        address: address,
-        zipCode: zipCode,
+        shopAddress: shopAddress,
         image: url,
       };
 
@@ -208,40 +207,21 @@ const ShopCreate = () => {
           <span className="input-highlight"></span>
         </div>
 
-        {/* address */}
+        {/* Shop address */}
         <div className="input-container">
           <FaAddressCard className="icon" />
           <input
-            type="address"
-            name="address"
-            id="address"
+            type="text"
+            name="shopAddress"
+            id="shopAddress"
             required
-            value={address}
+            value={shopAddress}
             onChange={updateChange}
             placeholder="Enter Address"
             className="input-field"
           />
-          <label htmlFor="email" className="input-label">
-            Address
-          </label>
-          <span className="input-highlight"></span>
-        </div>
-
-        {/* zip code */}
-        <div className="input-container">
-          <RiFileZipFill className="icon" />
-          <input
-            type="number"
-            name="zipCode"
-            id="zipCode"
-            required
-            value={zipCode}
-            onChange={updateChange}
-            placeholder="Enter Zip Code"
-            className="input-field"
-          />
-          <label htmlFor="zipCode" className="input-label">
-            Zip Code
+          <label htmlFor="shopAddress" className="input-label">
+            Shop Address
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -268,7 +248,7 @@ const ShopCreate = () => {
         </button>
 
         <article className={`already-have-account`}>
-          <h4 className='subTitle'>Already have an account?</h4>
+          <h4 className="subTitle">Already have an account?</h4>
           <p className="sign-in">
             <Link to="/login-shop" className="link">
               Sign in

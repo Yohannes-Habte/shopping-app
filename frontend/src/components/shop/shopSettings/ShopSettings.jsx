@@ -22,18 +22,19 @@ const ShopSettings = () => {
   const [image, setImage] = useState(
     currentSeller && currentSeller.image ? currentSeller.image : ''
   );
+
   const [name, setName] = useState(
     currentSeller && currentSeller.name ? currentSeller.name : ''
   );
-  const [zipCode, setZipcode] = useState(
-    currentSeller && currentSeller.zipCode ? currentSeller.zipCode : ''
-  );
+
   const [phoneNumber, setPhoneNumber] = useState(
     currentSeller && currentSeller.phoneNumber ? currentSeller.phoneNumber : ''
   );
+
   const [shopAddress, setShopAddress] = useState(
     currentSeller && currentSeller.shopAddress ? currentSeller.shopAddress : ''
   );
+
   const [description, setDescription] = useState(
     currentSeller && currentSeller.description ? currentSeller.description : ''
   );
@@ -63,7 +64,6 @@ const ShopSettings = () => {
       const updateShopProfile = {
         image: url,
         name: name,
-        zipCode: zipCode,
         phoneNumber: phoneNumber,
         shopAddress: shopAddress,
         description: description,
@@ -170,28 +170,7 @@ const ShopSettings = () => {
             className="input-field"
           />
           <label htmlFor="shopAddress" className="input-label">
-           Shop Address
-          </label>
-          <span className="input-highlight"></span>
-        </div>
-
-        {/* zip code */}
-        <div className="input-container">
-          <RiFileZipFill className="icon" />
-          <input
-            type="number"
-            name="zipCode"
-            id="zipCode"
-            required
-            value={zipCode}
-            onChange={(e) => setZipcode(e.target.value)}
-            placeholder={
-              currentSeller?.zipCode ? currentSeller.zipCode : 'Enter Zip Code'
-            }
-            className="input-field"
-          />
-          <label htmlFor="zipCode" className="input-label">
-            Zip Code
+            Shop Address
           </label>
           <span className="input-highlight"></span>
         </div>

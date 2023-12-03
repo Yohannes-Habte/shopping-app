@@ -8,7 +8,7 @@ import sellerToken from '../middleware/shopToken.js';
 //=========================================================================
 export const createShop = async (req, res, next) => {
   try {
-    const { name, email, password, image, phoneNumber, zipCode } = req.body;
+    const { name, email, password, image, phoneNumber, shopAddress } = req.body;
     const sellerEmail = await Shop.findOne({ email: email });
 
     if (sellerEmail) {
@@ -22,7 +22,7 @@ export const createShop = async (req, res, next) => {
       password: password,
       phoneNumber: phoneNumber,
       image: image,
-      zipCode: zipCode,
+      shopAddress: shopAddress,
     });
 
     // Save the new seller in the database
@@ -128,7 +128,7 @@ export const sellerLogout = async (req, res, next) => {
 
 export const updateShopProfile = async (req, res, next) => {
   try {
-    const { image, name, zipCode, phoneNumber, shopAddress, description } =
+    const { image, name, phoneNumber, shopAddress, description } =
       req.body;
 
     const shop = await Shop.findById(req.shop._id);
@@ -138,7 +138,6 @@ export const updateShopProfile = async (req, res, next) => {
     }
     shop.image = image;
     shop.name = name;
-    shop.zipCode = zipCode;
     shop.phoneNumber = phoneNumber;
     shop.shopAddress = shopAddress;
     shop.description = description;
