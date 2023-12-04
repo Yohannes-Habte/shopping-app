@@ -1,42 +1,54 @@
-@import '../../styles/Variables.scss';
-@import '../../styles/Mixins.scss';
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
 
 .lagin-page {
   @include page;
 
-  .login-container {
+  .register-container {
     width: $laptop;
     margin: 1rem auto;
     @include shadow3;
 
-    .login-title {
+    .error-message {
+      color: $tomato;
+      background-color: $error-bg;
+      @include paragraph;
+    }
+
+    .register-title {
       @include title;
     }
 
-    .login-icon-container {
+    .register-icon-container {
       width: 24%;
       margin: auto;
-      .login-icon {
+      .register-icon {
         align-items: center;
         font-size: 4rem;
         padding-top: 1rem;
       }
     }
 
-    .login-fieldset {
+    .register-fieldset {
       @include fieldset;
 
-      .login-legend {
+      .register-legend {
         @include legend;
       }
 
-      .login-form {
+      .register-form {
         .input-container {
           position: relative;
           @include inputContainer;
 
           .input-field {
             @include inputField;
+            margin-bottom: $radius;
+            padding-left: 2rem;
+
+            &::placeholder {
+              color: gray;
+            }
           }
 
           .input-label {
@@ -48,7 +60,7 @@
 
           .input-highlight {
             position: absolute;
-            bottom: 0.5rem;
+            bottom: 0.2rem;
             left: 0;
             height: 2px;
             width: 0;
@@ -59,7 +71,6 @@
           .input-field:focus + .input-label {
             top: -5px;
             font-size: 12px;
-            color: #81a3e6;
           }
 
           .input-field:focus + .input-label + .input-highlight {
@@ -68,9 +79,10 @@
 
           .icon {
             position: absolute;
-            top: 0.1;
+            top: 1.1rem;
             left: 0.5rem;
             font-size: 1rem;
+            color: $green;
           }
 
           // displaying password
@@ -84,27 +96,24 @@
           }
         }
 
-        .login-checkbox-forget-password {
+        .register-checkbox-forget-password {
           display: flex;
           align-items: center;
           margin-bottom: 2rem;
 
-          .login-checkbox-keep-signed-in {
+          .register-checkbox-keep-signed-in {
             width: 100%;
             display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5rem;
             margin-top: 0.3rem;
 
-            .login-checkbox {
+            .register-checkbox {
               height: 1.2rem;
               width: 1.6rem;
               display: flex;
               align-items: center;
             }
 
-            .keep-me-login {
+            & span {
               font-size: 1.2rem;
             }
           }
@@ -113,29 +122,24 @@
             width: $laptop;
             display: flex;
             align-items: center;
+          }
 
-            .link {
-              margin-top: 1rem;
-              font-size: $afs;
-              color: $blue;
-
-              &:hover {
-                color: $tomato;
-              }
-            }
+          & a {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: $blue;
           }
         }
 
-        .login-button {
-          @include button3;
+        .register-button {
+          @include button2;
         }
 
-        .haveNoAccount {
-          font-size: $afs;
-          margin-top: 1rem;
+        .haveAccount {
+          font-weight: $afw;
 
           .link-to {
-            font-weight: $afw;
+            font-weight: $aafw;
             color: $blue;
 
             &:hover {
@@ -150,33 +154,39 @@
 
 /* Tablet screen size */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
-  .lagin-page {
-    .login-title {
-      @include title;
-    }
-
-    .login-container {
+  .register-page {
+    .register-container {
       width: 80%;
       margin: auto;
       @include shadow3;
 
-      .login-icon-container {
-        width: 12%;
-        margin: 2rem auto;
+      .register-title {
+        @include title;
       }
 
-      .login-fieldset {
+      .image-container {
+        @include flexCenter;
+
+        .image {
+          width: 3rem;
+          height: 3rem;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .register-fieldset {
         width: $laptop;
         margin: auto;
 
-        .login-form {
-          .login-checkbox-forget-password {
+        .register-form {
+          .register-checkbox-forget-password {
             width: 100%;
             display: flex;
             justify-content: space-between;
             margin-bottom: 1rem;
 
-            .login-checkbox-keep-signed-in {
+            .register-checkbox-keep-signed-in {
               margin-top: 1rem;
             }
           }
@@ -188,39 +198,45 @@
 
 /* Labtop screen size */
 @media screen and (min-width: 1024px) {
-  .lagin-page {
+  .register-page {
     @include page;
 
-    .login-container {
+    .register-container {
       width: 50%;
       margin: auto;
       @include shadow3;
 
-      .error-message {
-        @include paragraph;
-        color: $red;
-        background-color: #f1b7ad;
-      }
-
-      .login-title {
+      .register-title {
         @include title;
         color: $green;
       }
 
-      .login-icon-container {
+      .image-container {
+        @include flexCenter;
+
+        .image {
+          width: 3rem;
+          height: 3rem;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .register-icon-container {
         width: 12%;
         margin: auto;
       }
 
-      .login-fieldset {
+      .register-fieldset {
         width: 90%;
         margin: auto;
+        @include fieldset;
 
-        .login-legend {
+        .register-legend {
           @include legend;
         }
 
-        .login-form {
+        .register-form {
           .input-container {
             position: relative;
             @include inputContainer;
@@ -253,7 +269,7 @@
             }
 
             .input-field:focus + .input-label {
-              top: -5px;
+              top: -15px;
               font-size: 12px;
             }
 
@@ -279,14 +295,50 @@
               cursor: pointer;
             }
           }
-          .login-checkbox-forget-password {
-            width: 100%;
+
+          .register-consent {
             display: flex;
-            justify-content: space-between;
+            flex-direction: row;
             margin-bottom: 1rem;
 
-            .login-checkbox-keep-signed-in {
-              margin-top: 1rem;
+            .register-consent-input {
+              margin-right: 1rem;
+            }
+
+            // styling the checkbox
+            .register-consent-input[type='checkbox'] {
+              width: 30px;
+              height: 20px;
+            }
+
+            .accept {
+              font-size: 1.3rem;
+            }
+
+            .terms-of-user {
+              font-weight: $afw;
+              color: $blue;
+              padding-left: 0.5rem;
+              &:hover {
+                color: $tomato;
+              }
+            }
+          }
+
+          .register-button {
+            @include button3;
+          }
+
+          .haveAccount {
+            font-weight: $afw;
+
+            .link-to {
+              font-weight: $aafw;
+              color: $blue;
+
+              &:hover {
+                color: $tomato;
+              }
             }
           }
         }

@@ -4,17 +4,18 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './views/homePage/Home';
 import Contact from './views/contactPage/Contact';
-import Register from './views/registerPage/Register';
-import Login from './views/loginPage/Login';
-import NotFound from './views/notFound/NotFound';
+
+
+
+import NotFound from './views/userPages/notFound/NotFound';
 import Products from './views/productsPage/Products';
 import EventsPage from './views/eventsPage/EventsPage';
 import BestSellings from './views/bestSellingpage/BestSellings';
-import Profile from './views/userProtectedPages/profilePage/Profile';
-import Forgotpassword from './views/passwordPage/Forgotpassword';
-import ResetPassword from './views/passwordPage/ResetPassword';
+import Profile from './views/userPages/profilePage/Profile';
+import Forgotpassword from './views/userPages/passwordPage/Forgotpassword';
+import ResetPassword from './views/userPages/passwordPage/ResetPassword';
 import UserInbox from './views/inboxPage/UserInbox';
-import CheckoutPage from './views/userProtectedPages/checkoutPage/CheckoutPage';
+
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
 import ShopSettingsPage from './views/shopPages/shopSettingsPage/ShopSettingsPage';
@@ -34,11 +35,15 @@ import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import OrderSuccess from './views/orderSuccessPage/OrderSuccess';
 import ShopAllOrders from './views/shopPages/shopAllOrdersPage/ShopAllOrders';
-import UserOrderDetailsPage from './views/userOrderDetailsPage/UserOrderDetailsPage';
 import ShopOrderDetailsPage from './views/shopPages/shopOrderDetailsPage/ShopOrderDetailsPage';
 import ShopDetailsPage from './views/shopPages/shopDetailsPage/ShopDetailsPage';
-import TrackOrderPage from './views/trackOrderPage/TrackOrderPage';
+import TrackOrderPage from './views/userPages/trackOrderPage/TrackOrderPage';
 import ShopRefundsPage from './views/shopPages/shopRefundsPage/ShopRefundsPage';
+
+import Register from './views/userPages/registerPage/Register';
+import Login from './views/userPages/loginPage/Login';
+import CheckoutPage from './views/userPages/checkoutPage/CheckoutPage';
+import UserOrderDetailsPage from './views/userPages/userOrderDetailsPage/UserOrderDetailsPage';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');

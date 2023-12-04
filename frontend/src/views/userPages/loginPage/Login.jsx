@@ -13,7 +13,7 @@ import {
   loginFailure,
   loginStart,
   loginSuccess,
-} from '../../redux/reducers/userReducer';
+} from '../../../redux/reducers/userReducer';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -79,8 +79,7 @@ const Login = () => {
       };
       const { data } = await axios.post(
         'http://localhost:5000/api/auths/login',
-        loginUser,
-        { withCredentials: true }
+        loginUser
       );
 
       if (data.success === false) {

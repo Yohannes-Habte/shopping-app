@@ -13,7 +13,7 @@ import AllRefundOrders from '../refunds/AllRefundOrders';
 import ChangePassword from '../changePassword/ChangePassword';
 import TrackOrderTable from '../trackOrderTable/TrackOrderTable';
 import Address from '../address/Address';
-import ButtonLoader from '../../layout/loader/ButtonLoader';
+import ButtonLoader from '../../userLayout/loader/ButtonLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearErrors,

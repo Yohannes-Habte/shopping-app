@@ -1,9 +1,10 @@
 import React from 'react';
 import './UserOrderDetailsPage.scss';
-import Header from '../../components/layout/header/Header';
-import Footer from '../../components/layout/footer/Footer';
 import { useSelector } from 'react-redux';
-import UserOrderDetails from '../../components/cart/userOrderDetails/UserOrderDetails';
+import Header from '../../../components/layout/header/Header';
+import Footer from '../../../components/layout/footer/Footer';
+import UserOrderDetails from '../../../components/cart/userOrderDetails/UserOrderDetails';
+
 
 const UserOrderDetailsPage = () => {
   // Global state variables

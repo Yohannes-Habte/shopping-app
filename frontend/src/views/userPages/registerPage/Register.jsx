@@ -10,7 +10,7 @@ import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
-import ButtonLoader from '../../components/layout/loader/ButtonLoader';
+import ButtonLoader from '../../../components/userLayout/loader/ButtonLoader';
 
 const Register = () => {
   const navigate = useNavigate();

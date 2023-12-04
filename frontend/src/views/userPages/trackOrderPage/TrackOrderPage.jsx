@@ -1,8 +1,9 @@
 import React from 'react';
 import './TrackOrderPage.scss';
-import Header from '../../components/layout/header/Header';
-import Footer from '../../components/layout/footer/Footer';
-import TrackOrder from '../../components/profile/trackOrder/TrackOrder';
+import Header from '../../../components/layout/header/Header';
+import Footer from '../../../components/layout/footer/Footer';
+import TrackOrder from '../../../components/user/trackOrder/TrackOrder';
+
 
 const TrackOrderPage = () => {
   return (
