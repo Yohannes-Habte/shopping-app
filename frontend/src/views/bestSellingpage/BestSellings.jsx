@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './BestSellings.scss';
-import Header from '../../components/layout/header/Header';
-import Footer from '../../components/layout/footer/Footer';
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import ProductCard from '../../components/products/productCard/ProductCard';
+import Header from '../../components/userLayout/header/Header';
+import Footer from '../../components/userLayout/footer/Footer';
 
 const BestSellings = () => {
   // Global state variables

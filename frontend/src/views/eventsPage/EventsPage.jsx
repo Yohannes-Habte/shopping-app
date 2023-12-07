@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import "./EventsPage.scss"
-import Header from '../../components/layout/header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import EventCard from '../../components/events/eventCartd/EventCard';
 import {
@@ -9,6 +8,8 @@ import {
   eventsShopFetchSuccess,
 } from '../../redux/reducers/eventReducer';
 import axios from 'axios';
+import Header from '../../components/userLayout/header/Header';
+import Footer from '../../components/userLayout/footer/Footer';
 
 const EventsPage = () => {
   // Global state variables
@@ -54,6 +55,7 @@ const EventsPage = () => {
           </h2>
         </article>
       </section>
+      <Footer />
     </main>
   );
 };

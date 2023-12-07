@@ -20,7 +20,6 @@ import productRouter from './routes/productRoutes.js';
 import withdrawRouter from './routes/withdrawRoutes.js';
 import paymentRouter from './routes/paymentRoutes.js';
 
-
 // Express app
 const app = express();
 
@@ -53,7 +52,7 @@ const connectDB = async () => {
 app.use(morgan('tiny'));
 
 // End points
-app.use('/api/auths',  authRouter);
+app.use('/api/auths', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/shops', shopRouter);
 app.use('/api/products', productRouter);
@@ -63,15 +62,14 @@ app.use('/api/wthdraws', withdrawRouter);
 app.use('/api/conversations', conversationRouter);
 app.use('/api/messages', messageRouter);
 app.use('/api/events', eventRouter);
-app.use("/api/payment", paymentRouter)
-
+app.use('/api/payment', paymentRouter);
 
 // Global error handler
 app.use(globalErrorHandler);
 
 // Server Listner
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   connectDB();
-  console.log(`The server starts on ${process.env.BACKEND_URL}`.yellow.bold);
+  console.log(`The server starts on ${PORT}`.yellow.bold);
 });

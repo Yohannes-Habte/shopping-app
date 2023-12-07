@@ -7,7 +7,7 @@ const conversationSchema = new Schema(
     groupTitle: { type: String },
     members: { type: Array },
     lastMessage: { type: String },
-    lastMessageId: { type: String },
+    messageSenderId: { type: String },
   },
   { timestamps: true }
 );

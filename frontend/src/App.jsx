@@ -5,16 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from './views/homePage/Home';
 import Contact from './views/contactPage/Contact';
 
-
-
 import NotFound from './views/userPages/notFound/NotFound';
-import Products from './views/productsPage/Products';
+
 import EventsPage from './views/eventsPage/EventsPage';
 import BestSellings from './views/bestSellingpage/BestSellings';
 import Profile from './views/userPages/profilePage/Profile';
 import Forgotpassword from './views/userPages/passwordPage/Forgotpassword';
 import ResetPassword from './views/userPages/passwordPage/ResetPassword';
-import UserInbox from './views/inboxPage/UserInbox';
 
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
@@ -26,14 +23,14 @@ import ShopCreateEvent from './views/shopPages/shopCreateEventPage/ShopCreateEve
 import ShopProducts from './views/shopPages/shopProductsPage/ShopProducts';
 import ShopEvents from './views/shopPages/shopEventsPage/ShopEvents';
 import ShopAllCoupons from './views/shopPages/shopAllCouponsPage/ShopAllCoupons';
-import SingleProduct from './views/productPage/SingleProduct';
+
 import ShopHome from './views/shopPages/shopHomePage/ShopHome';
 import ShopDashboard from './views/shopPages/shopDashboarPage/ShopDashboard';
-import PaymentPage from './views/paymentPage/PaymentPage';
+
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import OrderSuccess from './views/orderSuccessPage/OrderSuccess';
+
 import ShopAllOrders from './views/shopPages/shopAllOrdersPage/ShopAllOrders';
 import ShopOrderDetailsPage from './views/shopPages/shopOrderDetailsPage/ShopOrderDetailsPage';
 import ShopDetailsPage from './views/shopPages/shopDetailsPage/ShopDetailsPage';
@@ -44,6 +41,13 @@ import Register from './views/userPages/registerPage/Register';
 import Login from './views/userPages/loginPage/Login';
 import CheckoutPage from './views/userPages/checkoutPage/CheckoutPage';
 import UserOrderDetailsPage from './views/userPages/userOrderDetailsPage/UserOrderDetailsPage';
+import ShopInboxPage from './views/shopPages/shopInboxPage/ShopInboxPage';
+
+import Products from './views/productPages/productsPage/Products';
+import SingleProduct from './views/productPages/productPage/SingleProduct';
+import PaymentPage from './views/userPages/paymentPage/PaymentPage';
+import OrderSuccess from './views/userPages/orderSuccessPage/OrderSuccess';
+import UserInboxPage from './views/userPages/userInboxPage/UserInboxPage';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');
@@ -90,7 +94,6 @@ const App = () => {
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productID" element={<SingleProduct />} />
-          <Route path="/inbox" element={<UserInbox />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<EventsPage />} />
           <Route path="/shop/preview/:id" element={<ShopDetailsPage />} />
@@ -133,6 +136,14 @@ const App = () => {
             }
           />
 
+          <Route
+            path="/inbox"
+            element={
+              <UserProtectedRoute>
+                <UserInboxPage />
+              </UserProtectedRoute>
+            }
+          />
           {/* Shope Pages */}
           <Route
             path="/login-shop"
@@ -220,6 +231,15 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopRefundsPage />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="dashboard-messages"
+            element={
+              <SellerProtectedRoute>
+                <ShopInboxPage />
               </SellerProtectedRoute>
             }
           />

@@ -26,6 +26,7 @@ const ProductDetails = ({ data }) => {
 
   // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
+  const { currentUser } = useSelector((state) => state.user);
   const { wishList } = useSelector((state) => state.wishList);
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -125,24 +126,27 @@ const ProductDetails = ({ data }) => {
 
   const averageRating = average.toFixed(2);
 
-  // Handle Message Submit Function
+  // =========================================================
+  // Handle conversation Submit Function
+  // =========================================================
   const handleMessageSubmit = async () => {
-    if ('isAuthenticated') {
-      //   const groupTitle = data._id + user._id;
-      //   const userId = user._id;
-      //   const sellerId = data.shop._id;
-      await axios
-        .post(`/conversation/create-new-conversation`, {
-          //   groupTitle,
-          //   userId,
-          //   sellerId,
-        })
-        .then((res) => {
-          navigate(`/inbox?${res.data.conversation._id}`);
-        })
-        .catch((error) => {
-          toast.error(error.response.data.message);
-        });
+    if (currentUser) {
+      // body
+      const newConversation = {
+        groupTitle: data._id + currentUser._id,
+        userId: currentUser._id,
+        sellerId: data.shopId,
+      };
+
+      try {
+        const { data } = await axios.post(
+          `http://localhost:5000/api/conversations/create-conversation`,
+          newConversation
+        );
+        navigate(`/inbox?${data.conversation._id}`);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     } else {
       toast.error('Please login to create a conversation');
     }

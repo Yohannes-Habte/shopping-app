@@ -11,7 +11,7 @@ import { authAdmin, authUser } from '../middleware/auth.js';
 const userRouter = express.Router();
 
 // Auth routes
-userRouter.get('/user/:id', authUser, getUser);
+userRouter.get('/user/:id', getUser);
 userRouter.get('/', authAdmin, getUsers);
 userRouter.put('/update-user-address', authUser, updateUserAddress);
 userRouter.delete('/delete-user-address/:id', authUser, deleteUserAddress);

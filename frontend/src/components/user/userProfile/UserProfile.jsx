@@ -22,6 +22,7 @@ import {
   updateUserSuccess,
 } from '../../../redux/reducers/userReducer';
 import UserOrders from '../allOrders/UserOrders';
+import UserInbox from '../userInbox/UserInbox';
 
 
 const UserProfile = ({ active }) => {
@@ -308,6 +309,8 @@ const UserProfile = ({ active }) => {
         {active === 6 && <ChangePassword />}
 
         {active === 7 && <Address />}
+
+        {active === 8 && <UserInbox />}
       </section>
     </main>
   );

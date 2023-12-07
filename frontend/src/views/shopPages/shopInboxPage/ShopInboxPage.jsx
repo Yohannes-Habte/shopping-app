@@ -1,19 +1,19 @@
 import React from 'react';
-import "./ShopDashboard.scss"
+import "./ShopInboxPage.scss"
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
-import OverviewDashboard from '../../../components/shopDashboard/dashboardOverview/DashboardOverview';
+import DashboardMessages from '../../../components/shopDashboard/dashboardMessages/DashboardMessages';
 
-const ShopDashboard = () => {
+const ShopInboxPage = () => {
   return (
-    <main className="shop-dashboar-page">
+    <main className="shop-inbox-page">
       <HeaderDashboard />
-      <section className="shop-dashboard-container">
+      <section className="shop-inbox-container">
         <SidebarDashboard />
-        <OverviewDashboard />
+        <DashboardMessages />
       </section>
     </main>
   );
 };
 
-export default ShopDashboard;
+export default ShopInboxPage;

@@ -1,8 +1,8 @@
 import React from 'react';
 import './CheckoutPage.scss';
-import Header from '../../../components/layout/header/Header';
-import Footer from '../../../components/layout/footer/Footer';
 import Checkout from '../../../components/cart/checkout/Checkout';
+import Header from '../../../components/userLayout/header/Header';
+import Footer from '../../../components/userLayout/footer/Footer';
 
 const CheckoutPage = () => {
   return (

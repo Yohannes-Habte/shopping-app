@@ -5,16 +5,9 @@ const { Schema } = mongoose;
 const messageSchema = new Schema(
   {
     conversationId: { type: String },
-    text: { type: String },
+    textMessage: { type: String },
     sender: { type: String },
-    images: {
-      public_id: {
-        type: String,
-      },
-      url: {
-        type: String,
-      },
-    },
+    images: [{ type: String }],
   },
   { timestamps: true }
 );

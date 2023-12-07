@@ -1,8 +1,8 @@
 import React from 'react';
 import './ShopOrderDetailsPage.scss';
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
-import Footer from '../../../components/layout/footer/Footer';
 import ShopOrderDetails from '../../../components/shop/shopOrderDetails/ShopOrderDetails';
+import Footer from '../../../components/userLayout/footer/Footer';
 
 const ShopOrderDetailsPage = () => {
   return (

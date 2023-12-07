@@ -5,21 +5,14 @@ import createError from 'http-errors';
 // Get a user
 //====================================================================
 export const getUser = async (req, res, next) => {
-  if (req.params.id === req.user.id || req.user.role === 'admin') {
-    try {
-      const user = await User.findById(req.params.id);
-      if (user) {
-        res.status(200).json(user);
-      } else {
-        return next(createError(404, 'User does not found!'));
-      }
-    } catch (error) {
-      next(createError(500, 'Database could not query!'));
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(createError(404, 'User is not found!'));
     }
-  } else {
-    return next(
-      createError(403, 'You are autherized only to get your own data!')
-    );
+    res.status(200).json({ success: true, user });
+  } catch (error) {
+    next(createError(500, 'Database could not query!'));
   }
 };
 
@@ -86,7 +79,6 @@ export const updateUserAddress = async (req, res, next) => {
     );
   }
 };
-
 
 //====================================================================
 // Delete user address

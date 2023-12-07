@@ -6,7 +6,9 @@ import { MdEmail, MdLocationOn } from 'react-icons/md';
 import { FaCloudUploadAlt, FaTwitterSquare, FaUserAlt } from 'react-icons/fa';
 import { BiSolidMessageDetail } from 'react-icons/bi';
 import axios from 'axios';
-import Header from '../../components/layout/header/Header';
+import Header from '../../components/userLayout/header/Header';
+import Footer from '../../components/userLayout/footer/Footer';
+
 
 // Initial State
 const initialSate = {
@@ -233,6 +235,7 @@ const Contact = () => {
           </article>
         </div>
       </section>
+      <Footer />
     </main>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './OverviewDashboard.scss';
+import './DashboardOverview.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { DataGrid } from '@mui/x-data-grid';
@@ -14,7 +14,7 @@ import {
   sellerOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
 
-const OverviewDashboard = () => {
+const DashboardOverview = () => {
   // Global state variables
   const { orders } = useSelector((state) => state.order);
   const { currentSeller } = useSelector((state) => state.seller);
@@ -215,4 +215,4 @@ const OverviewDashboard = () => {
   );
 };
 
-export default OverviewDashboard;
+export default DashboardOverview;

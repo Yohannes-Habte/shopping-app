@@ -1,12 +1,15 @@
-import express from "express"
+import express from 'express';
+import {
+  createMessage,
+  getAllSenderMessages,
+} from '../controllers/messageController.js';
 
 // message Router
-const messageRouter = express.Router()
+const messageRouter = express.Router();
 
 // message routes
-messageRouter.post("/create-shop")
-messageRouter.get("/:id")
-
+messageRouter.post('/create-message', createMessage);
+messageRouter.get('/sender-messages/:id', getAllSenderMessages);
 
 // Export message Router
 export default messageRouter;

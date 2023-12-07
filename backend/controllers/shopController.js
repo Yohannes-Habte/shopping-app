@@ -128,8 +128,7 @@ export const sellerLogout = async (req, res, next) => {
 
 export const updateShopProfile = async (req, res, next) => {
   try {
-    const { image, name, phoneNumber, shopAddress, description } =
-      req.body;
+    const { image, name, phoneNumber, shopAddress, description } = req.body;
 
     const shop = await Shop.findById(req.shop._id);
 
@@ -155,14 +154,14 @@ export const updateShopProfile = async (req, res, next) => {
 //====================================================================
 export const getShop = async (req, res, next) => {
   try {
-    const shop = await Shop.findById(req.shop._id);
+    const shop = await Shop.findById(req.params.id);
     console.log('The shop is', shop);
 
     if (!shop) {
       return next(createError(404, 'Shop does not found! Please try again!'));
     }
 
-    return res.status(200).json(shop);
+    return res.status(200).json({ success: true, shop });
   } catch (error) {
     next(createError(500, 'Database could not query! Please try again!'));
     console.log(error);

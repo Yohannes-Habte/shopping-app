@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Products.scss';
-import Header from '../../components/layout/header/Header';
-import Footer from '../../components/layout/footer/Footer';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import ProductCard from '../../components/products/productCard/ProductCard';
 import axios from 'axios';
+import Header from '../../../components/userLayout/header/Header';
+import Footer from '../../../components/userLayout/footer/Footer';
+import ProductCard from '../../../components/products/productCard/ProductCard';
 
 const Products = () => {
   // Global state variables

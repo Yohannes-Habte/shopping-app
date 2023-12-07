@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import './SingleProduct.scss';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import RelatedProducts from '../../components/products/relatedProducts/RelatedProducts';
-import Header from '../../components/layout/header/Header';
-import Footer from '../../components/layout/footer/Footer';
-import ProductDetails from '../../components/products/productDetails/ProductDetails';
 import axios from 'axios';
+import RelatedProducts from '../../../components/products/relatedProducts/RelatedProducts';
+import Header from '../../../components/userLayout/header/Header';
+import Footer from '../../../components/userLayout/footer/Footer';
+import ProductDetails from '../../../components/products/productDetails/ProductDetails';
 
 const SingleProduct = () => {
   const { productID } = useParams();

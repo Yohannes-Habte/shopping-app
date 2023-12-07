@@ -7,7 +7,7 @@ import {
   sellerLogout,
   updateShopProfile,
 } from '../controllers/shopController.js';
-import { authAdmin, authSeller } from '../middleware/auth.js';
+import { authAdmin, authSeller, authUser } from '../middleware/auth.js';
 
 // shop Router
 const shopRouter = express.Router();
@@ -17,7 +17,7 @@ shopRouter.post('/create-shop', createShop);
 shopRouter.post('/login-shop', loginSeller);
 shopRouter.get('/logout-shop/:id', sellerLogout);
 shopRouter.put('/update-shop-profile', authSeller, updateShopProfile);
-shopRouter.get('/:id', authSeller, getShop);
+shopRouter.get('/shop/:id', getShop);
 shopRouter.get('/', authAdmin, getShops);
 
 // Export shop Router

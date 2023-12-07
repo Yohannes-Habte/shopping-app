@@ -1,0 +1,10 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.shop-inbox-page {
+  width: 100%;
+  min-width: 100vh;
+  .shop-inbox-container {
+    display: flex;
+  }
+}

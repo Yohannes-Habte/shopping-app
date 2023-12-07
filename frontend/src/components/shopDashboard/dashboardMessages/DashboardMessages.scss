@@ -1,0 +1,16 @@
+@import '../../../styles/Variables.scss';
+@import '../../../styles/Mixins.scss';
+
+.message-dashboar-modal {
+  width: 100%;
+
+  .message-dashboar-wrapper {
+    width: $laptop;
+    margin: auto;
+    @include shadow3;
+
+    .message-dashboar-title {
+      @include title;
+    }
+  }
+}
