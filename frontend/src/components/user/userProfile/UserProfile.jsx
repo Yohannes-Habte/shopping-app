@@ -23,7 +23,7 @@ import {
 } from '../../../redux/reducers/userReducer';
 import UserOrders from '../allOrders/UserOrders';
 import UserInbox from '../userInbox/UserInbox';
-
+import UserInboxPage from '../../../views/userPages/userInboxPage/UserInboxPage';
 
 const UserProfile = ({ active }) => {
   const navigate = useNavigate();
@@ -310,7 +310,7 @@ const UserProfile = ({ active }) => {
 
         {active === 7 && <Address />}
 
-        {active === 8 && <UserInbox />}
+        {active === 8 && <UserInboxPage />}
       </section>
     </main>
   );

@@ -25,6 +25,8 @@ const persistConfig = {
   storage,
   version: 1,
 };
+
+// Create a Persist Reducer variable
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // create Sore variable

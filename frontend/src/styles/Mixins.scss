@@ -19,13 +19,13 @@
 
 // Tablet page container
 @mixin tabletPageContainer {
-  width: $laptop;
+  width: $tablet;
   margin: 1rem auto;
 }
 
 // Mobile page container
 @mixin mobilePageContainer {
-  width: $laptop;
+  width: $mobile;
   margin: 1rem auto;
 }
 

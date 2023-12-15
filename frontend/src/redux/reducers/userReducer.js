@@ -148,5 +148,5 @@ export const {
   clearErrors,
 } = userReducer.actions;
 
-// exoirt userSlice
+// export userSlice
 export default userReducer.reducer;
