@@ -205,10 +205,10 @@ const ProductDetails = ({ data }) => {
           {/* Product rating message */}
           <aside className="product-rating">
             <img src="" alt="" />
-            <h3>
+            <h3 className='product-name'>
               <Link to={`/shop/${data._id}`}>{data.name} </Link>
             </h3>
-            <p> Rating: {averageRating} </p>
+            <p className='rating'> Rating: {averageRating} </p>
             <span onClick={handleMessageSubmit} className="send-message">
               Send Message <AiOutlineMessage />
             </span>

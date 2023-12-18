@@ -11,7 +11,10 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { addToCart } from '../../../redux/reducers/cartReducer';
-import { addToWishlist, removeFromWishlist } from '../../../redux/reducers/wishListReducer';
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from '../../../redux/reducers/wishListReducer';
 
 const ProductCartDetails = ({ setOpen, data }) => {
   // Global state variables
@@ -94,33 +97,30 @@ const ProductCartDetails = ({ setOpen, data }) => {
               </Link>
             </figure>
 
-            <article className="rating-wrapper">
-              <h3 className={`subTitle`}>{data.name}</h3>
-              <p className="rating]">{data?.ratings} Ratings</p>
+            <article className="info-wrapper">
+              <h3 className={`product-name`}>{data.name}</h3>
+              <p className="rating">{data?.ratings} Ratings</p>
+              <h3 onClick={handleMessageSubmit} className="send-message-btn">
+                Send Message <AiOutlineMessage className="message-icon" />{' '}
+              </h3>
+              <h5 className="sold-out">(50) Sold out</h5>
             </article>
-
-            <h3 onClick={handleMessageSubmit} className="send-message-btn">
-              Send Message <AiOutlineMessage className="message-icon" />{' '}
-            </h3>
-
-            <h5 className="sold-out">(50) Sold out</h5>
           </article>
 
           {/* Right box */}
           <article className="right-box">
-            <h2 className={`subTitle`}>{data.name}</h2>
+            <h2 className={`product-title`}>{data.name}</h2>
             <p className="description">{data.description}</p>
 
-            <aside className="price-wrapper">
+            <section className="price-wrapper">
               <p className={`old-price`}>
                 ${data.originalPrice ? data.originalPrice : null}
               </p>
+
               <h3 className={`new-price`}>
                 ${data.originalPrice - data.discountPrice}
               </h3>
-            </aside>
 
-            <div className="quantity-wishlist-wrapper">
               <article className="quantity-management">
                 <button className="quantity-btn" onClick={decrementCount}>
                   -
@@ -151,14 +151,14 @@ const ProductCartDetails = ({ setOpen, data }) => {
                   />
                 )}
               </div>
-            </div>
 
-            <h3
-              className={`add-to-cart-btn`}
-              onClick={() => addToCartHandler(data._id)}
-            >
-              Add to cart <AiOutlineShoppingCart className="add-icon" />
-            </h3>
+              <p
+                className={`add-to-cart-btn`}
+                onClick={() => addToCartHandler(data._id)}
+              >
+                Add to cart <AiOutlineShoppingCart className="add-icon" />
+              </p>
+            </section>
           </article>
         </section>
       ) : null}

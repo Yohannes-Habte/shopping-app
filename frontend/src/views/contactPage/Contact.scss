@@ -9,6 +9,8 @@
 
     .contact-title {
       @include title;
+      font-size: $afs;
+      text-align: center;
     }
   }
 }

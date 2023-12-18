@@ -326,6 +326,19 @@
   row-gap: 1rem;
 }
 
+@mixin tabletProductsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1rem;
+  row-gap: 1rem;
+}
+
+@mixin mobileProducts {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 @mixin cartQuantity {
   color: $yellow;
   font-size: $aafs;
@@ -374,6 +387,13 @@
 
 @mixin image {
   width: 23rem;
+  height: 16rem;
+  object-fit: cover;
+  border-radius: $radius;
+}
+
+@mixin MobileImage {
+  width: 20rem;
   height: 16rem;
   object-fit: cover;
   border-radius: $radius;
