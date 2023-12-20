@@ -69,14 +69,18 @@ const ProfileSidebar = ({ active, setActive }) => {
     <div className="profile-infos-wrapper">
       {/* Profile section */}
       <div onClick={() => setActive(1)} className="tab-box profile">
-        <RxPerson className={active === 1 ? 'active-icon ' : 'passive-icon'} />
+        <RxPerson
+          title="Profile"
+          className={active === 1 ? 'active-icon' : 'passive-icon'}
+        />
         <span className={active === 1 ? 'active' : 'passive'}>Profile</span>
       </div>
 
       {/* Orders section */}
       <div className="tab-box orders" onClick={() => setActive(2)}>
         <HiOutlineShoppingBag
-          className={active === 2 ? 'active-icon ' : 'passive-icon'}
+          title="Orders"
+          className={active === 2 ? 'active-icon' : 'passive-icon'}
         />
         <span className={active === 2 ? 'active' : 'passive'}>Orders</span>
       </div>
@@ -84,7 +88,8 @@ const ProfileSidebar = ({ active, setActive }) => {
       {/* Refunds section */}
       <div className="tab-box refunds" onClick={() => setActive(3)}>
         <HiOutlineReceiptRefund
-          className={active === 3 ? 'active-icon ' : 'passive-icon'}
+          title="Refunds"
+          className={active === 3 ? 'active-icon' : 'passive-icon'}
         />
         <span className={active === 3 ? 'active' : 'passive'}>Refunds</span>
       </div>
@@ -95,7 +100,8 @@ const ProfileSidebar = ({ active, setActive }) => {
         onClick={() => setActive(4) || navigate('/inbox')}
       >
         <AiOutlineMessage
-          className={active === 4 ? 'active-icon ' : 'passive-icon'}
+          title="Inbox"
+          className={active === 4 ? 'active-icon' : 'passive-icon'}
         />
         <span className={active === 4 ? 'active' : 'passive'}>Inbox</span>
       </div>
@@ -103,14 +109,18 @@ const ProfileSidebar = ({ active, setActive }) => {
       {/* Track order section */}
       <div className="tab-box track-order" onClick={() => setActive(5)}>
         <MdOutlineTrackChanges
-          className={active === 5 ? 'active' : 'passive'}
+          title="Track Order"
+          className={active === 5 ? 'active-icon' : 'passive-icon'}
         />
         <span className={active === 5 ? 'active' : 'passive'}>Track Order</span>
       </div>
 
       {/* Change password section */}
       <div className="tab-box changePassword" onClick={() => setActive(6)}>
-        <RiLockPasswordLine className={active === 6 ? 'active' : 'passive'} />
+        <RiLockPasswordLine
+          title="Change Password"
+          className={active === 6 ? 'active-icon' : 'passive-icon'}
+        />
         <span className={active === 6 ? 'active' : 'passive'}>
           Change Password
         </span>
@@ -118,14 +128,18 @@ const ProfileSidebar = ({ active, setActive }) => {
 
       {/* Address section */}
       <div className="tab-box address" onClick={() => setActive(7)}>
-        <TbAddressBook className={active === 7 ? 'active' : 'passive'} />
+        <TbAddressBook
+          title="Address"
+          className={active === 7 ? 'active-icon' : 'passive-icon'}
+        />
         <span className={active === 7 ? 'active' : 'passive'}>Address</span>
       </div>
 
       {/* User inbox */}
       <div className="tab-box track-order" onClick={() => setActive(8)}>
         <MdOutlineTrackChanges
-          className={active === 8 ? 'active' : 'passive'}
+          title="User Inbox"
+          className={active === 8 ? 'active-icon' : 'passive-icon'}
         />
         <span className={active === 8 ? 'active' : 'passive'}>User Inbox</span>
       </div>
@@ -135,7 +149,8 @@ const ProfileSidebar = ({ active, setActive }) => {
         <Link to="/admin/dashboard">
           <div className="tab-box dashboard" onClick={() => setActive(8)}>
             <MdOutlineAdminPanelSettings
-              className={active === 9 ? 'active' : 'passive'}
+              title="Admin Dashboard"
+              className={active === 9 ? 'active-icon' : 'passive-icon'}
             />
             <span className={active === 9 ? 'active' : 'passive'}>
               Admin Dashboard
@@ -146,13 +161,19 @@ const ProfileSidebar = ({ active, setActive }) => {
 
       {/* Log out  section */}
       <div className="tab-box logout" onClick={handleLogout}>
-        <AiOutlineLogin className={active === 10 ? 'active' : 'passive'} />
+        <AiOutlineLogin
+          title="Log Out"
+          className={active === 10 ? 'active-icon' : 'passive-icon'}
+        />
         <span className={active === 10 ? 'active' : 'passive'}>Log out</span>
       </div>
 
       {/* Delete Account section */}
       <div className="tab-box address" onClick={handleDeleteAccount}>
-        <MdDelete className={active === 11 ? 'active' : 'passive'} />
+        <MdDelete
+          title="Delete Acount"
+          className={active === 11 ? 'active-icon' : 'passive-icon'}
+        />
         <span className={active === 11 ? 'active' : 'passive'}>
           Delete Account
         </span>

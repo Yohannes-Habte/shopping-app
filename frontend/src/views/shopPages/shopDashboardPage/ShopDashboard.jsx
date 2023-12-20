@@ -1,5 +1,5 @@
 import React from 'react';
-import "./ShopDashboard.scss"
+import './ShopDashboard.scss';
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
 import OverviewDashboard from '../../../components/shopDashboard/dashboardOverview/DashboardOverview';

@@ -1,46 +1,36 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-.header-dashboard {
+// Mobile screen
+.header-shop-dashboard {
+  display: none;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 1rem;
   background-color: $header-bg;
+  padding: 0 1rem;
 
-  .header-icons {
-    position: relative;
+  .shop-logo {
+    @include subTitle;
+  }
+
+  .dashboard-header-icons {
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    align-items: center;
+    gap: 1rem;
 
-    .active-link {
-      .header-dashboar-icon {
-        font-size: $aafs;
+    .active-header-dashboard-icon {
+      .header-dashboard-icon {
         color: $red;
       }
     }
 
-    .none-active-link {
-      .header-dashboar-icon {
-        font-size: $aafs;
-        color: $green;
-      }
-
-      .image {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        color: $green;
-      }
-    }
-
     .image-container {
-      cursor: pointer;
-
       .image {
-        width: 2rem;
-        height: 2rem;
+        width: 1.3rem;
+        height: 1.3rem;
         border-radius: 50%;
         object-fit: cover;
       }
@@ -49,7 +39,7 @@
     .shop-profile-logout-wrapper {
       position: absolute;
       top: 2.8rem;
-      right: -1rem;
+      right: 0;
       background-color: $header-bg;
       width: 15rem;
       height: 100vh;
@@ -69,4 +59,12 @@
       }
     }
   }
+}
+
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+}
+
+/* Labtop screen size */
+@media screen and (min-width: 1024px) {
 }

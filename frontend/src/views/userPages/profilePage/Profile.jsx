@@ -16,10 +16,14 @@ const Profile = () => {
       <section className="profile-container">
         <h1 className="profile-title"> Details of {currentUser.name} </h1>
 
-        <div className="sidebar-form-wrapper">
-          <ProfileSidebar active={active} setActive={setActive} />
+        <div className="sidebar-and-usrProfile-wrapper">
+          <div className='user-profile-sidebar-wrapper'>
+            <ProfileSidebar active={active} setActive={setActive} />
+          </div>
 
-          <UserProfile active={active} />
+          <div className='user-profile-wrapper'>
+            <UserProfile active={active} />
+          </div>
         </div>
       </section>
     </main>

@@ -25,7 +25,6 @@ import ShopEvents from './views/shopPages/shopEventsPage/ShopEvents';
 import ShopAllCoupons from './views/shopPages/shopAllCouponsPage/ShopAllCoupons';
 
 import ShopHome from './views/shopPages/shopHomePage/ShopHome';
-import ShopDashboard from './views/shopPages/shopDashboarPage/ShopDashboard';
 
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
@@ -48,6 +47,7 @@ import SingleProduct from './views/productPages/productPage/SingleProduct';
 import PaymentPage from './views/userPages/paymentPage/PaymentPage';
 import OrderSuccess from './views/userPages/orderSuccessPage/OrderSuccess';
 import UserInboxPage from './views/userPages/userInboxPage/UserInboxPage';
+import ShopDashboard from './views/shopPages/shopDashboardPage/ShopDashboard';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');

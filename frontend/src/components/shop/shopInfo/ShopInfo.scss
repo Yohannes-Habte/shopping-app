@@ -2,12 +2,13 @@
 @import '../../../styles/Mixins.scss';
 
 .shop-info-contianer {
-  width: 100%;
+  @include mobileDashboardScreen;
   @include shadow3;
   position: relative;
 
   .shop-title {
     @include title;
+    font-size: $one;
   }
 
   .go-board {
@@ -15,6 +16,7 @@
     top: 1rem;
     right: 1rem;
     @include button4;
+    font-size: $one;
   }
 
   // taps wrapper
@@ -47,6 +49,7 @@
       color: $black;
       cursor: pointer;
       @include button4;
+      font-size: $one;
     }
   }
 
@@ -89,17 +92,230 @@
         }
 
         .comment {
-          font-size: $afs;
+          font-size: $one;
         }
 
         .review-date {
-          font-size: $afs;
+          font-size: $one;
           color: $blue;
         }
       }
     }
 
     .no-review {
+    }
+  }
+}
+
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .shop-info-contianer {
+    @include tabletDashboardScreen;
+    @include shadow3;
+    position: relative;
+
+    .shop-title {
+      @include title;
+      font-size: $one;
+    }
+
+    .go-board {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      @include button4;
+    }
+
+    // taps wrapper
+    .tabs-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .active {
+        position: relative;
+        @include subTitle;
+        @include button4;
+        color: $tomato;
+        cursor: pointer;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.2rem;
+          width: 100%;
+          height: 2px;
+          background-color: $red;
+        }
+      }
+
+      .passive {
+        @include subTitle;
+        color: $black;
+        cursor: pointer;
+        @include button4;
+        font-size: $one;
+      }
+    }
+
+    // Shop Products
+    .shop-products {
+      @include productsGrid;
+    }
+
+    // Shop Events
+    .shop-events-wrapper {
+      .shop-events {
+      }
+
+      .no-events {
+      }
+    }
+
+    // Shop reviews
+    .shop-reviews-wrapper {
+      @include productsGrid;
+
+      .shop-review {
+        flex: 1;
+        @include shadow3;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        .image-container {
+          .image {
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+            border-radius: 50%;
+          }
+        }
+
+        .user-rating {
+          .reviewer-name {
+          }
+
+          .comment {
+            font-size: $one;
+          }
+
+          .review-date {
+            font-size: $one;
+            color: $blue;
+          }
+        }
+      }
+
+      .no-review {
+      }
+    }
+  }
+}
+
+/* Labtop screen size */
+@media screen and (min-width: 1024px) {
+  .shop-info-contianer {
+    @include desktopDashboardScreen;
+    position: relative;
+
+    .shop-title {
+      @include title;
+    }
+
+    .go-board {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      @include button4;
+    }
+
+    // taps wrapper
+    .tabs-wrapper {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .active {
+        position: relative;
+        @include subTitle;
+        @include button4;
+        color: $tomato;
+        cursor: pointer;
+
+        &::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -0.2rem;
+          width: 100%;
+          height: 2px;
+          background-color: $red;
+        }
+      }
+
+      .passive {
+        @include subTitle;
+        color: $black;
+        cursor: pointer;
+        @include button4;
+      }
+    }
+
+    // Shop Products
+    .shop-products {
+      @include productsGrid;
+    }
+
+    // Shop Events
+    .shop-events-wrapper {
+      .shop-events {
+      }
+
+      .no-events {
+      }
+    }
+
+    // Shop reviews
+    .shop-reviews-wrapper {
+      @include productsGrid;
+
+      .shop-review {
+        flex: 1;
+        @include shadow3;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+
+        .image-container {
+          .image {
+            width: 5rem;
+            height: 5rem;
+            object-fit: cover;
+            border-radius: 50%;
+          }
+        }
+
+        .user-rating {
+          .reviewer-name {
+          }
+
+          .comment {
+            font-size: $afs;
+          }
+
+          .review-date {
+            font-size: $afs;
+            color: $blue;
+          }
+        }
+      }
+
+      .no-review {
+      }
     }
   }
 }

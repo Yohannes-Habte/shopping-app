@@ -45,39 +45,39 @@ const HeaderDashboard = ({ isOwner }) => {
 
   // Style active and none active link
   const active = ({ isActive }) =>
-    isActive ? 'active-link' : 'none-active-link';
+    isActive ? 'active-header-dashboard-icon' : 'passive-header-dashboard-icon';
 
   return (
-    <header className="header-dashboard">
+    <header className="header-shop-dashboard">
       {/* Logo */}
-      <h1>
+      <h1 className="shop-logo">
         <Link to="/dashboard">Logo</Link>
       </h1>
 
       {/* Links to various pages */}
-      <div className="header-icons">
+      <span className="dashboard-header-icons">
         <NavLink to="/dashboard/cupouns" className={active}>
-          <AiOutlineGift className="header-dashboar-icon" title="Coupons" />
+          <AiOutlineGift className="header-dashboard-icon" title="Coupons" />
         </NavLink>
 
         <NavLink to="/dashboard-events" className={active}>
           <MdOutlineLocalOffer
-            className="header-dashboar-icon"
+            className="header-dashboard-icon"
             title="Events"
           />
         </NavLink>
 
         <NavLink to="/dashboard-products" className={active}>
-          <FiShoppingBag className="header-dashboar-icon" title="Products" />
+          <FiShoppingBag className="header-dashboard-icon" title="Products" />
         </NavLink>
 
         <NavLink to="/dashboard-orders" className={active}>
-          <FiPackage className="header-dashboar-icon" title="Orders" />
+          <FiPackage className="header-dashboard-icon" title="Orders" />
         </NavLink>
 
         <NavLink to="/dashboard-messages" className={active}>
           <BiMessageSquareDetail
-            className="header-dashboar-icon"
+            className="header-dashboard-icon"
             title="Messages"
           />
         </NavLink>
@@ -89,7 +89,7 @@ const HeaderDashboard = ({ isOwner }) => {
                 ? currentSeller.image
                 : 'https://i.ibb.co/4pDNDk1/avatar.png'
             }
-            alt=""
+            alt={currentSeller.name}
             className="image"
           />
         </figure>
@@ -129,7 +129,7 @@ const HeaderDashboard = ({ isOwner }) => {
             </li>
           </ul>
         )}
-      </div>
+      </span>
     </header>
   );
 };

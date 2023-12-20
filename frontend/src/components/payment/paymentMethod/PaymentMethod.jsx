@@ -243,7 +243,6 @@ const PaymentMethod = () => {
           stripePaymentHandler={stripePaymentHandler}
           cashOnDeliveryHandler={cashOnDeliveryHandler}
         />
-
         <CartData orderData={orderData} />
       </div>
     </section>

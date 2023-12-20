@@ -150,8 +150,8 @@ const DashboardOverview = () => {
     });
 
   return (
-    <section className="overview-dashbaord-wrapper">
-      <h3 className="overview-dashboard-title">Overview</h3>
+    <section className="overview-dashboard-wrapper">
+      <h2 className="overview-dashboard-title">Overview</h2>
 
       <div className="summary-overview">
         {/* Account balance wrapper */}
@@ -177,7 +177,9 @@ const DashboardOverview = () => {
               All Orders from {currentSeller.name}{' '}
             </h3>
           </aside>
-          <h3 className="subTitle">{allShopOrders ? allShopOrders.length : '0'}</h3>
+          <h3 className="subTitle">
+            {allShopOrders ? allShopOrders.length : '0'}
+          </h3>
           <Link to="/dashboard-orders" className="link">
             View Orders
           </Link>

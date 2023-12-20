@@ -9,7 +9,6 @@ import { IoMdVideocam } from 'react-icons/io';
 
 const UserInbox = ({
   scrollRef,
-  setOpen,
   textMessage,
   setTextMessage,
   sendTextMessageHandler,

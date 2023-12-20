@@ -172,6 +172,17 @@ const Checkout = () => {
   return (
     <section className="cart-checkout-wrapper">
       <div className="shipping-and-cart-info-container">
+        
+        <CartInfo
+          subTotalPrice={subTotalPrice}
+          shippingPrice={shippingPrice}
+          totalPrice={totalPrice}
+          couponCode={couponCode}
+          setCouponCode={setCouponCode}
+          discountPercentage={discountPercentage}
+          handleSubmit={handleSubmit}
+        />
+
         <Shipping
           user={currentUser}
           country={country}
@@ -189,16 +200,6 @@ const Checkout = () => {
           zipCode={zipCode}
           setZipCode={setZipCode}
           updateChange={updateChange}
-        />
-
-        <CartInfo
-          subTotalPrice={subTotalPrice}
-          shippingPrice={shippingPrice}
-          totalPrice={totalPrice}
-          couponCode={couponCode}
-          setCouponCode={setCouponCode}
-          discountPercentage={discountPercentage}
-          handleSubmit={handleSubmit}
         />
       </div>
 

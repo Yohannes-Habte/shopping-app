@@ -1,13 +1,34 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-
 .all-shop-events-wrapper {
-    width: $laptop;
-    margin: 1rem auto;
-    .title {
-        @include title;
-    }
+  @include mobileDashboardScreen;
 
-    .shop-events {}
+  .title {
+    @include title;
+    font-size: $one;
+  }
+}
+
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .all-shop-events-wrapper {
+    @include tabletDashboardScreen;
+
+    .title {
+      @include title;
+      font-size: $one;
+    }
+  }
+}
+
+/* Labtop screen size */
+@media screen and (min-width: 1024px) {
+  .all-shop-events-wrapper {
+    @include desktopDashboardScreen;
+    
+    .title {
+      @include title;
+    }
+  }
 }

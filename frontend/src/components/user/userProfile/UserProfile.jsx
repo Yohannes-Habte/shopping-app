@@ -173,8 +173,7 @@ const UserProfile = ({ active }) => {
 
           <fieldset className="profile-fieldset">
             <legend className="profile-legend">
-              {' '}
-              {currentUser ? currentUser.name : 'User Profile'}{' '}
+              {currentUser ? currentUser.name : 'User Profile'}
             </legend>
             <form onSubmit={submitUpdatedUserProfile} className="profile-form">
               <div className="input-container">
@@ -299,7 +298,7 @@ const UserProfile = ({ active }) => {
         </section>
       )}
 
-      <section className="profile-form-container">
+      <section className="profile-informamtion-container">
         {active === 2 && <UserOrders />}
 
         {active === 3 && <AllRefundOrders />}

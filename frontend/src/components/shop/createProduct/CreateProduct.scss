@@ -1,24 +1,27 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
+// Mobile screen size
 .create-product-wrapper {
-  width: 70%;
-  margin: auto;
-
+  @include mobileDashboardScreen;
   .subTitle {
     @include title;
+    font-size: $one;
   }
 
   .form {
+    width: $mobile;
+    margin: auto;
     @include shadow3;
     padding: 1rem 2rem;
-    
+
     .input-container {
       position: relative;
       @include inputContainer;
 
       .input-field {
         @include inputField;
+        font-size: $one;
       }
 
       .input-label {
@@ -74,6 +77,7 @@
 
       .image-label {
         @include inputField;
+        font-size: $one;
         display: flex;
         gap: 1rem;
         padding-left: 1rem;
@@ -98,8 +102,30 @@
 
     .create-product-btn {
       @include button1;
+      font-size: $one;
     }
+  }
+}
 
-    
+/* Tablet screen size */
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .create-product-wrapper {
+    @include tabletDashboardScreen;
+
+    .subTitle {
+      @include title;
+      font-size: $one;
+    }
+  }
+}
+
+/* Labtop screen size */
+@media screen and (min-width: 1024px) {
+  .create-product-wrapper {
+    @include desktopDashboardScreen;
+
+    .subTitle {
+      @include title;
+    }
   }
 }

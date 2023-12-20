@@ -406,3 +406,26 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+@mixin chatMobileImage {
+  width: 2rem;
+  height: 2rem;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+@mixin desktopDashboardScreen    {
+  width: $desktopDashbaord;
+  margin: 1rem auto;
+}
+
+@mixin tabletDashboardScreen  {
+  width: $tabletDashbaord;
+  margin: 1rem auto;
+}
+
+@mixin mobileDashboardScreen    {
+  width: $mobileDashbaord;
+  margin: 1rem auto;
+}
