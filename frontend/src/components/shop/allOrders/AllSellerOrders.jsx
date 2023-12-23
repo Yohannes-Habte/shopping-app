@@ -20,6 +20,7 @@ const AllSellerOrders = () => {
   // Local state variable
   const [shopOrders, setShopOrders] = useState([]);
 
+  // Display all orders of a shop
   useEffect(() => {
     const fetchAllShopOrders = async () => {
       try {

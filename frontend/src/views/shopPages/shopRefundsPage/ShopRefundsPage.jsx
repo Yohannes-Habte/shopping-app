@@ -3,6 +3,7 @@ import './ShopRefundsPage.scss';
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
 import ShopRefunds from '../../../components/shop/allShopRefunds/ShopRefunds';
+import Footer from '../../../components/userLayout/footer/Footer';
 
 const ShopRefundsPage = () => {
   return (
@@ -13,6 +14,7 @@ const ShopRefundsPage = () => {
 
         <ShopRefunds />
       </section>
+      <Footer />
     </main>
   );
 };

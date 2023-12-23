@@ -56,7 +56,6 @@ export const createShop = async (req, res, next) => {
 //=========================================================================
 // Login shop
 //=========================================================================
-
 export const loginSeller = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -101,22 +100,18 @@ export const loginSeller = async (req, res, next) => {
 //=========================================================================
 // Logout shop which is a seller
 //=========================================================================
-
 export const sellerLogout = async (req, res, next) => {
   try {
-    const seller = await Shop.findById(req.params.id);
-
-    if (!seller) {
-      return next(createError(400, 'Seller not found!'));
-    }
-
     res.cookie('shopToken', null, {
       httpOnly: true,
       expires: new Date(0),
       sameSite: 'none',
       secure: true,
     });
-    res.status(200).json(`Seller has successfully logged out`);
+    res.status(201).json({
+      success: true,
+      message: 'Log out successful!',
+    });
   } catch (error) {
     next(createError(500, 'Seller could not logout. Please try again!'));
   }
@@ -125,7 +120,6 @@ export const sellerLogout = async (req, res, next) => {
 //=========================================================================
 // Update shop Profile
 //=========================================================================
-
 export const updateShopProfile = async (req, res, next) => {
   try {
     const { image, name, phoneNumber, shopAddress, description } = req.body;
@@ -154,8 +148,7 @@ export const updateShopProfile = async (req, res, next) => {
 //====================================================================
 export const getShop = async (req, res, next) => {
   try {
-    const shop = await Shop.findById(req.params.id);
-    console.log('The shop is', shop);
+    const shop = await Shop.findById(req.shop._id);
 
     if (!shop) {
       return next(createError(404, 'Shop does not found! Please try again!'));
@@ -171,15 +164,103 @@ export const getShop = async (req, res, next) => {
 //====================================================================
 // Get all sellers/shops
 //====================================================================
-export const getShops = async (req, res, next) => {
+export const getAllShops = async (req, res, next) => {
   try {
-    const sellers = await Shop.find();
-    if (sellers) {
-      res.status(200).json(sellers);
-    } else {
-      return next(createError(404, 'Sellers do not found!'));
-    }
+    const shops = await Shop.find().sort({
+      createdAt: -1,
+    });
+    res.status(201).json({
+      success: true,
+      shops,
+    });
   } catch (error) {
     next(createError(500, 'Database could not query!'));
+  }
+};
+
+//====================================================================
+// Update seller/shop withdraw methods
+//====================================================================
+export const updatePaymentMethods = async (req, res, next) => {
+  try {
+    const { withdrawMethod } = req.body;
+
+    const shop = await Shop.findByIdAndUpdate(req.shop._id, { withdrawMethod });
+
+    // Save changes to a shop
+    shop.save();
+
+    res.status(201).json({
+      success: true,
+      shop,
+    });
+  } catch (error) {
+    console.log(error);
+    next(createError(500, 'Database could not update payment method!'));
+  }
+};
+
+//====================================================================
+// Delete seller/shop withdraw methods
+//====================================================================
+export const deleteWithdrawMethod = async (req, res, next) => {
+  try {
+    const shop = await Shop.findById(req.shop._id);
+
+    if (!shop) {
+      return next(createError(400, 'Shop not found! Please try again!'));
+    }
+
+    // nullify the withdrawMethod
+    shop.withdrawMethod = null;
+
+    await shop.save();
+
+    res.status(200).json({
+      success: true,
+      shop,
+    });
+  } catch (error) {
+    next(createError(500, 'Database could not delete payment method!'));
+  }
+};
+
+//====================================================================
+// Delete single shop by admin only
+//====================================================================
+export const deleteSingleShop = async (req, res, next) => {
+  try {
+    const shop = await Shop.findById(req.params.id);
+
+    if (!shop) {
+      return next(createError(400, 'Shop not found! Please try again!'));
+    }
+
+    await Shop.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      success: true,
+      message: 'Shop is successfully deleted!',
+    });
+  } catch (error) {
+    next(createError(500, 'Database could not delete shop! Please try again!'));
+  }
+};
+
+//====================================================================
+// Delete all shops by admin only
+//====================================================================
+export const deleteAllShops = async (req, res, next) => {
+  try {
+    await Shop.deleteMany();
+
+    res.status(200).json({
+      success: true,
+      message: 'Shops have been deleted successfully!',
+    });
+  } catch (error) {
+    next(
+      createError(500, 'Database could not delete shops! Please try again!')
+    );
   }
 };

@@ -3,16 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Home from './views/homePage/Home';
-import Contact from './views/contactPage/Contact';
-
-import NotFound from './views/userPages/notFound/NotFound';
-
 import EventsPage from './views/eventsPage/EventsPage';
 import BestSellings from './views/bestSellingpage/BestSellings';
+import Contact from './views/contactPage/Contact';
+import NotFound from './views/userPages/notFound/NotFound';
 import Profile from './views/userPages/profilePage/Profile';
 import Forgotpassword from './views/userPages/passwordPage/Forgotpassword';
 import ResetPassword from './views/userPages/passwordPage/ResetPassword';
-
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
 import UserProtectedRoute from './protectedRoutes/UserProtectedRoute';
 import ShopSettingsPage from './views/shopPages/shopSettingsPage/ShopSettingsPage';
@@ -23,31 +20,27 @@ import ShopCreateEvent from './views/shopPages/shopCreateEventPage/ShopCreateEve
 import ShopProducts from './views/shopPages/shopProductsPage/ShopProducts';
 import ShopEvents from './views/shopPages/shopEventsPage/ShopEvents';
 import ShopAllCoupons from './views/shopPages/shopAllCouponsPage/ShopAllCoupons';
-
 import ShopHome from './views/shopPages/shopHomePage/ShopHome';
-
 import axios from 'axios';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-
 import ShopAllOrders from './views/shopPages/shopAllOrdersPage/ShopAllOrders';
 import ShopOrderDetailsPage from './views/shopPages/shopOrderDetailsPage/ShopOrderDetailsPage';
 import ShopDetailsPage from './views/shopPages/shopDetailsPage/ShopDetailsPage';
 import TrackOrderPage from './views/userPages/trackOrderPage/TrackOrderPage';
 import ShopRefundsPage from './views/shopPages/shopRefundsPage/ShopRefundsPage';
-
 import Register from './views/userPages/registerPage/Register';
 import Login from './views/userPages/loginPage/Login';
 import CheckoutPage from './views/userPages/checkoutPage/CheckoutPage';
 import UserOrderDetailsPage from './views/userPages/userOrderDetailsPage/UserOrderDetailsPage';
 import ShopInboxPage from './views/shopPages/shopInboxPage/ShopInboxPage';
-
 import Products from './views/productPages/productsPage/Products';
 import SingleProduct from './views/productPages/productPage/SingleProduct';
 import PaymentPage from './views/userPages/paymentPage/PaymentPage';
 import OrderSuccess from './views/userPages/orderSuccessPage/OrderSuccess';
 import UserInboxPage from './views/userPages/userInboxPage/UserInboxPage';
 import ShopDashboard from './views/shopPages/shopDashboardPage/ShopDashboard';
+import ShopWithdrawMoney from './views/shopPages/shopWithdrawMoneyPage/ShopWithdrawMoney';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');
@@ -267,6 +260,15 @@ const App = () => {
             element={
               <SellerProtectedRoute>
                 <ShopDashboard />
+              </SellerProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/shop-withdraw-money"
+            element={
+              <SellerProtectedRoute>
+                <ShopWithdrawMoney />
               </SellerProtectedRoute>
             }
           />

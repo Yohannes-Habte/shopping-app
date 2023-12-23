@@ -3,6 +3,7 @@ import "./ShopInboxPage.scss"
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
 import DashboardMessages from '../../../components/shopDashboard/dashboardMessages/DashboardMessages';
+import Footer from '../../../components/userLayout/footer/Footer';
 
 const ShopInboxPage = () => {
   return (
@@ -12,6 +13,7 @@ const ShopInboxPage = () => {
         <SidebarDashboard />
         <DashboardMessages />
       </section>
+      <Footer />
     </main>
   );
 };

@@ -88,7 +88,7 @@ const DashboardOverview = () => {
   const shopIncome = totalEarning.toFixed(2);
 
   //! Available Balance will be done in the backend
-  const availableBalance = currentSeller?.availableBalance.toFixed(2);
+  const availableBalance = currentSeller?.availableBalance.toFixed();
 
   const columns = [
     { field: 'id', headerName: 'Order ID', minWidth: 250, flex: 0.7 },

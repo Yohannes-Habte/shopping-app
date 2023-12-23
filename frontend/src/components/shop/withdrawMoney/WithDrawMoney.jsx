@@ -1,78 +1,145 @@
 import React, { useEffect, useState } from 'react';
+import './WithDrawMoney.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RxCross1 } from 'react-icons/rx';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { AiFillTags, AiOutlineDelete } from 'react-icons/ai';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { FaUser } from 'react-icons/fa';
+import { BsBank2 } from 'react-icons/bs';
+import { FaRegCreditCard } from 'react-icons/fa6';
+import { FaLocationDot } from 'react-icons/fa6';
+import { FaSwift } from 'react-icons/fa';
+import { FaAddressCard } from 'react-icons/fa';
+import * as Action from '../../../redux/reducers/sellerReducer';
+
+// Initial values
+const initialState = {
+  bankHolderName: '',
+  bankName: '',
+  bankCountry: '',
+  bankSwiftCode: null,
+  bankAccountNumber: null,
+  bankAddress: '',
+};
 
 const WithdrawMoney = () => {
   // Global state variables
   const dispatch = useDispatch();
   const { currentSeller } = useSelector((state) => state.seller);
 
+  console.log('Current seller =', currentSeller);
+
   // Local state variables
   const [open, setOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState(50);
-  const [bankInfo, setBankInfo] = useState({
-    bankName: '',
-    bankCountry: '',
-    bankSwiftCode: null,
-    bankAccountNumber: null,
-    bankHolderName: '',
-    bankAddress: '',
-  });
+  const [bankInfo, setBankInfo] = useState(initialState);
+  const [shopOrders, setShopOrders] = useState([]);
+
+  // Get seller details
+  useEffect(() => {
+    const shopInfo = async () => {
+      try {
+        dispatch(Action.getSellerStart());
+        const { data } = await axios.get(
+          `http://localhost:5000/api/shops/shop/${currentSeller._id}`,
+          { withCredentials: true }
+        );
+        dispatch(Action.getSellerSuccess(data.shop));
+      } catch (error) {
+        dispatch(Action.getSellerFailer(error.response.data.message));
+      }
+    };
+    shopInfo();
+  }, []);
 
   // Display all orders of a shop
   useEffect(() => {
-    dispatch('getAllOrdersOfShop'(currentSeller._id));
-  }, [dispatch]);
+    const fetchAllShopOrders = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+        );
 
-  // Handle submit
-  const handleSubmit = async (e) => {
+        setShopOrders(data.orders);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    fetchAllShopOrders();
+  }, []);
+
+  // Destructure bankInfo variables
+  const {
+    bankHolderName,
+    bankAccountNumber,
+    bankName,
+    bankCountry,
+    bankSwiftCode,
+    bankAddress,
+  } = bankInfo;
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBankInfo({ ...bankInfo, [name]: value });
+  };
+
+  // Reset the variables to their initial value or state
+  const reset = () => {
+    setBankInfo({
+      bankHolderName: '',
+      bankAccountNumber: null,
+      bankName: '',
+      bankCountry: '',
+      bankSwiftCode: null,
+      bankAddress: '',
+    });
+  };
+
+  // Update shop money withdraw method
+  const updateShopPaymentMethods = async (e) => {
     e.preventDefault();
 
     try {
+      dispatch(Action.updateSellerStart());
       const withdrawMethod = {
-        bankName: bankInfo.bankName,
-        bankCountry: bankInfo.bankCountry,
-        bankSwiftCode: bankInfo.bankSwiftCode,
-        bankAccountNumber: bankInfo.bankAccountNumber,
-        bankHolderName: bankInfo.bankHolderName,
-        bankAddress: bankInfo.bankAddress,
+        bankHolderName: bankHolderName,
+        bankAccountNumber: bankAccountNumber,
+        bankName: bankName,
+        bankCountry: bankCountry,
+        bankSwiftCode: bankSwiftCode,
+        bankAddress: bankAddress,
       };
+
       const { data } = await axios.put(
-        `http/shop/update-payment-methods`,
-        {
-          withdrawMethod,
-        },
+        `http://localhost:5000/api/shops/update-payment-methods`,
+
+        { withdrawMethod },
         { withCredentials: true }
       );
       setPaymentMethod(false);
 
       toast.success('Withdraw method added successfully!');
 
-      dispatch('loadSeller'());
+      dispatch(Action.updateSellerSuccess(data.shop));
 
-      setBankInfo({
-        bankName: '',
-        bankCountry: '',
-        bankSwiftCode: null,
-        bankAccountNumber: null,
-        bankHolderName: '',
-        bankAddress: '',
-      });
+      reset();
     } catch (error) {
-      console.log(error.response.data.message);
+      dispatch(Action.updateSellerFilure(error.response.data.message));
     }
   };
 
-  // Delete handler
-  const deleteHandler = async () => {
+  // Delete shop payment method
+  const deleteShopPaymentMethod = async () => {
     try {
-      const { data } = await axios.delete(`http/shop/delete-withdraw-method`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.delete(
+        `http://localhost:5000/api/shops/delete-payment-method`,
+        {
+          withCredentials: true,
+        }
+      );
 
       toast.success('Withdraw method deleted successfully!');
       dispatch('loadSeller'());
@@ -84,15 +151,15 @@ const WithdrawMoney = () => {
   // Error
   const error = () => {};
 
-  // Withdraw handler
-  const withdrawHandler = async () => {
+  // Create withdraw request handler
+  const createWithdrawRequestHandler = async () => {
     try {
       if (withdrawAmount < 50 || withdrawAmount > availableBalance) {
         toast.error("You can't withdraw this amount!");
       } else {
         const amount = withdrawAmount;
         const { data } = await axios.post(
-          `http/withdraw/create-withdraw-request`,
+          `http://localhost:5000/api/wthdraws/create-withdraw-request`,
           { amount },
           { withCredentials: true }
         );
@@ -104,13 +171,16 @@ const WithdrawMoney = () => {
     }
   };
 
+  // Shop available total balance
   const availableBalance = currentSeller?.availableBalance.toFixed(2);
 
   return (
     <section className="withdraw-money-container">
       <h1 className="title"> Withdraw Money</h1>
-      <article className="box-wrapper">
-        <h5 className="subTitle">Available Balance: ${availableBalance}</h5>
+
+      {/* Shop balance and withdraw button */}
+      <article className="shop-balance-and-withdraw-wrapper">
+        <h5 className="shop-balance">Available Balance: ${availableBalance}</h5>
         <p
           className={`withdraw`}
           onClick={() => (availableBalance < 50 ? error() : setOpen(true))}
@@ -118,31 +188,73 @@ const WithdrawMoney = () => {
           Withdraw
         </p>
       </article>
-      {open && (
-        <div className={paymentMethod ? 'payment-method' : 'no-method'}>
-          <RxCross1
-            onClick={() => setOpen(false) || setPaymentMethod(false)}
-            className="icon"
-          />
 
-          {paymentMethod ? (
+      {/* When open is true, you can see: available withdraw methods and add new */}
+      {open && (
+        <article
+          className={paymentMethod ? 'withdraw-methods' : 'no-withdraw-methods'}
+        >
+          <h3>
+            <RxCross1
+              onClick={() => setOpen(false) || setPaymentMethod(false)}
+              className="close-icon"
+            />
+          </h3>
+
+          {/* When paymentMethod is true, then you can see the following*/}
+          {paymentMethod && (
             <section className="form-wrapper">
-              <h3 className="subTitle">Add new Withdraw Method:</h3>
-              <form onSubmit={handleSubmit} className="form">
+              <h3 className="form-title">Add new Withdraw Method</h3>
+              <form onSubmit={updateShopPaymentMethods} className="form">
+                {/* Bank Holder Name */}
+                <div className="input-container">
+                  <FaUser className="icon" />
+                  <input
+                    type="text"
+                    name="bankHolderName"
+                    id="bankHolderName"
+                    autoComplete="bankHolderName"
+                    value={bankHolderName}
+                    onChange={handleChange}
+                    placeholder="Enter Bank Holder Name!"
+                    className="input-field"
+                  />
+                  <label htmlFor="bankHolderName" className="input-label">
+                    Bank Holder Name
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
+                {/* Bank Account Number*/}
+                <div className="input-container">
+                  <FaRegCreditCard className="icon" />
+                  <input
+                    type="text"
+                    name="bankAccountNumber"
+                    id="bankAccountNumber"
+                    autoComplete="bankAccountNumber"
+                    required
+                    value={bankAccountNumber}
+                    onChange={handleChange}
+                    placeholder="Enter Your Bank Account Number!"
+                    className="input-field"
+                  />
+                  <label htmlFor="bankAccountNumber" className="input-label">
+                    Bank Account Number
+                  </label>
+                  <span className="input-highlight"></span>
+                </div>
+
                 {/*  Bank Name */}
                 <div className="input-container">
-                  <AiFillTags className="icon" />
+                  <BsBank2 className="icon" />
                   <input
                     type="text"
                     name="bankName"
                     id="bankName"
                     autoComplete="bankName"
-                    required
-                    value={bankInfo.bankName}
-                    onChange={(e) =>
-                      setBankInfo({ ...bankInfo, bankName: e.target.value })
-                    }
-                    placeholder="Enter your Bank name"
+                    value={bankName}
+                    onChange={handleChange}
+                    placeholder="Enter Bank Name"
                     className="input-field"
                   />
                   <label htmlFor="bankName" className="input-label">
@@ -153,21 +265,15 @@ const WithdrawMoney = () => {
 
                 {/*   Bank Country */}
                 <div className="input-container">
-                  <AiFillTags className="icon" />
+                  <FaLocationDot className="icon" />
                   <input
                     type="text"
                     name="bankCountry"
                     id="bankCountry"
                     autoComplete="bankCountry"
-                    required
-                    value={bankInfo.bankCountry}
-                    onChange={(e) =>
-                      setBankInfo({
-                        ...bankInfo,
-                        bankCountry: e.target.value,
-                      })
-                    }
-                    placeholder="Enter your bank Country"
+                    value={bankCountry}
+                    onChange={handleChange}
+                    placeholder="Enter Bank Country Location"
                     className="input-field"
                   />
                   <label htmlFor="bankCountry" className="input-label">
@@ -178,21 +284,15 @@ const WithdrawMoney = () => {
 
                 {/*   Bank Swift Code */}
                 <div className="input-container">
-                  <AiFillTags className="icon" />
+                  <FaSwift className="icon" />
                   <input
                     type="text"
                     name="bankSwiftCode"
                     id="bankSwiftCode"
                     autoComplete="bankSwiftCode"
-                    required
-                    value={bankInfo.bankSwiftCode}
-                    onChange={(e) =>
-                      setBankInfo({
-                        ...bankInfo,
-                        bankSwiftCode: e.target.value,
-                      })
-                    }
-                    placeholder="Enter your Bank Swift Code!"
+                    value={bankSwiftCode}
+                    onChange={handleChange}
+                    placeholder="Enter Bank Swift Code!"
                     className="input-field"
                   />
                   <label htmlFor="bankSwiftCode" className="input-label">
@@ -201,72 +301,16 @@ const WithdrawMoney = () => {
                   <span className="input-highlight"></span>
                 </div>
 
-                {/* Bank Account Number*/}
-                <div className="input-container">
-                  <AiFillTags className="icon" />
-                  <input
-                    type="text"
-                    name="bankAccountNumber"
-                    id="bankAccountNumber"
-                    autoComplete="bankAccountNumber"
-                    required
-                    value={bankInfo.bankAccountNumber}
-                    onChange={(e) =>
-                      setBankInfo({
-                        ...bankInfo,
-                        bankAccountNumber: e.target.value,
-                      })
-                    }
-                    placeholder="Enter your bank account number!"
-                    className="input-field"
-                  />
-                  <label htmlFor="bankAccountNumber" className="input-label">
-                    Bank Account Number
-                  </label>
-                  <span className="input-highlight"></span>
-                </div>
-
-                {/* Bank Holder Name */}
-                <div className="input-container">
-                  <AiFillTags className="icon" />
-                  <input
-                    type="text"
-                    name="bankHolderName"
-                    id="bankHolderName"
-                    autoComplete="bankHolderName"
-                    required
-                    value={bankInfo.bankHolderName}
-                    onChange={(e) =>
-                      setBankInfo({
-                        ...bankInfo,
-                        bankHolderName: e.target.value,
-                      })
-                    }
-                    placeholder="Enter your bank Holder name!"
-                    className="input-field"
-                  />
-                  <label htmlFor="bankHolderName" className="input-label">
-                    Bank Holder Name
-                  </label>
-                  <span className="input-highlight"></span>
-                </div>
-
                 {/*  Bank Address */}
                 <div className="input-container">
-                  <AiFillTags className="icon" />
+                  <FaAddressCard className="icon" />
                   <input
                     type="text"
                     name="bankAddress"
                     id="bankAddress"
                     autoComplete="bankAddress"
-                    required
-                    value={bankInfo.bankAddress}
-                    onChange={(e) =>
-                      setBankInfo({
-                        ...bankInfo,
-                        bankAddress: e.target.value,
-                      })
-                    }
+                    value={bankAddress}
+                    onChange={handleChange}
                     placeholder="Enter your bank address!"
                     className="input-field"
                   />
@@ -276,58 +320,79 @@ const WithdrawMoney = () => {
                   <span className="input-highlight"></span>
                 </div>
 
-                <button type="submit" className={`button`}>
+                <button type="submit" className={`add-btn`}>
                   Add
                 </button>
               </form>
             </section>
-          ) : (
-            <section className="withdraw-method-wrapper">
-              <h3 className="subTitle">Available Withdraw Methods:</h3>
+          )}
+
+          {/* When paymentMethod is false, then you can see the following*/}
+          {paymentMethod === false && (
+            <section className="available-withdraw-methods-wrapper">
+              <h3 className="available-withdraw-methods-title">
+                Available Withdraw Methods
+              </h3>
 
               {currentSeller && currentSeller?.withdrawMethod ? (
-                <section>
-                  <article className="account-number">
-                    <h5 className="subTitle">
-                      Account Number:{' '}
-                      {'*'.repeat(
-                        currentSeller?.withdrawMethod.bankAccountNumber.length -
-                          3
-                      ) +
-                        currentSeller?.withdrawMethod.bankAccountNumber.slice(
-                          -3
-                        )}
-                    </h5>
-                    <p className="bank-name">
-                      Bank Name: {currentSeller?.withdrawMethod.bankName}
-                    </p>
+                <section className="available-withdraw-method">
+                  <h4 className="shop-details-title">
+                    {currentSeller.name} Bank Details
+                  </h4>
+
+                  <article className="bank-details-container">
+                    <aside className="bank-info-wrapper">
+                      <h5 className="acount-number">
+                        Account Number:{' '}
+                        {'*'.repeat(
+                          currentSeller?.withdrawMethod?.bankAccountNumber
+                            ?.length - 3
+                        ) +
+                          currentSeller?.withdrawMethod?.bankAccountNumber?.slice(
+                            -3
+                          )}
+                      </h5>
+                      <p className="bank-name">
+                        Bank Name: {currentSeller?.withdrawMethod?.bankName}
+                      </p>
+                    </aside>
+
+                    <h3>
+                      <AiOutlineDelete
+                        className="delete-bank-icon"
+                        onClick={() => deleteShopPaymentMethod()}
+                      />
+                    </h3>
                   </article>
 
-                  <AiOutlineDelete
-                    className="icon"
-                    onClick={() => deleteHandler()}
-                  />
-
-                  <h3 className="subTitle">
-                    Available Balance: {availableBalance}$
-                  </h3>
-
-                  <article className="input-container">
-                    <input
-                      type="number"
-                      placeholder="Amount..."
-                      value={withdrawAmount}
-                      onChange={(e) => setWithdrawAmount(e.target.value)}
-                      className="input-field"
-                    />
-                    <h4 className={`subTitle`} onClick={withdrawHandler}>
-                      Withdraw
-                    </h4>
-                  </article>
+                  <aside className="shop-balance-and-withdraw-form">
+                    <h3 className="balance">
+                      Available Balance: ${availableBalance}
+                    </h3>
+                    {/* Create Money Withdraw Request form */}
+                    <form className="form-create-withdraw-request">
+                      <input
+                        type="number"
+                        placeholder="Amount..."
+                        value={withdrawAmount}
+                        onChange={(e) => setWithdrawAmount(e.target.value)}
+                        className="input-field"
+                      />
+                      <button
+                        type="submit"
+                        className={`submit-btn`}
+                        onClick={createWithdrawRequestHandler}
+                      >
+                        Submit
+                      </button>
+                    </form>
+                  </aside>
                 </section>
               ) : (
-                <section className="no-withdraw-method-wrapper">
-                  <h3 className="subTitle">No Withdraw Methods available!</h3>
+                <section className="unavailable-withdraw-methods-wrapper">
+                  <h3 className="unavailable-withdraw-methods-title">
+                    Withdraw Methods Unavailable!
+                  </h3>
 
                   <span
                     className={`add-new`}
@@ -339,7 +404,7 @@ const WithdrawMoney = () => {
               )}
             </section>
           )}
-        </div>
+        </article>
       )}
     </section>
   );

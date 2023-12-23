@@ -113,14 +113,14 @@ const SidebarDashboard = () => {
         </li>
 
         <li className="sidebar-dashboard-item">
-          <NavLink to={'/dashboard-withdraw-money'} className={activeIcon}>
+          <NavLink to="/shop-withdraw-money" className={activeIcon}>
             <BiMoneyWithdraw
               title="Withdraw Money"
               className="sidebar-dashboard-icon"
             />{' '}
           </NavLink>
 
-          <NavLink to={'/dashboard-withdraw-money'} className={activeText}>
+          <NavLink to="/shop-withdraw-money" className={activeText}>
             Withdraw Money
           </NavLink>
         </li>

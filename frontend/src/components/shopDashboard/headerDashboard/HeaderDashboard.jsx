@@ -29,7 +29,7 @@ const HeaderDashboard = ({ isOwner }) => {
     try {
       dispatch(logoutSellerStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/shops/logout-shop/${currentSeller._id}`
+        `http://localhost:5000/api/shops/logout-shop`
       );
 
       dispatch(logoutSellerSuccess());

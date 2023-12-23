@@ -3,6 +3,7 @@ import './ShopSettingsPage.scss';
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
 import ShopSettings from '../../../components/shop/shopSettings/ShopSettings';
+import Footer from '../../../components/userLayout/footer/Footer';
 
 const ShopSettingsPage = () => {
   return (
@@ -13,6 +14,7 @@ const ShopSettingsPage = () => {
 
         <ShopSettings />
       </section>
+      <Footer />
     </main>
   );
 };

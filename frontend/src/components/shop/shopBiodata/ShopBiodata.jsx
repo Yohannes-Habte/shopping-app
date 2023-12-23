@@ -12,9 +12,10 @@ const ShopBiodata = ({ isOwner }) => {
   const dispatch = useDispatch();
 
   // Local state variables
-  const [data, setData] = useState({});
+  const [shopData, setShopData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [shopProducts, setShopProducts] = useState([]);
+  console.log('The shop is', shopData);
 
   // Display products for a single shop
   useEffect(() => {
@@ -40,10 +41,10 @@ const ShopBiodata = ({ isOwner }) => {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `http://localhost:5000/api/shops/${currentSeller._id}`,
+          `http://localhost:5000/api/shops/shop/${currentSeller._id}`,
           { withCredentials: true }
         );
-        setData(data);
+        setShopData(data.shop);
         setIsLoading(false);
       } catch (err) {
         toast.error(err.response.data.message);
@@ -53,12 +54,12 @@ const ShopBiodata = ({ isOwner }) => {
     getShopInfo();
   }, []);
 
-  // Logout handler
-  const logoutHandler = async () => {
+  // Shop Logout handler
+  const shopLogoutHandler = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/shop/logout`, {
-        withCredentials: true,
-      });
+      const { data } = await axios.get(
+        `http://localhost:5000/api/shops/logout-shop`
+      );
       window.location.reload();
     } catch (error) {
       console.log(error);
@@ -85,20 +86,24 @@ const ShopBiodata = ({ isOwner }) => {
     <div className="shop-biodata-container">
       <article className="article-box">
         <figure className="image-container">
-          <img src={`${data.image}`} alt={data.name} className="image" />
+          <img
+            src={`${shopData.image}`}
+            alt={shopData.name}
+            className="image"
+          />
         </figure>
-        <h3 className="subTitle">{data.name}</h3>
-        <p className="text description">{data.description}</p>
+        <h3 className="subTitle">{shopData.name}</h3>
+        <p className="text description">{shopData.description}</p>
       </article>
 
       <article className="article-box">
         <h3 className="subTitle">Address</h3>
-        <p className="text address">{data.shopAddress}</p>
+        <p className="text address">{shopData.shopAddress}</p>
       </article>
 
       <article className="article-box">
         <h3 className="subTitle">Phone Number</h3>
-        <p className="text phone">{data.phoneNumber}</p>
+        <p className="text phone">{shopData.phoneNumber}</p>
       </article>
 
       <div className="article-box">
@@ -115,15 +120,18 @@ const ShopBiodata = ({ isOwner }) => {
 
       <article className="article-box">
         <h3 className="subTitle">Joined On</h3>
-        <p className="text createdAt">{data?.createdAt?.slice(0, 10)}</p>
+        <p className="text createdAt">{shopData?.createdAt?.slice(0, 10)}</p>
       </article>
 
       {isOwner && (
         <article className="article-box">
+          <Link to="/dashboard">
+            <p className="edit-shop"> Shop Dashboard</p>
+          </Link>
           <Link to="/settings">
             <p className="edit-shop">Edit Shop</p>
           </Link>
-          <h3 onClick={logoutHandler} className="logout">
+          <h3 onClick={shopLogoutHandler} className="logout">
             Log Out
           </h3>
         </article>

@@ -3,6 +3,7 @@ import './ShopProducts.scss';
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
 import AllShopProducts from '../../../components/shop/allShopProducts/AllShopProducts';
+import Footer from '../../../components/userLayout/footer/Footer';
 
 const ShopProducts = () => {
   return (
@@ -13,6 +14,7 @@ const ShopProducts = () => {
 
         <AllShopProducts />
       </section>
+      <Footer />
     </main>
   );
 };

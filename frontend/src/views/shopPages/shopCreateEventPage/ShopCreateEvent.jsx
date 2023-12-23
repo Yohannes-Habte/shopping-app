@@ -3,6 +3,7 @@ import "./ShopCreateEvent.scss"
 import HeaderDashboard from '../../../components/shopDashboard/headerDashboard/HeaderDashboard';
 import SidebarDashboard from '../../../components/shopDashboard/sidebarDashboard/SidebarDashboard';
 import CreateEvent from '../../../components/shop/createEvent/CreateEvent';
+import Footer from '../../../components/userLayout/footer/Footer';
 
 const ShopCreateEvent = () => {
   return (
@@ -13,6 +14,7 @@ const ShopCreateEvent = () => {
 
         <CreateEvent />
       </section>
+      <Footer />
     </main>
   );
 };
