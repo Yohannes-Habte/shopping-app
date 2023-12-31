@@ -9,23 +9,18 @@ import sendEmail from '../utils/sendMail.js';
 
 export const createWithdrawMoney = async (req, res, next) => {
   try {
-    // get amout of withdraw from the frontend
-    const { amount } = req.body;
-
-    const newWithdraw = {
-      seller: req.seller,
-      amount,
-    };
+    const { amount, seller } = req.body;
 
     // Email Contents
+  
     const message = `
-     <h2> Hello ${req.seller.name} </h2>
+     <h2> Hello ${seller.name} </h2>
      <p> Your withdraw request of ${amount}$ is processing. It will take 3days to 7days to processing! </p> 
      <p> Best regards, </p>
      <p> Customer Service Team </p>
      `;
     const subject = 'Withdraw Request';
-    const send_to = req.seller.email;
+    const send_to = seller.email;
 
     try {
       await sendEmail({
@@ -46,15 +41,22 @@ export const createWithdrawMoney = async (req, res, next) => {
       );
     }
 
+
+
     // Create withdraw
-    const withdraw = await Withdraw.create(newWithdraw);
+    const withdraw = new Withdraw({
+      seller: seller,
+      amount: amount,
+    });
 
     // Update shop or seller available balance after the withdraw money has been successful
-    const shop = await Shop.findById(req.seller._id);
+    const shop = await Shop.findById(req.shop._id);
 
     shop.availableBalance = shop.availableBalance - amount;
 
+    // Save the changes for shop and withdraw in the database
     await shop.save();
+    await withdraw.save();
 
     res.status(201).json({
       success: true,

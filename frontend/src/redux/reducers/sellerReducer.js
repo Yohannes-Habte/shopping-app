@@ -53,7 +53,7 @@ const sellerReducer = createSlice({
       state.loading = false;
     },
 
-    // delete user
+    // delete shop
     deleteSellerStart: (state) => {
       state.loading = true;
     },
@@ -63,6 +63,20 @@ const sellerReducer = createSlice({
       state.error = null;
     },
     deleteSellerFailure: (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
+
+    // delete shop payment method
+    deletePaymentMethodRequest: (state) => {
+      state.loading = true;
+    },
+    deletePaymentMethodSuccess: (state, action) => {
+      state.currentSeller = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
+    deletePaymentMethodFailed: (state, action) => {
       state.error = action.payload;
       state.loading = false;
     },
@@ -104,6 +118,10 @@ export const {
   getSellerStart,
   getSellerSuccess,
   getSellerFailer,
+
+  deletePaymentMethodRequest,
+  deletePaymentMethodSuccess,
+  deletePaymentMethodFailed,
 } = sellerReducer.actions;
 
 // exoirt userSlice

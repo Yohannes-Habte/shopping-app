@@ -134,6 +134,7 @@ const WithdrawMoney = () => {
   // Delete shop payment method
   const deleteShopPaymentMethod = async () => {
     try {
+      dispatch(Action.deletePaymentMethodRequest());
       const { data } = await axios.delete(
         `http://localhost:5000/api/shops/delete-payment-method`,
         {
@@ -142,7 +143,7 @@ const WithdrawMoney = () => {
       );
 
       toast.success('Withdraw method deleted successfully!');
-      dispatch('loadSeller'());
+      dispatch(Action.deletePaymentMethodSuccess(data));
     } catch (error) {
       toast.error('You not have enough balance to withdraw!');
     }
@@ -154,13 +155,18 @@ const WithdrawMoney = () => {
   // Create withdraw request handler
   const createWithdrawRequestHandler = async () => {
     try {
-      if (withdrawAmount < 50 || withdrawAmount > availableBalance) {
-        toast.error("You can't withdraw this amount!");
+      if (withdrawAmount < 50) {
+        toast.error("Sorry, you can't withdraw less than 50.00€!");
+      } else if (withdrawAmount > availableBalance) {
+        toast.error('Sorry, available balance is less than withdraw amount!');
       } else {
-        const amount = withdrawAmount;
+        const newWithdraw = {
+          amount: withdrawAmount,
+          seller: currentSeller,
+        };
         const { data } = await axios.post(
           `http://localhost:5000/api/wthdraws/create-withdraw-request`,
-          { amount },
+          newWithdraw,
           { withCredentials: true }
         );
 
@@ -172,7 +178,7 @@ const WithdrawMoney = () => {
   };
 
   // Shop available total balance
-  const availableBalance = currentSeller?.availableBalance.toFixed(2);
+  const availableBalance = currentSeller?.availableBalance;
 
   return (
     <section className="withdraw-money-container">
