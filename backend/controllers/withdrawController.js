@@ -12,7 +12,6 @@ export const createWithdrawMoney = async (req, res, next) => {
     const { amount, seller } = req.body;
 
     // Email Contents
-  
     const message = `
      <h2> Hello ${seller.name} </h2>
      <p> Your withdraw request of ${amount}$ is processing. It will take 3days to 7days to processing! </p> 
@@ -40,8 +39,6 @@ export const createWithdrawMoney = async (req, res, next) => {
         )
       );
     }
-
-
 
     // Create withdraw
     const withdraw = new Withdraw({
@@ -94,7 +91,7 @@ export const getAllWithdrawRequests = async (req, res, next) => {
 };
 
 //====================================================================
-// Admin only will update specific money withdraw request
+// Admin can only update specific money withdraw request
 //====================================================================
 
 export const updateMoneyWithdrawRequest = async (req, res, next) => {
@@ -122,6 +119,7 @@ export const updateMoneyWithdrawRequest = async (req, res, next) => {
     seller.transections = [...seller.transections, transection];
 
     await seller.save();
+    await withdraw.save()
 
     // Email Contents
     const message = `
@@ -130,6 +128,7 @@ export const updateMoneyWithdrawRequest = async (req, res, next) => {
       <p> Best regards, </p>
       <p> Customer Service Team </p>
       `;
+      
     const subject = 'Payment Confirmation';
     const send_to = req.seller.email;
 

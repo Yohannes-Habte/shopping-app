@@ -41,6 +41,14 @@ import OrderSuccess from './views/userPages/orderSuccessPage/OrderSuccess';
 import UserInboxPage from './views/userPages/userInboxPage/UserInboxPage';
 import ShopDashboard from './views/shopPages/shopDashboardPage/ShopDashboard';
 import ShopWithdrawMoney from './views/shopPages/shopWithdrawMoneyPage/ShopWithdrawMoney';
+import AdminDashboardPage from './views/adminPages/adminDashboardPage/AdminDashboardPage';
+import AdminProtectedRoute from './protectedRoutes/AdminProtectedRoute';
+import AdminDashboardUsers from './views/adminPages/adminDashboardUsers/AdminDashboardUsers';
+import AdminDashboardShops from './views/adminPages/adminDashboardShops/AdminDashboardShops';
+import AdminDashboardOrders from './views/adminPages/adminDashboardOrders/AdminDashboardOrders';
+import AdminDashboardProducts from './views/adminPages/adminDashboardProducts/AdminDashboardProducts';
+import AdminDashboardEvents from './views/adminPages/adminDashboardEvents/AdminDashboardEvents';
+import AdminDashboardWithdraws from './views/adminPages/adminDashboardWithdraws/AdminDashboardWithdraws';
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');
@@ -137,6 +145,7 @@ const App = () => {
               </UserProtectedRoute>
             }
           />
+
           {/* Shope Pages */}
           <Route
             path="/login-shop"
@@ -270,6 +279,70 @@ const App = () => {
               <SellerProtectedRoute>
                 <ShopWithdrawMoney />
               </SellerProtectedRoute>
+            }
+          />
+
+          {/* Admin Routes */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardPage />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-users"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardUsers />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-shops"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardShops />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-orders"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardOrders />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-products"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardProducts />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-events"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardEvents />
+              </AdminProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin-withdraw-request"
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboardWithdraws />
+              </AdminProtectedRoute>
             }
           />
 

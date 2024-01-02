@@ -126,3 +126,25 @@ export const deleteShopSingleEvent = async (req, res, next) => {
     next(createError(500, 'Event could not be deleted! Please try again!'));
   }
 };
+
+//==============================================================================
+// Admin has mandate to access all Events for all shops
+//==============================================================================
+export const allShopsEvents = async (req, res, next) => {
+  try {
+    const events = await Event.find().sort({
+      createdAt: -1,
+    });
+    if (!events) {
+      return next(createError(400, 'Events not found!'));
+    } else {
+      return res.status(200).json({
+        success: true,
+        events,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    next(createError(500, 'Events could not query! Please try again!'));
+  }
+};

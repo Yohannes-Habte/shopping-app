@@ -12,9 +12,17 @@ import { authAdmin, authSeller } from '../middleware/auth.js';
 const withdrawRouter = express.Router();
 
 // withdraw routes
-withdrawRouter.post('/create-withdraw-request', authSeller, createWithdrawMoney);
-withdrawRouter.put('/update-withdraw-request/:id', authAdmin, updateMoneyWithdrawRequest);
-withdrawRouter.get('/', authAdmin, getAllWithdrawRequests);
+withdrawRouter.post(
+  '/create-withdraw-request',
+  authSeller,
+  createWithdrawMoney
+);
+withdrawRouter.put(
+  '/update-withdraw-request/:id',
+  authAdmin,
+  updateMoneyWithdrawRequest
+);
+withdrawRouter.get('/', getAllWithdrawRequests);
 withdrawRouter.delete('/:id', authAdmin, deleteMoneyWithdrawRequest);
 withdrawRouter.delete('/', authAdmin, deleteAllMoneyWithdraws);
 

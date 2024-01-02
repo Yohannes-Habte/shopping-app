@@ -22,7 +22,6 @@ import {
   updateUserSuccess,
 } from '../../../redux/reducers/userReducer';
 import UserOrders from '../allOrders/UserOrders';
-import UserInbox from '../userInbox/UserInbox';
 import UserInboxPage from '../../../views/userPages/userInboxPage/UserInboxPage';
 
 const UserProfile = ({ active }) => {

@@ -22,7 +22,7 @@ shopRouter.put('/update-shop-profile', authSeller, updateShopProfile);
 shopRouter.put('/update-payment-methods', authSeller, updatePaymentMethods);
 shopRouter.delete('/delete-payment-method', authSeller, deleteWithdrawMethod);
 shopRouter.get('/shop/:id', authSeller, getShop);
-shopRouter.get('/all-shops', authAdmin, getAllShops);
+shopRouter.get('/',  getAllShops);
 shopRouter.delete('/delete-shop/:id', authAdmin, getAllShops);
 shopRouter.delete('/delete-all-shops', authAdmin, getAllShops);
 

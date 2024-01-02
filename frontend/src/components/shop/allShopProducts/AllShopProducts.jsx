@@ -42,7 +42,7 @@ const AllShopProducts = () => {
 
   // Handle delete
   const handleProductDelete = async (productID) => {
-    console.log('Product id is', productID);
+    
     try {
       dispatch(productShopDeleteStart());
       const { data } = await axios.delete(

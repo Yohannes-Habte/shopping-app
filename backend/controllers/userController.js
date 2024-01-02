@@ -23,7 +23,7 @@ export const getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
     if (users) {
-      res.status(200).json(users);
+      res.status(200).json({ success: true, users });
     } else {
       return next(createError(404, 'Users do not found!'));
     }

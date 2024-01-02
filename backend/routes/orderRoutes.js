@@ -1,7 +1,7 @@
 import express from 'express';
 import {
-  allCustomersOrders,
   allShopOrders,
+  allShopsOrders,
   createOrder,
   deleteOrder,
   deleteOrders,
@@ -11,7 +11,7 @@ import {
   refundUserOrder,
   updateShopOrders,
 } from '../controllers/orderController.js';
-import { authSeller } from '../middleware/auth.js';
+import { authAdmin, authSeller } from '../middleware/auth.js';
 
 // order Router
 const orderRouter = express.Router();
@@ -24,7 +24,7 @@ orderRouter.put('/refund-order-successful/:id', authSeller, orderRefundByShop);
 orderRouter.get('/order/:id', getOrder);
 orderRouter.get('/user/:userId', getAllUserOrders);
 orderRouter.get('/shop/:shopId', allShopOrders);
-orderRouter.get('/', allCustomersOrders);
+orderRouter.get('/',  allShopsOrders);
 orderRouter.delete('/order/id', deleteOrder);
 orderRouter.delete('/', deleteOrders);
 

@@ -4,11 +4,16 @@ import { Navigate } from 'react-router-dom';
 
 const AdminProtectedRoute = ({ children }) => {
   // Global state variables
-  const { currentAdmin } = useSelector((state) => state.admin);
-  if (!currentAdmin) {
-    return <Navigate to={`/dashboard`} />;
+
+  const { currentUser } = useSelector((state) => state.user);
+
+  if (!currentUser) {
+    return <Navigate to="/login" />;
+  } else if (currentUser && currentUser.role !== 'admin') {
+    return <Navigate to="/" />;
+  } else {
+    return children;
   }
-  return children;
 };
 
 export default AdminProtectedRoute;

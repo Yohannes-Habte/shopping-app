@@ -11,7 +11,6 @@ import axios from 'axios';
 // The isOwner comes from ShopHome.jsx page
 const ShopInfo = ({ isOwner }) => {
   const { id } = useParams();
-  console.log('product id', id);
   // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
   const { products } = useSelector((state) => state.product);

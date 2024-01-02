@@ -15,7 +15,6 @@ const ShopBiodata = ({ isOwner }) => {
   const [shopData, setShopData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [shopProducts, setShopProducts] = useState([]);
-  console.log('The shop is', shopData);
 
   // Display products for a single shop
   useEffect(() => {

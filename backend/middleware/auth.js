@@ -76,16 +76,20 @@ export const authSeller = async (req, res, next) => {
 //====================================================================
 export const authAdmin = async (req, res, next) => {
   try {
-    const token = req.cookies.shopToken;
+    const token = req.cookies.userToken;
 
     if (!token) {
       return next(createError(401, 'User is not authenticated. Please login!'));
     }
 
+    // If token exist, decode it
     const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+
+    // Find user using the decoded token
     const user = await User.findById(decodedToken.id);
+    console.log(user)
+
     if (user.role === 'admin') {
-      req.user = user;
       next();
     } else {
       return next(createError(403, 'User is not authorized.'));

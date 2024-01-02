@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentSeller: null,
+  sellers: [],
   error: null,
   loading: false,
 };
@@ -94,6 +95,24 @@ const sellerReducer = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+
+    // get all sellers ---admin
+    getAllSellersRequest: (state) => {
+      state.loading = true;
+    },
+    getAllSellersSuccess: (state, action) => {
+      state.loading = false;
+      state.sellers = action.payload;
+    },
+    getAllSellerFailed: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+
+    // Clear error
+    clearErrors: (state) => {
+      state.error = null;
+    },
   },
 });
 
@@ -122,6 +141,11 @@ export const {
   deletePaymentMethodRequest,
   deletePaymentMethodSuccess,
   deletePaymentMethodFailed,
+
+  // Get all sellers
+  getAllSellersRequest,
+  getAllSellersSuccess,
+  getAllSellerFailed,
 } = sellerReducer.actions;
 
 // exoirt userSlice

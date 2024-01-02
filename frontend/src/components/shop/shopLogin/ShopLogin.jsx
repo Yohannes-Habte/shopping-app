@@ -22,7 +22,6 @@ const ShopLogin = () => {
   );
   const dispatch = useDispatch();
 
-  console.log('The logged in seller is', currentSeller);
   // Local state variables
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

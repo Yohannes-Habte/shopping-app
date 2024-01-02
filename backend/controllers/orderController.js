@@ -271,10 +271,10 @@ export const deleteOrders = async (req, res, next) => {
 };
 
 //=========================================================================
-// Get all orders for all customers
+// Get all orders for all shops by an admin
 //=========================================================================
 
-export const allCustomersOrders = async (req, res, next) => {
+export const allShopsOrders = async (req, res, next) => {
   try {
     const orders = await Order.find().sort({
       deliveredAt: -1,
@@ -285,6 +285,8 @@ export const allCustomersOrders = async (req, res, next) => {
       orders,
     });
   } catch (error) {
-    next(createError(500, 'Orders could not be accessed! Please try again!'));
+    next(
+      createError(500, 'All shops orders could not be accessed! Try again!')
+    );
   }
 };

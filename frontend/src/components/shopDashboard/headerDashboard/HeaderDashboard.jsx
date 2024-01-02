@@ -51,7 +51,7 @@ const HeaderDashboard = ({ isOwner }) => {
     <header className="header-shop-dashboard">
       {/* Logo */}
       <h1 className="shop-logo">
-        <Link to="/dashboard">Logo</Link>
+        <Link to="/dashboard">Shop Logo</Link>
       </h1>
 
       {/* Links to various pages */}

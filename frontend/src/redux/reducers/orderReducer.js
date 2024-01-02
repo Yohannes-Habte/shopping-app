@@ -4,6 +4,8 @@ const initialState = {
   orders: [],
   error: '',
   loading: false,
+  adminOrders: [],
+  adminOrderLoading: false,
 };
 
 const orderReducer = createSlice({
@@ -35,6 +37,24 @@ const orderReducer = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+
+    // Get all orders for an admin
+    adminOrdersRequest: (state) => {
+      state.adminOrderLoading = true;
+    },
+    adminOrdersSuccess: (state, action) => {
+      state.adminOrders = action.payload;
+      state.adminOrderLoading = false;
+    },
+    adminOrdersFail: (state, action) => {
+      state.error = action.payload;
+      state.adminOrderLoading = false;
+    },
+
+    // Clear error
+    clearErrors: (state) => {
+      state.error = null;
+    },
   },
 });
 
@@ -49,6 +69,11 @@ export const {
   sellerOrdersRequest,
   sellerOrdersSuccess,
   sellerOrdersFail,
+
+  // Admin orders
+  adminOrdersRequest,
+  adminOrdersSuccess,
+  adminOrdersFail,
 } = orderReducer.actions;
 
 export default orderReducer.reducer;
