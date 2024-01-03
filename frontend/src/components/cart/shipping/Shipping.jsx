@@ -17,10 +17,8 @@ const Shipping = ({
   setCity,
   userInfo,
   setUserInfo,
-  address1,
-  setAddress1,
-  address2,
-  setAddress2,
+  address,
+  setAddress,
   zipCode,
   setZipCode,
   updateChange,
@@ -96,44 +94,23 @@ const Shipping = ({
           <span className="input-highlight"></span>
         </div>
 
-        {/* Address 1 */}
+        {/* Address */}
         <div className="input-container">
           <FaAddressCard className="icon" />
           <input
             type="text"
-            name={'address1'}
-            id={'address1'}
+            name={'address'}
+            id={'address'}
             autoComplete="address1"
             required
-            value={address1}
+            value={address}
             onChange={updateChange}
             placeholder="Address 1"
             className="input-field"
           />
 
-          <label htmlFor={'address1'} className="input-label">
-            Address 1
-          </label>
-          <span className="input-highlight"></span>
-        </div>
-
-        {/* Address 2 */}
-        <div className="input-container">
-          <FaAddressCard className="icon" />
-          <input
-            type="text"
-            name={'address2'}
-            id={'address2'}
-            autoComplete="address2"
-            required
-            value={address2}
-            onChange={updateChange}
-            placeholder="Address 2"
-            className="input-field"
-          />
-
-          <label htmlFor={'address2'} className="input-label">
-            Address 2
+          <label htmlFor={'address'} className="input-label">
+            Address
           </label>
           <span className="input-highlight"></span>
         </div>
@@ -222,8 +199,7 @@ const Shipping = ({
                   className="input-checkbox"
                   value={item.addressType}
                   onClick={() =>
-                    setAddress1(item.address1) ||
-                    setAddress2(item.address2) ||
+                    setAddress(item.address) ||
                     setZipCode(item.zipCode) ||
                     setCountry(item.country) ||
                     setState(item.state) ||

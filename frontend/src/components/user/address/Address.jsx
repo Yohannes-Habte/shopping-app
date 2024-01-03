@@ -26,8 +26,7 @@ const Address = () => {
   // Local state variables
   const [open, setOpen] = useState(false);
   const [addressType, setAddressType] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
+  const [address, setAddress] = useState('');
   const [zipCode, setZipCode] = useState();
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
@@ -52,24 +51,27 @@ const Address = () => {
       case 'addressType':
         setAddressType(e.target.value);
         break;
-      case 'address1':
-        setAddress1(e.target.value);
+
+      case 'address':
+        setAddress(e.target.value);
         break;
-      case 'address2':
-        setAddress2(e.target.value);
-        break;
+
       case 'zipCode':
         setZipCode(e.target.value);
         break;
+
       case 'city':
         setCity(e.target.value);
         break;
+
       case 'state':
         setState(e.target.value);
         break;
+
       case 'country':
         setCountry(e.target.value);
         break;
+
       default:
         break;
     }
@@ -81,8 +83,7 @@ const Address = () => {
     setCountry('');
     setState('');
     setCity('');
-    setAddress1('');
-    setAddress2('');
+    setAddress('');
     setZipCode(null);
     setAddressType('');
   };
@@ -100,8 +101,7 @@ const Address = () => {
           country: country,
           state: state,
           city: city,
-          address1: address1,
-          address2: address2,
+          address: address,
           zipCode: zipCode,
           addressType: addressType,
         };
@@ -267,39 +267,18 @@ const Address = () => {
                 <FaAddressCard className="icon" />
                 <input
                   type="text"
-                  name={'address1'}
-                  id={'address1'}
+                  name={'address'}
+                  id={'address'}
                   autoComplete="address1"
                   required
-                  value={address1}
+                  value={address}
                   onChange={updateChange}
-                  placeholder="Address 1"
+                  placeholder="Address"
                   className="input-field"
                 />
 
-                <label htmlFor={'address1'} className="input-label">
-                  Address 1
-                </label>
-                <span className="input-highlight"></span>
-              </div>
-
-              {/* Address 2 */}
-              <div className="input-container">
-                <FaAddressCard className="icon" />
-                <input
-                  type="text"
-                  name={'address2'}
-                  id={'address2'}
-                  autoComplete="address2"
-                  required
-                  value={address2}
-                  onChange={updateChange}
-                  placeholder="Address 2"
-                  className="input-field"
-                />
-
-                <label htmlFor={'address2'} className="input-label">
-                  Address 2
+                <label htmlFor={'address'} className="input-label">
+                  Address
                 </label>
                 <span className="input-highlight"></span>
               </div>

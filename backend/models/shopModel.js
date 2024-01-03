@@ -9,7 +9,7 @@ const shopSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     phoneNumber: { type: Number, required: true },
-    description: { type: String },
+    description: { type: String, required: true },
     shopAddress: { type: String, required: true },
     withdrawMethod: { type: Object },
     availableBalance: { type: Number, default: 0 },
@@ -19,9 +19,10 @@ const shopSchema = new Schema(
       required: true,
       default: 'https://i.ibb.co/4pDNDk1/avatar.png',
     },
+    agree: { type: Boolean, default: false, required: true },
     transections: [
       {
-        amount: { type: Number, required: true },
+        amount: { type: Number, required: [true, 'Please enter amount'] },
         status: { type: String, default: 'Processing' },
         createdAt: { type: Date, default: Date.now() },
         updatedAt: { type: Date },
@@ -29,7 +30,6 @@ const shopSchema = new Schema(
     ],
     resetPasswordToken: String,
     resetPasswordTime: Date,
-    
   },
   { timestamps: true }
 );

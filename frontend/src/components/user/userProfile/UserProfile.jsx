@@ -13,7 +13,6 @@ import AllRefundOrders from '../refunds/AllRefundOrders';
 import ChangePassword from '../changePassword/ChangePassword';
 import TrackOrderTable from '../trackOrderTable/TrackOrderTable';
 import Address from '../address/Address';
-import ButtonLoader from '../../userLayout/loader/ButtonLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   clearErrors,
@@ -23,6 +22,11 @@ import {
 } from '../../../redux/reducers/userReducer';
 import UserOrders from '../allOrders/UserOrders';
 import UserInboxPage from '../../../views/userPages/userInboxPage/UserInboxPage';
+import {
+  validEmail,
+  validPassword,
+} from '../../../utils/validators/Validate.js';
+import ButtonLoader from '../../../utils/loader/ButtonLoader.jsx';
 
 const UserProfile = ({ active }) => {
   const navigate = useNavigate();
@@ -99,13 +103,15 @@ const UserProfile = ({ active }) => {
   const submitUpdatedUserProfile = async (event) => {
     event.preventDefault();
 
-    // if (!email) {
-    //   return toast.error('Please fill in the email fields!');
-    // }
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
 
-    // if (!validateEmail(email)) {
-    //   return toast.error('Please enter a valid email!');
-    // }
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
 
     try {
       dispatch(updateUserStart());
@@ -135,9 +141,9 @@ const UserProfile = ({ active }) => {
         newUser
       );
 
-      dispatch(updateUserSuccess(data));
+      dispatch(updateUserSuccess(data.update));
       resetVariables();
-      navigate('/login');
+      navigate('/profile');
     } catch (err) {
       dispatch(updateUserFilure(err.response.data.message));
     }
@@ -290,6 +296,7 @@ const UserProfile = ({ active }) => {
                 className="profile-button"
               >
                 {loading && <ButtonLoader />}
+                {loading && <span>Loading...</span>}
                 {!loading && <span> Update </span>}
               </button>
             </form>

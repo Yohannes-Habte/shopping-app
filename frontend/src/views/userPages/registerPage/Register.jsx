@@ -10,7 +10,17 @@ import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
-import ButtonLoader from '../../../components/userLayout/loader/ButtonLoader';
+import ButtonLoader from '../../../utils/loader/ButtonLoader.jsx';
+import {
+  validEmail,
+  validPassword,
+} from '../../../utils/validators/Validate.js';
+import {
+  API,
+  cloud_URL,
+  cloud_name,
+  upload_preset,
+} from '../../../utils/security/secreteKey.js';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -18,8 +28,7 @@ const Register = () => {
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  // If user is logged in, uer will not access the forgot password page
-
+  // If user is logged in, uer will not access the sign up page
   useEffect(() => {
     if (currentUser) {
       navigate('/');
@@ -66,11 +75,13 @@ const Register = () => {
   };
 
   // Reset input values
-  const reset = (e) => {
+  const reset = () => {
     setName('');
     setEmail('');
     setPassword('');
     setPhone('');
+    setAgree(false);
+    setError(false);
   };
 
   // Function to show/hide password
@@ -78,37 +89,30 @@ const Register = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  // Reset all state variables for the register form
-  const resetVariables = () => {
-    setEmail('');
-    setPassword('');
-  };
-
   // Submit logged in user Function
   const submitregisterUser = async (event) => {
     event.preventDefault();
 
-    // if (!email) {
-    //   return toast.error('Please fill in the email fields!');
-    // }
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
 
-    // if (!validateEmail(email)) {
-    //   return toast.error('Please enter a valid email!');
-    // }
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
 
     try {
       setLoading(true);
       // Image validation
       const userPhoto = new FormData();
       userPhoto.append('file', image);
-      userPhoto.append('cloud_name', 'dzlsa51a9');
-      userPhoto.append('upload_preset', 'upload');
+      userPhoto.append('cloud_name', cloud_name);
+      userPhoto.append('upload_preset', upload_preset);
 
       // Save image to cloudinary
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
-        userPhoto
-      );
+      const response = await axios.post(cloud_URL, userPhoto);
       const { url } = response.data;
       // The body
       const newUser = {
@@ -117,12 +121,10 @@ const Register = () => {
         password: password,
         phone: phone,
         image: url,
+        agree: agree,
       };
 
-      const { data } = await axios.post(
-        'http://localhost:5000/api/auths/register',
-        newUser
-      );
+      const { data } = await axios.post(`${API}/auths/register`, newUser);
 
       reset();
       navigate('/login');
@@ -276,6 +278,7 @@ const Register = () => {
               className="register-button"
             >
               {loading && <ButtonLoader />}
+              {loading && <span> Loading...</span>}
               {!loading && <span>Sign Up</span>}
             </button>
             <p className="haveAccount">

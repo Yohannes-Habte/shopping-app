@@ -14,6 +14,10 @@ import {
   loginStart,
   loginSuccess,
 } from '../../../redux/reducers/userReducer';
+import { validEmail, validPassword } from '../../../utils/validators/Validate';
+import { toast } from 'react-toastify';
+import ButtonLoader from '../../../utils/loader/ButtonLoader';
+import { API } from '../../../utils/security/secreteKey';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -62,13 +66,15 @@ const Login = () => {
   const submitLoginUser = async (event) => {
     event.preventDefault();
 
-    // if (!email) {
-    //   return toast.error('Please fill in the email fields!');
-    // }
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
 
-    // if (!validateEmail(email)) {
-    //   return toast.error('Please enter a valid email!');
-    // }
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
 
     try {
       dispatch(loginStart());
@@ -77,17 +83,14 @@ const Login = () => {
         email: email,
         password: password,
       };
-      const { data } = await axios.post(
-        'http://localhost:5000/api/auths/login',
-        loginUser
-      );
+      const { data } = await axios.post(`${API}/auths/login`, loginUser);
 
       if (data.success === false) {
-        dispatch(loginSuccess(data.message));
+        dispatch(loginSuccess(data.user.message));
         return;
       }
 
-      dispatch(loginSuccess(data));
+      dispatch(loginSuccess(data.user));
 
       resetVariables();
       navigate('/');
@@ -175,8 +178,8 @@ const Login = () => {
               disabled={loading}
               className="login-button"
             >
-              {/* {loading && <ButtonSpinner />} */}
-              {loading && <span>Loading...</span>}
+              {loading && <ButtonLoader />}
+              {loading && <span> Loading...</span>}
               {!loading && <span>Log In</span>}
             </button>
 

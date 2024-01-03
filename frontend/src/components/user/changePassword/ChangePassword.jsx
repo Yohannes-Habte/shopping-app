@@ -12,6 +12,7 @@ import {
   changeUserPasswordStart,
   changeUserPasswordSuccess,
 } from '../../../redux/reducers/userReducer';
+import { validEmail, validPassword } from '../../../utils/validators/Validate';
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -64,6 +65,17 @@ const ChangePassword = () => {
   // Submit logged in user Function
   const passwordChangeHandler = async (e) => {
     e.preventDefault();
+
+    if (!validPassword(oldPassword)) {
+      return toast.error('Old password is invalid!');
+    }
+
+    if (!validPassword(newPassword)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
+
     try {
       // dispatch(changeUserPasswordStart());
       // The body
@@ -77,7 +89,7 @@ const ChangePassword = () => {
         changeUserpassword
       );
       // dispatch(changeUserPasswordSuccess(data));
-      toast.success(data)
+      toast.success(data);
       resetVariables();
     } catch (error) {
       // dispatch(changeUserPasswordFilure(error.response.data.message));

@@ -8,6 +8,7 @@ import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
 import './Password.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { validPassword } from '../../../utils/validators/Validate';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -43,10 +44,17 @@ const ResetPassword = () => {
   // Handle submit
   const submitHandler = async (e) => {
     e.preventDefault();
+
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
       return;
     }
+
     try {
       await axios.post('http://localhost:5000/api/auths/reset-password', {
         password,

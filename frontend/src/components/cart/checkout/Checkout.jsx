@@ -17,8 +17,7 @@ const Checkout = () => {
   const [country, setCountry] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
-  const [address1, setAddress1] = useState('');
-  const [address2, setAddress2] = useState('');
+  const [address, setAddress] = useState('');
   const [zipCode, setZipCode] = useState(null);
   const [couponCode, setCouponCode] = useState('');
   const [couponCodeData, setCouponCodeData] = useState(null);
@@ -33,11 +32,8 @@ const Checkout = () => {
   // updateChange
   const updateChange = (e) => {
     switch (e.target.name) {
-      case 'address1':
-        setAddress1(e.target.value);
-        break;
-      case 'address2':
-        setAddress2(e.target.value);
+      case 'address':
+        setAddress(e.target.value);
         break;
       case 'zipCode':
         setZipCode(e.target.value);
@@ -61,8 +57,7 @@ const Checkout = () => {
     setCountry('');
     setState('');
     setCity('');
-    setAddress1('');
-    setAddress2('');
+    setAddress('');
     setZipCode(null);
   };
 
@@ -78,8 +73,7 @@ const Checkout = () => {
   // Payment page requires the following order data from the checkout page
   const paymentPage = () => {
     if (
-      address1 === '' ||
-      address2 === '' ||
+      address === '' ||
       zipCode === null ||
       country === '' ||
       state === '' ||
@@ -88,8 +82,7 @@ const Checkout = () => {
       toast.error('Please choose your delivery address!');
     } else {
       const shippingAddress = {
-        address1,
-        address2,
+        address,
         zipCode,
         country,
         state,
@@ -172,7 +165,6 @@ const Checkout = () => {
   return (
     <section className="cart-checkout-wrapper">
       <div className="shipping-and-cart-info-container">
-        
         <CartInfo
           subTotalPrice={subTotalPrice}
           shippingPrice={shippingPrice}
@@ -193,10 +185,8 @@ const Checkout = () => {
           setCity={setCity}
           userInfo={userInfo}
           setUserInfo={setUserInfo}
-          address1={address1}
-          setAddress1={setAddress1}
-          address2={address2}
-          setAddress2={setAddress2}
+          address={address}
+          setAddress={setAddress}
           zipCode={zipCode}
           setZipCode={setZipCode}
           updateChange={updateChange}

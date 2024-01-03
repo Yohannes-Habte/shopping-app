@@ -19,6 +19,7 @@ import orderRouter from './routes/orderRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import withdrawRouter from './routes/withdrawRoutes.js';
 import paymentRouter from './routes/paymentRoutes.js';
+import commentRouter from './routes/commentRoutes.js';
 
 // Express app
 const app = express();
@@ -63,6 +64,7 @@ app.use('/api/conversations', conversationRouter);
 app.use('/api/messages', messageRouter);
 app.use('/api/events', eventRouter);
 app.use('/api/payment', paymentRouter);
+app.use('/api/comments', commentRouter);
 
 // Global error handler
 app.use(globalErrorHandler);

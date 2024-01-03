@@ -1,25 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ContactForm.scss';
-import { FaCloudUploadAlt, FaUserAlt } from 'react-icons/fa';
+import { FaUserAlt } from 'react-icons/fa';
 import { BiSolidMessageDetail } from 'react-icons/bi';
-import { MdEmail } from 'react-icons/md';
 import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey.js';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import ButtonLoader from '../../../utils/loader/ButtonLoader.jsx';
 
 // Initial State
 const initialSate = {
   firstName: '',
   lastName: '',
-  email: '',
   message: '',
+  error: '',
 };
 const ContactForm = () => {
+  const navigate = useNavigate();
+  // Global state variables
+  const { currentUser } = useSelector((state) => state.user);
+
   // Local state variables
   const [testimonies, setTestimonies] = useState(initialSate);
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Distructure the initial values
-  const { firstName, lastName, email, message } = testimonies;
+  const { firstName, lastName, message, error } = testimonies;
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate('/login');
+    }
+  });
 
   // Function that handle input change
   const handleInputChange = (event) => {
@@ -27,35 +40,33 @@ const ContactForm = () => {
     setTestimonies({ ...testimonies, [name]: value });
   };
 
-  // Handle image change
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-    setImagePreview(URL.createObjectURL(e.target.files[0]));
+  // reste the variables into initial state
+  const resetToInitialState = () => {
+    setTestimonies({ firstName: '', lastName: '', message: '' });
   };
-
   // Submit user testimonial or comment
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       // new comment
       const newComment = {
         firstName: firstName,
         lastName: lastName,
-        email: email,
         message: message,
       };
 
       const { data } = await axios.post(
-        process.env.REACT_APP_BACKEND_URL + '/api/comments/new-comment',
-        newComment,
-        { withCredentials: true }
+        `${API}/comments/new-comment/${currentUser._id}`,
+        newComment
       );
 
       // Reset
-      e.target.reset();
+      resetToInitialState();
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
+      setLoading(false);
     }
   };
 
@@ -102,42 +113,6 @@ const ContactForm = () => {
             </label>
             <span className="input-highlight"></span>
           </div>
-
-          <div className="input-container">
-            <MdEmail className="input-icon" />
-            <input
-              type="email"
-              name={'email'}
-              id={'email'}
-              value={email}
-              onChange={handleInputChange}
-              placeholder="Email"
-              className="input-field"
-            />
-            <label htmlFor={'email'} className="input-label">
-              Email Address
-            </label>
-            <span className="input-highlight"></span>
-          </div>
-
-          <div className="file-container">
-            <FaCloudUploadAlt className="input-icon" />
-            <input
-              type="file"
-              accept="image/*" // accept any type of image
-              name={'image'}
-              id="image"
-              onChange={handleImageChange}
-              className="input-field"
-            />
-
-            <label htmlFor="image" className="label">
-              {' '}
-              Upload Image
-            </label>
-
-            <span className="input-highlight"></span>
-          </div>
         </div>
 
         <div className="text-message-container">
@@ -158,7 +133,11 @@ const ContactForm = () => {
           <span className="input-highlight"></span>
         </div>
 
-        <button className="contact-form-btn">Submit</button>
+        <button disabled={loading} className="contact-form-btn">
+          {loading && <ButtonLoader />}
+          {loading && <span> Loading...</span>}
+          {!loading && <span>Submit</span>}
+        </button>
       </form>
     </article>
   );

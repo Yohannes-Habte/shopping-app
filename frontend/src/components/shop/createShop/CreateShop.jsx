@@ -8,7 +8,11 @@ import { RxAvatar } from 'react-icons/rx';
 import { HiOutlineEye } from 'react-icons/hi';
 import { FaAddressCard, FaPhoneVolume, FaUserTie } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
-import { RiFileZipFill, RiLockPasswordFill } from 'react-icons/ri';
+import { RiLockPasswordFill } from 'react-icons/ri';
+import {
+  validEmail,
+  validPassword,
+} from '../../../utils/validators/Validate.js';
 
 const ShopCreate = () => {
   const navigate = useNavigate();
@@ -18,9 +22,9 @@ const ShopCreate = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState();
-  const [address, setAddress] = useState('');
   const [shopAddress, setShopAddress] = useState();
   const [image, setImage] = useState();
+  const [agree, setAgree] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   // Function to show/hide password
@@ -39,17 +43,17 @@ const ShopCreate = () => {
       case 'name':
         setName(e.target.value);
         break;
+
       case 'email':
         setEmail(e.target.value);
         break;
+
       case 'password':
         setPassword(e.target.value);
         break;
+
       case 'phoneNumber':
         setPhoneNumber(e.target.value);
-        break;
-      case 'address':
-        setAddress(e.target.value);
         break;
 
       case 'shopAddress':
@@ -67,13 +71,23 @@ const ShopCreate = () => {
     setEmail('');
     setPassword('');
     setPhoneNumber('');
-    setAddress('');
     setShopAddress('');
+    setAgree(false);
   };
 
   // Submit created shop
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
+
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
 
     try {
       // Image validation
@@ -241,6 +255,19 @@ const ShopCreate = () => {
               className="input-field"
             />
           </label>
+        </div>
+
+        <div className="register-consent">
+          <input
+            type="checkbox"
+            name="agree"
+            id="agree"
+            checked={agree}
+            onChange={updateChange}
+            className="register-consent-input"
+          />
+          <span className="accept">I accept</span>
+          <Link className={'terms-of-user'}> Terms of Use</Link>
         </div>
 
         <button type="submit" className="create-shop-btn">

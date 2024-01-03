@@ -4,27 +4,19 @@ import User from '../models/userModel.js';
 import Shop from '../models/shopModel.js';
 
 //====================================================================
-// Generate seller token
-//====================================================================
-export const generateSellerToken = (id) => {
-  const token = JWT.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  return token;
-};
-
-//====================================================================
 // Is user auth
 //====================================================================
 export const authUser = async (req, res, next) => {
   try {
-    const token = req.cookies.userToken;
+    const token = req.cookies.user_token;
+    console.log('User token =', token);
 
-    // If there is not token, then...
     if (!token) {
       return next(createError(401, 'User is not authenticated. Please login!'));
     }
 
-    // If token exist, decode it
-    const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+    // If user token exist, decode it
+    const decodedToken = JWT.verify(token, process.env.JWT_USER_SECRET);
 
     // Find user using the decoded token
     const user = await User.findById(decodedToken.id);
@@ -76,20 +68,17 @@ export const authSeller = async (req, res, next) => {
 //====================================================================
 export const authAdmin = async (req, res, next) => {
   try {
-    const token = req.cookies.userToken;
+    const token = req.cookies.user_token;
 
     if (!token) {
       return next(createError(401, 'User is not authenticated. Please login!'));
     }
 
-    // If token exist, decode it
-    const decodedToken = JWT.verify(token, process.env.JWT_SECRET);
+    const decodedToken = JWT.verify(token, process.env.JWT_USER_SECRET);
 
-    // Find user using the decoded token
     const user = await User.findById(decodedToken.id);
-    console.log(user)
 
-    if (user.role === 'admin') {
+    if (user && user.role === 'admin') {
       next();
     } else {
       return next(createError(403, 'User is not authorized.'));

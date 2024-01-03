@@ -20,7 +20,9 @@ const AllShops = () => {
   useEffect(() => {
     const allShops = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/shops`);
+        const { data } = await axios.get(`http://localhost:5000/api/shops`, {
+          withCredentials: true,
+        });
         setShops(data.shops);
       } catch (error) {
         console.log(error);

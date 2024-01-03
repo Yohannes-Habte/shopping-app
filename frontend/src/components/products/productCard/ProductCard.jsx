@@ -17,6 +17,7 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from '../../../redux/reducers/wishListReducer';
+import { ShortenText } from '../../../utils/textHandler/text';
 
 // The product in the ProductCard.jsx component comes from ShopProfile.jsx component
 const ProductCard = ({ product, isEvent }) => {
@@ -93,11 +94,15 @@ const ProductCard = ({ product, isEvent }) => {
             : `/products/${product._id}`
         }
       >
-        <h4 className="subTitle">
+        <h4 className="product-name">
           {product.name.length > 40
             ? product.name.slice(0, 40) + '...'
             : product.name}
         </h4>
+
+        <p className="product-description">
+          {ShortenText(product.description, 100)}
+        </p>
 
         {/* Ratings component */}
         <Ratings averageRating={product?.ratings} />

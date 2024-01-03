@@ -8,7 +8,8 @@ import sellerToken from '../middleware/shopToken.js';
 //=========================================================================
 export const createShop = async (req, res, next) => {
   try {
-    const { name, email, password, image, phoneNumber, shopAddress } = req.body;
+    const { name, email, password, image, phoneNumber, shopAddress, agree } =
+      req.body;
     const sellerEmail = await Shop.findOne({ email: email });
 
     if (sellerEmail) {
@@ -23,6 +24,7 @@ export const createShop = async (req, res, next) => {
       phoneNumber: phoneNumber,
       image: image,
       shopAddress: shopAddress,
+      agree: agree,
     });
 
     // Save the new seller in the database

@@ -7,6 +7,9 @@ import {
   updateMoneyWithdrawRequest,
 } from '../controllers/withdrawController.js';
 import { authAdmin, authSeller } from '../middleware/auth.js';
+import requiredValues from '../validators/requiredValues.js';
+import withdrawValidator from '../validators/withdrawValidator.js';
+import checkValidation from '../validators/checkValidation.js';
 
 // withdraw Router
 const withdrawRouter = express.Router();
@@ -15,6 +18,9 @@ const withdrawRouter = express.Router();
 withdrawRouter.post(
   '/create-withdraw-request',
   authSeller,
+  requiredValues(['amount']),
+  withdrawValidator(),
+  checkValidation,
   createWithdrawMoney
 );
 withdrawRouter.put(

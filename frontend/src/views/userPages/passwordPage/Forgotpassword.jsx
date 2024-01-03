@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { MdEmail } from 'react-icons/md';
 import './Password.scss';
 import { useDispatch, useSelector } from 'react-redux';
+import { validEmail } from '../../../utils/validators/Validate.js';
 
 const Forgotpassword = () => {
   const navigate = useNavigate();
@@ -25,6 +26,11 @@ const Forgotpassword = () => {
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
+
     try {
       const { data } = await axios.post(
         'http://localhost:5000/api/auths/forgotPassword',

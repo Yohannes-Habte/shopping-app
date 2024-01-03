@@ -12,6 +12,8 @@ import {
   loginSellerStart,
   loginSellerSuccess,
 } from '../../../redux/reducers/sellerReducer';
+import { validEmail, validPassword } from '../../../utils/validators/Validate';
+import { toast } from 'react-toastify';
 
 const ShopLogin = () => {
   const navigate = useNavigate();
@@ -55,6 +57,16 @@ const ShopLogin = () => {
   // Hanlde submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validEmail(email)) {
+      return toast.error('Please enter a valid email');
+    }
+
+    if (!validPassword(password)) {
+      return toast.error(
+        'Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character'
+      );
+    }
 
     try {
       dispatch(loginSellerStart());

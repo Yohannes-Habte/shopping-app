@@ -18,6 +18,7 @@ const Contact = () => {
 
       <section className="contact-page-container">
         <h1 className="contact-title">We Would Love to Hear From You</h1>
+
         <ContactTools />
         <ContactForm />
       </section>

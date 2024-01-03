@@ -39,7 +39,7 @@ export const getUsers = async (req, res, next) => {
 export const updateUserAddress = async (req, res, next) => {
   try {
     // Identify the user by id
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id);
 
     if (!user) {
       return next(createError(404, 'User not found'));
