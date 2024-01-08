@@ -8,8 +8,16 @@ import sellerToken from '../middleware/shopToken.js';
 //=========================================================================
 export const createShop = async (req, res, next) => {
   try {
-    const { name, email, password, image, phoneNumber, shopAddress, agree } =
-      req.body;
+    const {
+      name,
+      email,
+      password,
+      image,
+      phoneNumber,
+      shopAddress,
+      description,
+      agree,
+    } = req.body;
     const sellerEmail = await Shop.findOne({ email: email });
 
     if (sellerEmail) {
@@ -24,6 +32,7 @@ export const createShop = async (req, res, next) => {
       phoneNumber: phoneNumber,
       image: image,
       shopAddress: shopAddress,
+      description: description,
       agree: agree,
     });
 
@@ -46,7 +55,7 @@ export const createShop = async (req, res, next) => {
         secure: true,
       })
       .status(201)
-      .json({ shop: newSeller, token: registerShopToken });
+      .json({ success: ture, shop: newSeller });
   } catch (error) {
     console.log(error);
     return next(
@@ -91,7 +100,7 @@ export const loginSeller = async (req, res, next) => {
           secure: true,
         })
         .status(201)
-        .json(rest);
+        .json({ success: true, shop: rest });
     }
   } catch (error) {
     console.log(error);
@@ -139,7 +148,7 @@ export const updateShopProfile = async (req, res, next) => {
 
     await shop.save();
 
-    res.status(201).json(shop);
+    res.status(201).json({ success: true, shop });
   } catch (error) {
     next(createError(500, 'Seller profile is not update. Please try again!'));
   }
@@ -150,7 +159,8 @@ export const updateShopProfile = async (req, res, next) => {
 //====================================================================
 export const getShop = async (req, res, next) => {
   try {
-    const shop = await Shop.findById(req.shop._id);
+    // const shop = await Shop.findById(req.shop._id);
+    const shop = await Shop.findById(req.params.id);
 
     if (!shop) {
       return next(createError(404, 'Shop does not found! Please try again!'));

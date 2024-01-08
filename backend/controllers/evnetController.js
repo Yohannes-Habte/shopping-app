@@ -13,15 +13,20 @@ export const createEvent = async (req, res, next) => {
 
     if (!shop) {
       return createError(401, 'Shop not found! Please login!');
-    } else {
-      const event = new Event({
-        ...req.body,
-        shop: shop,
-      });
-      const savedEvent = await event.save();
-
-      return res.status(201).json(savedEvent);
     }
+    // Create new event
+    const event = new Event({
+      ...req.body,
+      shop: shop,
+    });
+
+    try {
+      await event.save();
+    } catch (error) {
+      return createError(500, 'Event is not saved! Please try again!');
+    }
+
+    return res.status(201).json({ success: true, event: event });
   } catch (error) {
     console.log(error);
     next(createError(500, 'Event could not be created! Please try again!'));
@@ -78,7 +83,7 @@ export const getAllShopEvents = async (req, res, next) => {
       return next(createError(400, 'Events not found!'));
     }
     if (shop && events) {
-      return res.status(200).json(events);
+      return res.status(200).json({ success: true, events: events });
     }
   } catch (error) {
     console.log(error);

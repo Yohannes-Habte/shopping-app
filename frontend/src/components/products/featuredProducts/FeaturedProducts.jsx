@@ -1,8 +1,9 @@
 import axios from 'axios';
-import "./FeaturedProducts.scss"
+import './FeaturedProducts.scss';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ProductCard from '../productCard/ProductCard';
+import { API } from '../../../utils/security/secreteKey';
 
 const FeaturedProducts = () => {
   // Global state variables
@@ -19,15 +20,16 @@ const FeaturedProducts = () => {
   //   const firstFive = sortedData && sortedData.slice(0, 5);
   //   setData(firstFive);
   // }, [products]);
+
   useEffect(() => {
     const bestdealtProducts = async () => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
         // dispatch(productsShopFetchSuccess(data));
-        setData(data);
+        setData(data.products);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));
@@ -38,7 +40,7 @@ const FeaturedProducts = () => {
   return (
     <div>
       <div className={`featured-products-container`}>
-        <h1 className='featured-products-title'>Featured Products</h1>
+        <h1 className="featured-products-title">Featured Products</h1>
 
         <div className="featured-products">
           {data && data.length !== 0 && (

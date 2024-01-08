@@ -14,6 +14,7 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from '../../../redux/reducers/wishListReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 /**
  1. ProductDetails component receive data from SinglePage.jsx page
@@ -42,10 +43,10 @@ const ProductDetails = ({ data }) => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
         // dispatch(productsShopFetchSuccess(data));
-        setProducts(data);
+        setProducts(data.products);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));
@@ -140,7 +141,7 @@ const ProductDetails = ({ data }) => {
 
       try {
         const { data } = await axios.post(
-          `http://localhost:5000/api/conversations/create-conversation`,
+          `${API}/conversations/create-conversation`,
           newConversation
         );
         navigate(`/inbox?${data.conversation._id}`);
@@ -205,10 +206,10 @@ const ProductDetails = ({ data }) => {
           {/* Product rating message */}
           <aside className="product-rating">
             <img src="" alt="" />
-            <h3 className='product-name'>
+            <h3 className="product-name">
               <Link to={`/shop/${data._id}`}>{data.name} </Link>
             </h3>
-            <p className='rating'> Rating: {averageRating} </p>
+            <p className="rating"> Rating: {averageRating} </p>
             <span onClick={handleMessageSubmit} className="send-message">
               Send Message <AiOutlineMessage />
             </span>

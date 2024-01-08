@@ -12,6 +12,7 @@ import { FaLocationDot } from 'react-icons/fa6';
 import { FaSwift } from 'react-icons/fa';
 import { FaAddressCard } from 'react-icons/fa';
 import * as Action from '../../../redux/reducers/sellerReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 // Initial values
 const initialState = {
@@ -28,8 +29,6 @@ const WithdrawMoney = () => {
   const dispatch = useDispatch();
   const { currentSeller } = useSelector((state) => state.seller);
 
-  console.log('Current seller =', currentSeller);
-
   // Local state variables
   const [open, setOpen] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(false);
@@ -43,8 +42,7 @@ const WithdrawMoney = () => {
       try {
         dispatch(Action.getSellerStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/shops/shop/${currentSeller._id}`,
-          { withCredentials: true }
+          `${API}/shops/shop/${currentSeller._id}`
         );
         dispatch(Action.getSellerSuccess(data.shop));
       } catch (error) {
@@ -59,7 +57,7 @@ const WithdrawMoney = () => {
     const fetchAllShopOrders = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+          `${API}/orders/shop/${currentSeller._id}`
         );
 
         setShopOrders(data.orders);
@@ -113,12 +111,9 @@ const WithdrawMoney = () => {
         bankAddress: bankAddress,
       };
 
-      const { data } = await axios.put(
-        `http://localhost:5000/api/shops/update-payment-methods`,
-
-        { withdrawMethod },
-        { withCredentials: true }
-      );
+      const { data } = await axios.put(`${API}/shops/update-payment-methods`, {
+        withdrawMethod,
+      });
       setPaymentMethod(false);
 
       toast.success('Withdraw method added successfully!');
@@ -135,12 +130,7 @@ const WithdrawMoney = () => {
   const deleteShopPaymentMethod = async () => {
     try {
       dispatch(Action.deletePaymentMethodRequest());
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/shops/delete-payment-method`,
-        {
-          withCredentials: true,
-        }
-      );
+      const { data } = await axios.delete(`${API}/shops/delete-payment-method`);
 
       toast.success('Withdraw method deleted successfully!');
       dispatch(Action.deletePaymentMethodSuccess(data));
@@ -165,9 +155,8 @@ const WithdrawMoney = () => {
           seller: currentSeller,
         };
         const { data } = await axios.post(
-          `http://localhost:5000/api/wthdraws/create-withdraw-request`,
-          newWithdraw,
-          { withCredentials: true }
+          `${API}/wthdraws/create-withdraw-request`,
+          newWithdraw
         );
 
         toast.success('Withdraw money request is successful!');

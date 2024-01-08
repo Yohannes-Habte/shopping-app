@@ -4,6 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { HiOutlineEye } from 'react-icons/hi';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllShopsProducts = () => {
   const [products, setProducts] = useState([]);
@@ -11,9 +12,7 @@ const AllShopsProducts = () => {
   useEffect(() => {
     const allWithdraws = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/products/shops/products`
-        );
+        const { data } = await axios.get(`${API}/products/shops/products`);
         setProducts(data.products);
       } catch (error) {
         console.log(error);

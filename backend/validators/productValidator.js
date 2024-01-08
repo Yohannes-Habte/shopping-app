@@ -44,7 +44,7 @@ const productValidator = () => {
       .escape()
       .withMessage('Stack must be between 1 and 50!'),
 
-      check('image').notEmpty(),
+      check('images').notEmpty(),
   ];
 };
 

@@ -17,6 +17,7 @@ import {
   updateUserAddressSuccess,
 } from '../../../redux/reducers/userReducer';
 import { MdDelete } from 'react-icons/md';
+import { API } from '../../../utils/security/secreteKey';
 
 const Address = () => {
   // Global state variables
@@ -106,12 +107,11 @@ const Address = () => {
           addressType: addressType,
         };
         const { data } = await axios.put(
-          'http://localhost:5000/api/users/update-user-address',
-          newAddress,
-          { withCredentials: true }
+          `${API}/users/${currentUser._id}/update-user-address`,
+          newAddress
         );
 
-        dispatch(updateUserAddressSuccess(data));
+        dispatch(updateUserAddressSuccess(data.user));
         reset();
       }
     } catch (error) {
@@ -124,7 +124,7 @@ const Address = () => {
     try {
       dispatch(deleteUserAddressStart());
       const { data } = await axios.delete(
-        `http://localhost:5000/api/users/delete-user-address/${address._id}`,
+        `${API}/users/delete-user-address/${address._id}`,
 
         { withCredentials: true }
       );

@@ -6,11 +6,12 @@ import { toast } from 'react-toastify';
 import CountDown from '../countDown/CountDown';
 import { addToCart } from '../../../redux/reducers/cartReducer';
 
-const EventCard = ({ active, data }) => {
+const EventCard = ({ active, data, key }) => {
   // Global state variables
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
+  console.log("The product id is:", data._id)
   // Add to cart
   const addToCartHandler = (data) => {
     const isItemExists = cart && cart.find((i) => i._id === data._id);
@@ -52,7 +53,7 @@ const EventCard = ({ active, data }) => {
             Add to cart
           </button>
           <CountDown data={data} />
-          <Link to={`/products/${data._id}?isEvent=true`}>
+          <Link to={`/products/${data._id}`}>
             <h4 className={`see-details-btn`}>See Details</h4>
           </Link>
         </article>

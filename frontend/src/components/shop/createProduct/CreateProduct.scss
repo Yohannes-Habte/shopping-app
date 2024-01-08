@@ -9,6 +9,12 @@
     font-size: $one;
   }
 
+  .error {
+    @include paragraph;
+    color: $red;
+    padding: 0 1rem;
+  }
+
   .form {
     width: $mobile;
     margin: auto;

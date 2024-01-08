@@ -32,7 +32,7 @@ productRouter.post(
   checkValidation,
   createProduct
 );
-productRouter.put('/product/review', authUser, productReview);
+productRouter.put('/product/review',  productReview);
 productRouter.get('/', getAllShopsProducts);
 productRouter.get('/:shopID/shop-products', getAllShopProducts);
 productRouter.get('/:productID', getSingleProduct);

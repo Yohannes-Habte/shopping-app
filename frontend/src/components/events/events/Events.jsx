@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import "./Events.scss"
+import './Events.scss';
 import { useSelector } from 'react-redux';
 import EventCard from '../eventCartd/EventCard';
 import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey';
 
 const Events = () => {
   // Global state variables
@@ -18,9 +19,9 @@ const Events = () => {
       try {
         // dispatch(eventsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/events/${currentSeller._id}/shop-events`
+          `${API}/events/${currentSeller._id}/shop-events`
         );
-        setEventsData(data);
+        setEventsData(data.events);
         // dispatch(eventsShopFetchSuccess(data));
       } catch (error) {
         console.log(error);

@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import Shipping from '../shipping/Shipping';
 import CartInfo from '../cartInfo/CartInfo';
+import { API } from '../../../utils/security/secreteKey';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -111,9 +112,7 @@ const Checkout = () => {
     const name = couponCode;
 
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/coupons/shop/value/${name}`
-      );
+      const { data } = await axios.get(`${API}/coupons/shop/value/${name}`);
       const shopId = data?.shopId;
       const couponCodeValue = data?.percent;
 

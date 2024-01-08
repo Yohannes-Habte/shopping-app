@@ -39,7 +39,8 @@ export const getUsers = async (req, res, next) => {
 export const updateUserAddress = async (req, res, next) => {
   try {
     // Identify the user by id
-    const user = await User.findById(req.user._id);
+    // const user = await User.findById(req.user._id);
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       return next(createError(404, 'User not found'));
@@ -71,7 +72,7 @@ export const updateUserAddress = async (req, res, next) => {
     // After updating the address, save the user in the database
     await user.save();
 
-    res.status(200).json(user);
+    res.status(200).json({ success: true, user: user });
   } catch (error) {
     console.log(error);
     next(

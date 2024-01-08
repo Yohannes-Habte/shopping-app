@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import "./EventsPage.scss"
+import './EventsPage.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import EventCard from '../../components/events/eventCartd/EventCard';
 import {
@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import Header from '../../components/userLayout/header/Header';
 import Footer from '../../components/userLayout/footer/Footer';
+import { API } from '../../utils/security/secreteKey';
 
 const EventsPage = () => {
   // Global state variables
@@ -27,9 +28,9 @@ const EventsPage = () => {
       try {
         // dispatch(eventsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/events/${currentSeller._id}/shop-events`
+          `${API}/events/${currentSeller._id}/shop-events`
         );
-        setEventsData(data);
+        setEventsData(data.events);
         // dispatch(eventsShopFetchSuccess(data));
       } catch (error) {
         console.log(error);

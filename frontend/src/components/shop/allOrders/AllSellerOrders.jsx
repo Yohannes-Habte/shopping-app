@@ -10,6 +10,7 @@ import {
   sellerOrdersRequest,
   sellerOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllSellerOrders = () => {
   // Global variables
@@ -19,6 +20,7 @@ const AllSellerOrders = () => {
 
   // Local state variable
   const [shopOrders, setShopOrders] = useState([]);
+  console.log('Orders', shopOrders);
 
   // Display all orders of a shop
   useEffect(() => {
@@ -26,7 +28,7 @@ const AllSellerOrders = () => {
       try {
         // dispatch(sellerOrdersRequest());
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+          `${API}/orders/shop/${currentSeller._id}`
         );
         // dispatch(sellerOrdersSuccess(data.orders));
         setShopOrders(data.orders);
@@ -82,7 +84,7 @@ const AllSellerOrders = () => {
   const row = [];
 
   shopOrders &&
-  shopOrders.forEach((item) => {
+    shopOrders.forEach((item) => {
       row.push({
         id: item._id,
         quantity: item.cart.length,

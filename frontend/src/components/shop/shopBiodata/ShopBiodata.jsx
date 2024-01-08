@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { API } from '../../../utils/security/secreteKey';
 
 const ShopBiodata = ({ isOwner }) => {
   // Global state variables
@@ -22,10 +23,10 @@ const ShopBiodata = ({ isOwner }) => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
         // dispatch(productsShopFetchSuccess(data));
-        setShopProducts(data);
+        setShopProducts(data.products);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));
@@ -40,7 +41,7 @@ const ShopBiodata = ({ isOwner }) => {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `http://localhost:5000/api/shops/shop/${currentSeller._id}`,
+          `${API}/shops/shop/${currentSeller._id}`,
           { withCredentials: true }
         );
         setShopData(data.shop);
@@ -56,9 +57,7 @@ const ShopBiodata = ({ isOwner }) => {
   // Shop Logout handler
   const shopLogoutHandler = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/api/shops/logout-shop`
-      );
+      const { data } = await axios.get(`${API}/shops/logout-shop`);
       window.location.reload();
     } catch (error) {
       console.log(error);

@@ -25,26 +25,15 @@ const eventValidator = () => {
 
     check('startDate')
       .toDate()
-      .isDate()
-      .exists()
-      .notEmpty()
-      .withMessage('Start date cannot be empty')
       .isISO8601('yyyy-mm-dd')
-      .matches('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$')
       .withMessage('Start date must be in correct format yyyy:mm:dd hh:mm:ss'),
 
     check('endDate')
       .toDate()
-      .isDate()
-      .exists()
-      .notEmpty()
-      .withMessage('End date cannot be empty')
       .isISO8601('yyyy-mm-dd')
-      .matches('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$')
       .withMessage('End date must be in correct format yyyy:mm:dd hh:mm:ss'),
 
     check('originalPrice')
-      .notEmpty()
       .isNumeric()
       .isFloat({ min: 50, max: 1500 })
       .trim()
@@ -52,7 +41,6 @@ const eventValidator = () => {
       .withMessage('Original price must be between 50 and 1500!'),
 
     check('discountPrice')
-      .notEmpty()
       .isNumeric()
       .isFloat({ min: 50, max: 1000 })
       .trim()
@@ -60,14 +48,13 @@ const eventValidator = () => {
       .withMessage('Discounted price must be between 50 and 1000!'),
 
     check('stock')
-      .notEmpty()
       .isNumeric()
       .isFloat({ min: 1, max: 50 })
       .trim()
       .escape()
       .withMessage('Stack must be between 1 and 50!'),
 
-    check('image').notEmpty(),
+    check('images').notEmpty(),
   ];
 };
 

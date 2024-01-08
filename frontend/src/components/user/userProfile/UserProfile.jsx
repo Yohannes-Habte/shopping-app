@@ -27,6 +27,12 @@ import {
   validPassword,
 } from '../../../utils/validators/Validate.js';
 import ButtonLoader from '../../../utils/loader/ButtonLoader.jsx';
+import {
+  API,
+  cloud_URL,
+  cloud_name,
+  upload_preset,
+} from '../../../utils/security/secreteKey.js';
 
 const UserProfile = ({ active }) => {
   const navigate = useNavigate();
@@ -118,14 +124,11 @@ const UserProfile = ({ active }) => {
       // Image validation
       const userPhoto = new FormData();
       userPhoto.append('file', image);
-      userPhoto.append('cloud_name', 'dzlsa51a9');
-      userPhoto.append('upload_preset', 'upload');
+      userPhoto.append('cloud_name', cloud_name);
+      userPhoto.append('upload_preset', upload_preset);
 
       // Save image to cloudinary
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
-        userPhoto
-      );
+      const response = await axios.post(cloud_URL, userPhoto);
       const { url } = response.data;
       // The body
       const newUser = {
@@ -137,7 +140,7 @@ const UserProfile = ({ active }) => {
       };
 
       const { data } = await axios.put(
-        'http://localhost:5000/api/auths/update-user-profile',
+        `${API}/auths/update-user-profile`,
         newUser
       );
 

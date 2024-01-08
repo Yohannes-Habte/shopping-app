@@ -25,11 +25,9 @@ const shopRegisterValidator = () => {
       ),
 
     check('phoneNumber')
-      .isMobilePhone()
       .trim()
       .escape()
       .isNumeric()
-      .notEmpty()
       .withMessage('Enter valid phone number'),
 
     check('description')

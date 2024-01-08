@@ -12,6 +12,12 @@ import {
   updateSellerStart,
   updateSellerSuccess,
 } from '../../../redux/reducers/sellerReducer';
+import {
+  API,
+  cloud_URL,
+  cloud_name,
+  upload_preset,
+} from '../../../utils/security/secreteKey';
 
 const ShopSettings = () => {
   // Global state variables
@@ -51,14 +57,11 @@ const ShopSettings = () => {
       dispatch(updateSellerStart());
       const shopImage = new FormData();
       shopImage.append('file', image);
-      shopImage.append('cloud_name', 'dzlsa51a9');
-      shopImage.append('upload_preset', 'upload');
+      shopImage.append('cloud_name', cloud_name);
+      shopImage.append('upload_preset', upload_preset);
 
       // Save image to cloudinary
-      const response = await axios.put(
-        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
-        shopImage
-      );
+      const response = await axios.put(cloud_URL, shopImage);
       const { url } = response.data;
 
       const updateShopProfile = {
@@ -69,7 +72,7 @@ const ShopSettings = () => {
         description: description,
       };
       const { data } = await axios.put(
-        'http://localhost:5000/api/shops/update-shop-profile',
+        `${API}/shops/update-shop-profile`,
         updateShopProfile,
         {
           withCredentials: true,
@@ -77,9 +80,9 @@ const ShopSettings = () => {
       );
 
       toast.success('Shop info updated succesfully!');
-      dispatch(updateSellerSuccess(data));
+      dispatch(updateSellerSuccess(data.shop));
     } catch (error) {
-      dispatch(updateSellerFilure(error.response.data.message));
+      dispatch(updateSellerFilure(error.response.data.shop.message));
     }
   };
 

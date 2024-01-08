@@ -7,6 +7,7 @@ import { RxCross1 } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdEmojiEvents } from 'react-icons/md';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllCoupons = () => {
   // Global state variables
@@ -33,10 +34,10 @@ const AllCoupons = () => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
         // dispatch(productsShopFetchSuccess(data));
-        setShopProducts(data);
+        setShopProducts(data.products);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));
@@ -52,11 +53,10 @@ const AllCoupons = () => {
         setIsLoading(true);
 
         const { data } = await axios.get(
-          `http://localhost:5000/api/coupons/shop/${currentSeller._id}`,
-          { withCredentials: true }
+          `${API}/coupons/shop/${currentSeller._id}`
         );
         setIsLoading(false);
-        setCoupouns(data);
+        setCoupouns(data.coupons);
       } catch (error) {
         setIsLoading(false);
         toast.error(error.response.data.message);
@@ -81,9 +81,7 @@ const AllCoupons = () => {
       setIsLoading(true);
       setSuccess(false);
 
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/coupons/${couponID}`
-      );
+      const { data } = await axios.delete(`${API}/coupons/${couponID}`);
       setIsLoading(false);
       setSuccess(true);
       toast.success(data);
@@ -111,9 +109,8 @@ const AllCoupons = () => {
       };
 
       const { data } = await axios.post(
-        `http://localhost:5000/api/coupons/create-coupon`,
-        newCoupon,
-        { withCredentials: true }
+        `${API}/coupons/create-coupon`,
+        newCoupon
       );
 
       toast.success('Coupon code created successfully!');

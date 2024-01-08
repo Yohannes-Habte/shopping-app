@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AiFillDelete } from 'react-icons/ai';
 import { MdOutlineClose } from 'react-icons/md';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllShopsUsers = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const AllShopsUsers = () => {
   useEffect(() => {
     const allOrders = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/users`);
+        const { data } = await axios.get(`${API}/users`);
         setUser(data.users);
       } catch (error) {
         console.log(error);
@@ -29,7 +30,7 @@ const AllShopsUsers = () => {
 
   const handleDelete = async (id) => {
     await axios
-      .delete(`/user/delete-user/${id}`, { withCredentials: true })
+      .delete(`${API}/users/delete-user/${id}`)
       .then((res) => {
         toast.success(res.data.message);
       });

@@ -13,8 +13,8 @@ const userRouter = express.Router();
 // Auth routes
 userRouter.get('/user/:id', getUser);
 userRouter.get('/', getUsers);
-userRouter.put('/update-user-address', authUser, updateUserAddress);
-userRouter.delete('/delete-user-address/:id', authUser, deleteUserAddress);
+userRouter.put('/:id/update-user-address/', updateUserAddress);
+userRouter.delete('/delete-user-address/:id',  deleteUserAddress);
 
 // Export auth Router
 export default userRouter;

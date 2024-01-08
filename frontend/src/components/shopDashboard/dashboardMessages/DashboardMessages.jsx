@@ -9,6 +9,7 @@ import ShopInbox from '../shopInbox/ShopInbox';
 // Import and connect socket.io-client
 import socketIO from 'socket.io-client';
 import { format } from 'timeago.js';
+import { API } from '../../../utils/security/secreteKey';
 const ENDPOINT = 'http://localhost:4000/';
 const socketId = socketIO(ENDPOINT, { transports: ['websocket'] });
 
@@ -66,10 +67,7 @@ const DashboardMessages = () => {
     const getConversation = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/conversations/shop-conversations/${currentSeller?._id}`,
-          {
-            withCredentials: true,
-          }
+          `${API}/conversations/shop-conversations/${currentSeller?._id}`
         );
 
         setConversations(data.conversations);
@@ -112,7 +110,7 @@ const DashboardMessages = () => {
     const getMessages = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/messages/sender-messages/${currentChat?._id}`
+          `${API}/messages/sender-messages/${currentChat?._id}`
         );
 
         setMessages(data.messages);
@@ -151,7 +149,7 @@ const DashboardMessages = () => {
     try {
       if (newTextMessage !== '') {
         const { data } = await axios.post(
-          `http://localhost:5000/api/messages/create-message`,
+          `${API}/messages/create-message`,
           newTextMessage
         );
 
@@ -183,7 +181,7 @@ const DashboardMessages = () => {
       };
 
       const { data } = await axios.put(
-        `http://localhost:5000/api/conversations/update-lastMessage/${currentChat._id}`,
+        `${API}/conversations/update-lastMessage/${currentChat._id}`,
         updateMessage
       );
       setTextMessage('');

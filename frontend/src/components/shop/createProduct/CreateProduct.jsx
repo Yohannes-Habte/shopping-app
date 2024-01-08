@@ -13,6 +13,12 @@ import {
   productPostStart,
   productPostSuccess,
 } from '../../../redux/reducers/productReducer';
+import {
+  API,
+  cloud_URL,
+  cloud_name,
+  upload_preset,
+} from '../../../utils/security/secreteKey';
 
 const CreateProduct = () => {
   const navigate = useNavigate();
@@ -65,7 +71,7 @@ const CreateProduct = () => {
     setName('');
     setDescription('');
     setCategory('');
-    setTags("")
+    setTags('');
     setOriginalPrice('');
     setDiscountPrice('');
     setStock('');
@@ -98,14 +104,11 @@ const CreateProduct = () => {
 
       const productImages = new FormData();
       productImages.append('file', images);
-      productImages.append('cloud_name', 'dzlsa51a9');
-      productImages.append('upload_preset', 'upload');
+      productImages.append('cloud_name', cloud_name);
+      productImages.append('upload_preset', upload_preset);
 
       // Save image to cloudinary
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
-        productImages
-      );
+      const response = await axios.post(cloud_URL, productImages);
       const { url } = response.data;
 
       // The body
@@ -124,21 +127,24 @@ const CreateProduct = () => {
       };
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/products/create-product',
+        `${API}/products/create-product`,
         newProduct
       );
-      console.log('The product data are', data);
-      dispatch(productPostSuccess(data));
-      reset()
+
+      dispatch(productPostSuccess(data.product));
+      reset();
     } catch (error) {
       console.log(error);
       dispatch(productPostFailure(error.response.data.message));
+      toast.error(error.response.data.message);
     }
   };
 
   return (
     <section className="create-product-wrapper">
       <h5 className="subTitle">Create Product</h5>
+
+      <p className="error"> {error} </p>
 
       {/* create product form */}
       <form

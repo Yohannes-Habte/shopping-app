@@ -3,6 +3,7 @@ import './UserMessageList.scss';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { API } from '../../../utils/security/secreteKey';
 
 const MessageList = ({
   index,
@@ -35,7 +36,7 @@ const MessageList = ({
     const getUser = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/shops/shop/${userId}`
+          `${API}/shops/shop/${userId}`
         );
         setUser(data.shop);
       } catch (error) {

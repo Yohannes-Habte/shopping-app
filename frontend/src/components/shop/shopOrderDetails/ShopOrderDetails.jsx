@@ -9,6 +9,7 @@ import {
   sellerOrdersRequest,
   sellerOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 const ShopOrderDetails = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const ShopOrderDetails = () => {
       try {
         // dispatch(sellerOrdersRequest());
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+          `${API}/orders/shop/${currentSeller._id}`
         );
         // dispatch(sellerOrdersSuccess(data.orders));
         setShopOrders(data.orders);
@@ -49,11 +50,10 @@ const ShopOrderDetails = () => {
     e.preventDefault();
     try {
       const { data } = await axios.put(
-        `http://localhost:5000/api/orders/update-order-status/${id}`,
+        `${API}/orders/update-order-status/${id}/${currentSeller._id}`,
         {
           status,
-        },
-        { withCredentials: true }
+        }
       );
 
       toast.success('Order updated!');
@@ -71,7 +71,7 @@ const ShopOrderDetails = () => {
         status: status,
       };
       const { data } = await axios.put(
-        `http://localhost:5000/api/orders/refund-order-successful/${id}`,
+        `${API}/orders/refund-order-successful/${id}`,
         updateStatus,
         { withCredentials: true }
       );

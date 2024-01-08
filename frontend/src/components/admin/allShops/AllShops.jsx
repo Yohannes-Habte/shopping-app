@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { HiOutlineEye } from 'react-icons/hi';
 import { AiFillDelete } from 'react-icons/ai';
 import { IoClose } from 'react-icons/io5';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllShops = () => {
   const dispatch = useDispatch();
@@ -20,9 +21,7 @@ const AllShops = () => {
   useEffect(() => {
     const allShops = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/shops`, {
-          withCredentials: true,
-        });
+        const { data } = await axios.get(`${API}/shops`);
         setShops(data.shops);
       } catch (error) {
         console.log(error);
@@ -32,11 +31,9 @@ const AllShops = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    await axios
-      .delete(`/shop/delete-seller/${id}`, { withCredentials: true })
-      .then((res) => {
-        toast.success(res.data.message);
-      });
+    await axios.delete(`${API}/shops/delete-seller/${id}`).then((res) => {
+      toast.success(res.data.message);
+    });
 
     dispatch('getAllSellers'());
   };

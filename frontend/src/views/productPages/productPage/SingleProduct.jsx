@@ -7,6 +7,7 @@ import RelatedProducts from '../../../components/products/relatedProducts/Relate
 import Header from '../../../components/userLayout/header/Header';
 import Footer from '../../../components/userLayout/footer/Footer';
 import ProductDetails from '../../../components/products/productDetails/ProductDetails';
+import { API } from '../../../utils/security/secreteKey';
 
 const SingleProduct = () => {
   const { productID } = useParams();
@@ -42,9 +43,9 @@ const SingleProduct = () => {
           // setProductData(data);
         } else {
           const { data } = await axios.get(
-            `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+            `${API}/products/${currentSeller._id}/shop-products`
           );
-          setProductData(data);
+          setProductData(data.products);
         }
       } catch (error) {
         console.log(error);

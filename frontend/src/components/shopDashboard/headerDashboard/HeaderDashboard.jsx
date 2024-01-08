@@ -13,6 +13,7 @@ import {
   logoutSellerStart,
   logoutSellerSuccess,
 } from '../../../redux/reducers/sellerReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 const HeaderDashboard = ({ isOwner }) => {
   const navigate = useNavigate();
@@ -28,9 +29,7 @@ const HeaderDashboard = ({ isOwner }) => {
   const logoutSeller = async () => {
     try {
       dispatch(logoutSellerStart());
-      const { data } = await axios.get(
-        `http://localhost:5000/api/shops/logout-shop`
-      );
+      const { data } = await axios.get(`${API}/shops/logout-shop`);
 
       dispatch(logoutSellerSuccess());
 
@@ -51,7 +50,7 @@ const HeaderDashboard = ({ isOwner }) => {
     <header className="header-shop-dashboard">
       {/* Logo */}
       <h1 className="shop-logo">
-        <Link to="/dashboard">Shop Logo</Link>
+        <Link to="/dashboard"> {currentSeller.name} </Link>
       </h1>
 
       {/* Links to various pages */}

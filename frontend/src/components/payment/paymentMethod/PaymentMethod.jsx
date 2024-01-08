@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import PaymentInfo from '../paymentInfo/PaymentInfo';
 import CartData from '../cartData/CartData';
 import { clearFromCart } from '../../../redux/reducers/cartReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 const PaymentMethod = () => {
   const navigate = useNavigate();
@@ -110,7 +111,7 @@ const PaymentMethod = () => {
       };
 
       const { data } = await axios.post(
-        `http://localhost:5000/api/orders/new-order`,
+        `${API}/orders/new-order`,
         order,
         config
       );
@@ -140,7 +141,7 @@ const PaymentMethod = () => {
       };
 
       const { data } = await axios.post(
-        `http://localhost:5000/api/payment/stripe`,
+        `${API}/payment/stripe`,
         paymentData,
         config
       );
@@ -172,7 +173,7 @@ const PaymentMethod = () => {
           // If the stripe payement is corret, and then create an order
           try {
             const { data } = await axios.post(
-              `http://localhost:5000/api/orders/new-order`,
+              `${API}/orders/new-order`,
               order,
               config
             );
@@ -211,7 +212,7 @@ const PaymentMethod = () => {
       };
 
       const { data } = await axios.post(
-        `http://localhost:5000/api/orders/new-order`,
+        `${API}/orders/new-order`,
         order,
         config
       );

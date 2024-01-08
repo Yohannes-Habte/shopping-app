@@ -13,6 +13,7 @@ import {
   productsShopFetchStart,
   productsShopFetchSuccess,
 } from '../../../redux/reducers/productReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllShopProducts = () => {
   // Global state variables
@@ -29,10 +30,10 @@ const AllShopProducts = () => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
         // dispatch(productsShopFetchSuccess(data));
-        setShopProducts(data);
+        setShopProducts(data.products);
       } catch (error) {
         dispatch(productsShopFetchFailure(error.response.data.message));
       }
@@ -42,12 +43,9 @@ const AllShopProducts = () => {
 
   // Handle delete
   const handleProductDelete = async (productID) => {
-    
     try {
       dispatch(productShopDeleteStart());
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/products/${productID}`
-      );
+      const { data } = await axios.delete(`${API}/products/${productID}`);
       dispatch(productShopDeleteSuccess(data));
       window.location.reload();
     } catch (error) {

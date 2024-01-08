@@ -14,6 +14,8 @@ import {
 } from '../../../redux/reducers/sellerReducer';
 import { validEmail, validPassword } from '../../../utils/validators/Validate';
 import { toast } from 'react-toastify';
+import { API } from '../../../utils/security/secreteKey';
+import ButtonLoader from '../../../utils/loader/ButtonLoader';
 
 const ShopLogin = () => {
   const navigate = useNavigate();
@@ -75,26 +77,23 @@ const ShopLogin = () => {
         email: email,
         password: password,
       };
-      const { data } = await axios.post(
-        'http://localhost:5000/api/shops/login-shop',
-        loginUser,
-        { withCredentials: true }
-      );
-      if (data.success === false) {
-        dispatch(loginSellerFailure(data.message));
+      const { data } = await axios.post(`${API}/shops/login-shop`, loginUser);
+
+      if (data.shop.success === false) {
+        dispatch(loginSellerFailure(data.shop.message));
         return;
       }
-      dispatch(loginSellerSuccess(data));
+      dispatch(loginSellerSuccess(data.shop));
       // Reset
       reset();
     } catch (error) {
-      dispatch(loginSellerFailure(error.response.data.message));
+      dispatch(loginSellerFailure(error.response.data.shop.message));
     }
   };
 
   return (
     <section className="shop-login-wrapper">
-      <h2 className="title">Login to your Shop</h2>
+      <h2 className="title">Log in to your shop</h2>
 
       {error ? <p className="error-message"> {error} </p> : null}
 
@@ -111,7 +110,7 @@ const ShopLogin = () => {
           />
         </figure>
         <p className="seller-name">
-          {currentSeller ? currentSeller.name : 'Seller Profile'}{' '}
+          {currentSeller ? currentSeller.name : 'Shop Profile'}{' '}
         </p>
         {/* email */}
         <div className="input-container">
@@ -174,7 +173,7 @@ const ShopLogin = () => {
           disabled={loading}
           className="seller-login-button"
         >
-          {/* {loading && <ButtonSpinner />} */}
+          {loading && <ButtonLoader />}
           {loading && <span>Loading...</span>}
           {!loading && <span>Log In</span>}
         </button>

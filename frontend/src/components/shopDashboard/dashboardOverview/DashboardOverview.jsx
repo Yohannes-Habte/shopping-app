@@ -13,6 +13,7 @@ import {
   sellerOrdersRequest,
   sellerOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 const DashboardOverview = () => {
   // Global state variables
@@ -31,7 +32,7 @@ const DashboardOverview = () => {
       try {
         // dispatch(sellerOrdersRequest());
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+          `${API}/orders/shop/${currentSeller._id}`
         );
         // dispatch(sellerOrdersSuccess(data.orders));
         setAllShopOrders(data.orders);
@@ -48,9 +49,9 @@ const DashboardOverview = () => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
-        setShopProducts(data);
+        setShopProducts(data.products);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));
@@ -65,7 +66,7 @@ const DashboardOverview = () => {
       try {
         dispatch(sellerOrdersRequest());
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+          `${API}/orders/shop/${currentSeller._id}`
         );
         const orderData = data.orders.filter(
           (shopOrderData) => shopOrderData.status === 'Delivered'

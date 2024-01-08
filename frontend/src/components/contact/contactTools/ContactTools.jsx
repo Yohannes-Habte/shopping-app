@@ -11,7 +11,7 @@ const ContactTools = () => {
       <div className="contact-tools">
         <FiPhoneCall className="contact-icon" />
         <p className="link-container">
-          <a className="link" href="tel:+4917581005650">
+          <a className="link" href="tel:6031112298">
             Call us
           </a>
         </p>
@@ -20,8 +20,11 @@ const ContactTools = () => {
       <div className="contact-tools">
         <MdEmail className="contact-icon" />
         <p className="link-container">
-          <a className="link" href="mailto:uelandrae@gmail.com">
-            Email Us
+          <a
+            className="link"
+            href="mailto:uhytmsb@gmail.com?cc=rai@gmail.com, lisa@gamil.com, &bcc=tim@gmail.com&subject=Mail from our Website&body=Some body text here"
+          >
+            Send Email
           </a>
         </p>
       </div>
@@ -29,7 +32,7 @@ const ContactTools = () => {
       <div className="contact-tools">
         <FaTwitterSquare className="contact-icon" />
         <p className="link-container">
-          <a className="link" href="twitter">
+          <a className="link" href="https://twitter.com/" target="_blank">
             Tweet us
           </a>
         </p>
@@ -38,8 +41,11 @@ const ContactTools = () => {
       <div className="contact-tools">
         <FaLocationDot className="contact-icon" />
         <p className="link-container">
-          <a className="link" href="#">
-            {' '}
+          <a
+            className="link"
+            href="https://www.google.com/maps/dir/53.6543232,9.7845248/pinneberg"
+            target="_blank"
+          >
             Straße 31, 4657 Hamburg, Germany
           </a>
         </p>

@@ -10,6 +10,7 @@ import {
   sellerOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
 import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey';
 
 const ShopRefunds = () => {
   // Global variables
@@ -24,7 +25,7 @@ const ShopRefunds = () => {
         dispatch(sellerOrdersRequest());
 
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/shop/${currentSeller._id}`
+          `${API}/orders/shop/${currentSeller._id}`
         );
 
         dispatch(sellerOrdersSuccess(data.orders));

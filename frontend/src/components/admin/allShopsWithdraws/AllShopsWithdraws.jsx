@@ -5,6 +5,7 @@ import axios from 'axios';
 import { BsPencil } from 'react-icons/bs';
 import { toast } from 'react-toastify';
 import { MdOutlineClose } from 'react-icons/md';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllShopsWithdraws = () => {
   const [data, setData] = useState([]);
@@ -17,7 +18,7 @@ const AllShopsWithdraws = () => {
   useEffect(() => {
     const allWithdraws = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/wthdraws`);
+        const { data } = await axios.get(`${API}/wthdraws`);
         setWithdraws(data.withdraws);
       } catch (error) {
         console.log(error);

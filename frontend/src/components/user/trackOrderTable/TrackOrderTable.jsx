@@ -5,10 +5,11 @@ import { RxArrowRight } from 'react-icons/rx';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { API } from '../../../utils/security/secreteKey';
 
 const TrackOrderTable = () => {
-  const params = useParams()
-  console.log("Params", params)
+  const params = useParams();
+  console.log('Params', params);
 
   // Global state variables
   const { currentUser } = useSelector((state) => state.user);
@@ -19,11 +20,11 @@ const TrackOrderTable = () => {
   const [userOrders, setUserOrders] = useState([]);
 
   // Get all user orders
-   useEffect(() => {
+  useEffect(() => {
     const getAllUserOrders = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/user/${currentUser._id}`
+          `${API}/orders/user/${currentUser._id}`
         );
         setUserOrders(data.orders);
       } catch (error) {
@@ -85,7 +86,7 @@ const TrackOrderTable = () => {
   const row = [];
 
   userOrders &&
-  userOrders.forEach((product) => {
+    userOrders.forEach((product) => {
       row.push({
         id: product._id,
         quantity: product.cart.length,

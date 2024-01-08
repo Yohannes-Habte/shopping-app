@@ -19,9 +19,14 @@ export const createProduct = async (req, res, next) => {
         ...req.body,
         shop: shop,
       });
-      const saveProduct = await product.save();
 
-      res.status(201).json(saveProduct);
+      try {
+        await product.save();
+      } catch (error) {
+        return createError(500, 'Shop is not saved! Please login!');
+      }
+
+      res.status(201).json({ success: true, product: product });
     }
   } catch (error) {
     console.log(error);
@@ -72,7 +77,7 @@ export const getAllShopProducts = async (req, res, next) => {
 
     // if shop and products exist, get the products for that particular shop
 
-    return res.status(200).json(products);
+    return res.status(200).json({ success: true, products: products });
   } catch (error) {
     console.log(error);
     next(createError(500, 'Products could not query! Please try again!'));
@@ -211,5 +216,3 @@ export const shopsProducts = async (req, res, next) => {
     );
   }
 };
-
-

@@ -11,6 +11,7 @@ import {
   userOrdersRequest,
   userOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
+import { API } from '../../../utils/security/secreteKey';
 
 const UserOrderDetails = () => {
   // The orderId is ...
@@ -34,7 +35,7 @@ const UserOrderDetails = () => {
         dispatch(userOrdersRequest());
 
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/user/${currentUser._id}`
+          `${API}/orders/user/${currentUser._id}`
         );
 
         dispatch(userOrdersSuccess(data.orders));
@@ -67,9 +68,8 @@ const UserOrderDetails = () => {
       };
 
       const { data } = await axios.put(
-        `http://localhost:5000/api/products/product/review`,
-        newProductReview,
-        { withCredentials: true }
+        `${API}/products/product/review`,
+        newProductReview
       );
 
       toast.success(data.message);
@@ -88,7 +88,7 @@ const UserOrderDetails = () => {
         status: 'Processing refund',
       };
       const { data } = await axios.put(
-        `http://localhost:5000/api/orders/${id}/refund-order`,
+        `${API}/orders/${id}/refund-order`,
         refundStatus
       );
       toast.success(data.message);
@@ -100,7 +100,6 @@ const UserOrderDetails = () => {
   return (
     <section className={`user-order-details-container`}>
       <h1 className="title"> Single Order Details</h1>
-
       {/* order id and date */}
       <article className="order-id-and-date">
         <p className="order-id">
@@ -110,7 +109,6 @@ const UserOrderDetails = () => {
           Order placed on: <span>{order?.createdAt?.slice(0, 10)}</span>
         </h5>
       </article>
-
       {/* ordered products */}
       <div className="ordered-items-wrapper">
         {order &&
@@ -146,7 +144,6 @@ const UserOrderDetails = () => {
             );
           })}
       </div>
-
       {/* Ordered product review popup */}
       {open && (
         <div className="modal-container">
@@ -228,14 +225,12 @@ const UserOrderDetails = () => {
           </article>
         </div>
       )}
-
       <hr className="hr" />
       {/* Total Price */}
       <h2 className="total-price">
         Total Price: <strong>${order?.totalPrice}</strong>
       </h2>
       <hr className="hr" />
-      
       {/* Shopping address */}
       <div className="shipping-paymentinfo-refund-container">
         <article className="shipping-address">
@@ -265,9 +260,8 @@ const UserOrderDetails = () => {
           )}
         </article>
       </div>
-
       {/* Send Message button */}
-      <Link to="/">
+      <Link to="/contact">
         <button className={`send-message-btn`}>Send Message</button>
       </Link>{' '}
     </section>

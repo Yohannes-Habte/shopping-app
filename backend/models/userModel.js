@@ -14,13 +14,13 @@ const userSchema = new Schema(
         country: {
           type: String,
           required: [true, 'Please enter country'],
-          minLength: [4, 'Country name should be at least 4 characters'],
+          minLength: [2, 'Country name should be at least 4 characters'],
           maxlength: [56, 'Country name should be at most 56 characters'],
         },
         state: {
           type: String,
           required: [true, 'Please enter state'],
-          minLength: [4, 'State name should be at least 4 characters'],
+          minLength: [2, 'State name should be at least 4 characters'],
           maxlength: [30, 'State name should be at most 30 characters'],
         },
         city: {

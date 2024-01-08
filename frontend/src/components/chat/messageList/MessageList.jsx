@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API } from '../../../utils/security/secreteKey';
 
 const MessageList = ({
   data,
@@ -31,7 +32,9 @@ const MessageList = ({
     const userId = data.members.find((user) => user !== me);
     const getUser = async () => {
       try {
-        const res = await axios.get(`/shop/get-shop-info/${userId}`);
+        const res = await axios.get(
+          `${API}/shops/shop/get-shop-info/${userId}`
+        );
         setUser(res.data.shop);
       } catch (error) {
         console.log(error);

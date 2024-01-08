@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import TrackOrderCard from '../trackOrderCard/TrackOrderCard';
+import { API } from '../../../utils/security/secreteKey';
 
 const TrackOrder = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const TrackOrder = () => {
     const getAllUserOrders = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/user/${currentUser._id}`
+          `${API}/orders/user/${currentUser._id}`
         );
         setUserOrders(data.orders);
       } catch (error) {

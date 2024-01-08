@@ -4,6 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { HiOutlineEye } from 'react-icons/hi';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllShopsEvents = () => {
   const [events, setEvents] = useState([]);
@@ -11,9 +12,7 @@ const AllShopsEvents = () => {
   useEffect(() => {
     const allEvents = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/events/all-events`
-        );
+        const { data } = await axios.get(`${API}/events/all-events`);
         setEvents(data.events);
       } catch (error) {
         console.log(error);

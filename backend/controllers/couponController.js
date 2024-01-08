@@ -21,7 +21,7 @@ export const createCouponCode = async (req, res, next) => {
       return next(createError(500, "couldn't save coupon. please try again!"));
     }
 
-    return res.status(201).json(couponCode);
+    return res.status(201).json({ success: true, coupon: couponCode });
   } catch (error) {
     console.log(error);
     next(createError(400, 'Coupon could not query!'));
@@ -40,7 +40,7 @@ export const getAllCouponCodes = async (req, res, next) => {
       return next(createError(400, 'Coupons do not exist!'));
     }
 
-    res.status(201).json(coupons);
+    res.status(201).json({ success: true, coupons });
   } catch (error) {
     console.log(error);
     next(createError(400, 'Database could not query!'));
@@ -58,7 +58,7 @@ export const getCouponCodePercent = async (req, res, next) => {
       return next(createError(400, 'Coupon does not exist!'));
     }
 
-    res.status(201).json(coupon);
+    res.status(201).json({ success: true, coupon: coupon });
   } catch (error) {
     console.log(error);
     next(createError(400, 'Database could not query! Please try again!'));

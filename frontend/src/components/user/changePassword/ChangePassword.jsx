@@ -13,6 +13,7 @@ import {
   changeUserPasswordSuccess,
 } from '../../../redux/reducers/userReducer';
 import { validEmail, validPassword } from '../../../utils/validators/Validate';
+import { API } from '../../../utils/security/secreteKey';
 
 const ChangePassword = () => {
   const navigate = useNavigate();
@@ -85,7 +86,7 @@ const ChangePassword = () => {
         confirmPassword: confirmPassword,
       };
       const { data } = await axios.put(
-        `http://localhost:5000/api/auths/${currentUser._id}/change-user-password`,
+        `${API}/auths/${currentUser._id}/change-user-password`,
         changeUserpassword
       );
       // dispatch(changeUserPasswordSuccess(data));

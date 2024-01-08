@@ -3,6 +3,7 @@ import './BestDealProducts.scss';
 import { useSelector } from 'react-redux';
 import ProductCard from '../productCard/ProductCard';
 import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey';
 
 const BestDealProducts = () => {
   // Global state variables
@@ -24,10 +25,10 @@ const BestDealProducts = () => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
         // dispatch(productsShopFetchSuccess(data));
-        setData(data);
+        setData(data.products);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));

@@ -14,6 +14,7 @@ import {
   eventsShopFetchSuccess,
 } from '../../../redux/reducers/eventReducer';
 import { toast } from 'react-toastify';
+import { API } from '../../../utils/security/secreteKey';
 
 const AllShopEvents = () => {
   // Global state variables
@@ -33,10 +34,10 @@ const AllShopEvents = () => {
       try {
         // dispatch(eventsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/events/${currentSeller._id}/shop-events`
+          `${API}/events/${currentSeller._id}/shop-events`
         );
         // dispatch(eventsShopFetchSuccess(data));
-        setShopEvents(data);
+        setShopEvents(data.events);
       } catch (error) {
         dispatch(eventsShopFetchFailure(error.response.data.message));
       }
@@ -50,9 +51,7 @@ const AllShopEvents = () => {
       //! Why delete from the redux does not work?
       // dispatch(eventShopDeleteStart());
       setSuccess(false);
-      const { data } = await axios.delete(
-        `http://localhost:5000/api/events/${eventID}`
-      );
+      const { data } = await axios.delete(`${API}/events/${eventID}`);
       // dispatch(eventShopDeleteSuccess(data));
       setSuccess(true);
       toast.success(data.message);

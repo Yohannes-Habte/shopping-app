@@ -18,6 +18,7 @@ import {
 } from '../../../redux/reducers/userReducer';
 import WishList from '../../wishLists/wichList.jsx/WishList';
 import Cart from '../../cart/cart/Cart';
+import { API } from '../../../utils/security/secreteKey';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -80,7 +81,7 @@ const Header = () => {
     try {
       dispatch(userLogoutStart());
       const { data } = await axios.get(
-        `http://localhost:5000/api/auths/logout/${currentUser._id}`
+        `${API}/auths/logout/${currentUser._id}`
       );
 
       dispatch(userLogoutSuccess());

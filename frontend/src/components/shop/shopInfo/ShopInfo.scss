@@ -11,14 +11,6 @@
     font-size: $one;
   }
 
-  .go-board {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    @include button4;
-    font-size: $one;
-  }
-
   // taps wrapper
   .tabs-wrapper {
     display: flex;
@@ -61,9 +53,12 @@
   // Shop Events
   .shop-events-wrapper {
     .shop-events {
+      @include mobileProducts;
     }
 
     .no-events {
+      @include subTitle;
+      font-size: $one;
     }
   }
 
@@ -119,13 +114,6 @@
       font-size: $one;
     }
 
-    .go-board {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      @include button4;
-    }
-
     // taps wrapper
     .tabs-wrapper {
       display: flex;
@@ -168,9 +156,11 @@
     // Shop Events
     .shop-events-wrapper {
       .shop-events {
+        @include tabletProductsGrid;
       }
 
       .no-events {
+        @include subTitle;
       }
     }
 
@@ -225,13 +215,6 @@
       @include title;
     }
 
-    .go-board {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      @include button4;
-    }
-
     // taps wrapper
     .tabs-wrapper {
       display: flex;
@@ -273,9 +256,11 @@
     // Shop Events
     .shop-events-wrapper {
       .shop-events {
+        @include productsGrid;
       }
 
       .no-events {
+        @include subTitle;
       }
     }
 

@@ -7,6 +7,7 @@ import { eventsShopFetchSuccess } from '../../../redux/reducers/eventReducer';
 import { productsShopFetchSuccess } from '../../../redux/reducers/productReducer';
 import ProductCard from '../../products/productCard/ProductCard';
 import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey';
 
 // The isOwner comes from ShopHome.jsx page
 const ShopInfo = ({ isOwner }) => {
@@ -17,9 +18,12 @@ const ShopInfo = ({ isOwner }) => {
   const { events } = useSelector((state) => state.event);
   const dispatch = useDispatch();
 
+  console.log('Shop is', currentSeller);
+
   // Local state variables
   const [active, setActive] = useState(1);
   const [shopProducts, setShopProducts] = useState([]);
+  const [shopEvents, setShopEvents] = useState([]);
 
   // Display products for a single shop
   useEffect(() => {
@@ -27,16 +31,31 @@ const ShopInfo = ({ isOwner }) => {
       try {
         // dispatch(productsShopFetchStart());
         const { data } = await axios.get(
-          `http://localhost:5000/api/products/${currentSeller._id}/shop-products`
+          `${API}/products/${currentSeller._id}/shop-products`
         );
         // dispatch(productsShopFetchSuccess(data));
-        setShopProducts(data);
+        setShopProducts(data.products);
       } catch (error) {
         console.log(error);
         // dispatch(productsShopFetchFailure(error.response.data.message));
       }
     };
     shopProducts();
+  }, []);
+
+  // Display events for a single shop
+  useEffect(() => {
+    const getShopEvents = async () => {
+      try {
+        const { data } = await axios.get(
+          `${API}/events/${currentSeller._id}/shop-events`
+        );
+        setShopEvents(data.events);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getShopEvents();
   }, []);
 
   useEffect(() => {
@@ -59,11 +78,7 @@ const ShopInfo = ({ isOwner }) => {
   return (
     <section className="shop-info-contianer">
       <h1 className="shop-title"> {currentSeller.name} </h1>
-      {isOwner && (
-        <span className="go-board">
-          <Link to="/dashboard">Go Dashboard</Link>
-        </span>
-      )}
+
       <article className="tabs-wrapper">
         <h3
           onClick={() => setActive(1)}
@@ -101,15 +116,15 @@ const ShopInfo = ({ isOwner }) => {
       {active === 2 && (
         <article className="shop-events-wrapper">
           <div className="shop-events">
-            {/* {events &&
-              events.map((i, index) => (
+            {shopEvents &&
+              shopEvents.map((event, index) => (
                 <ProductCard
-                  data={i}
+                  product={event}
                   key={index}
                   isShop={true}
                   isEvent={true}
                 />
-              ))} */}
+              ))}
           </div>
           {events && events.length === 0 && (
             <h3 className="no-events">No Events have for this shop!</h3>

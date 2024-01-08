@@ -9,6 +9,7 @@ import {
   userOrdersSuccess,
 } from '../../../redux/reducers/orderReducer';
 import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey';
 
 const UserOrders = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -21,7 +22,7 @@ const UserOrders = () => {
         dispatch(userOrdersRequest());
 
         const { data } = await axios.get(
-          `http://localhost:5000/api/orders/user/${currentUser._id}`
+          `${API}/orders/user/${currentUser._id}`
         );
 
         dispatch(userOrdersSuccess(data.orders));

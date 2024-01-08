@@ -16,6 +16,7 @@ import {
 import { FaProductHunt, FaShoppingBag, FaUsers } from 'react-icons/fa';
 import { FaShopSlash } from 'react-icons/fa6';
 import { IoSettings } from 'react-icons/io5';
+import { API } from '../../../utils/security/secreteKey';
 
 const AdminHeader = ({ isOwner }) => {
   const navigate = useNavigate();
@@ -31,9 +32,7 @@ const AdminHeader = ({ isOwner }) => {
   const logoutSeller = async () => {
     try {
       dispatch(logoutSellerStart());
-      const { data } = await axios.get(
-        `http://localhost:5000/api/shops/logout-shop`
-      );
+      const { data } = await axios.get(`${API}/shops/logout-shop`);
 
       dispatch(logoutSellerSuccess());
 

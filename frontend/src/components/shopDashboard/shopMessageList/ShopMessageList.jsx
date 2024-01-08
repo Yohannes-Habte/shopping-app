@@ -3,6 +3,7 @@ import './ShopMessageList.scss';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { API } from '../../../utils/security/secreteKey';
 
 const ShopMessageList = ({
   conversation,
@@ -35,9 +36,7 @@ const ShopMessageList = ({
 
     const getUser = async () => {
       try {
-        const { data } = await axios.get(
-          `http://localhost:5000/api/users/user/${userId}`
-        );
+        const { data } = await axios.get(`${API}/users/user/${userId}`);
         setUser(data.user);
       } catch (error) {
         toast.error(error.response.data.message);

@@ -15,6 +15,13 @@ import {
   eventShopPostSuccess,
 } from '../../../redux/reducers/eventReducer';
 
+import {
+  API,
+  cloud_URL,
+  cloud_name,
+  upload_preset,
+} from '../../../utils/security/secreteKey';
+
 const CreateEvent = () => {
   const navigate = useNavigate();
 
@@ -122,14 +129,11 @@ const CreateEvent = () => {
 
       const productImages = new FormData();
       productImages.append('file', images);
-      productImages.append('cloud_name', 'dzlsa51a9');
-      productImages.append('upload_preset', 'upload');
+      productImages.append('cloud_name', cloud_name);
+      productImages.append('upload_preset', upload_preset);
 
       // Save image to cloudinary
-      const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dzlsa51a9/image/upload`,
-        productImages
-      );
+      const response = await axios.post(cloud_URL, productImages);
       const { url } = response.data;
 
       // The body
@@ -148,12 +152,12 @@ const CreateEvent = () => {
       };
 
       const { data } = await axios.post(
-        'http://localhost:5000/api/events/create-event',
+        `${API}/events/create-event`,
         newProduct
       );
 
-      dispatch(eventShopPostSuccess(data));
-      reset()
+      dispatch(eventShopPostSuccess(data.event));
+      reset();
     } catch (error) {
       console.log(error);
       dispatch(eventShopPostFailure(error.response.data.message));
