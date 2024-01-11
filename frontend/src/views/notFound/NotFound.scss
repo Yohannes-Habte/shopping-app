@@ -1,5 +1,5 @@
-@import '../../../styles/Variables.scss';
-@import '../../../styles/Mixins.scss';
+@import '../../styles/Variables.scss';
+@import '../../styles/Mixins.scss';
 
 .not-found-page {
   @include page;
@@ -18,7 +18,9 @@
 }
 
 /* Tablet screen size */
-@media screen and (min-width: 768px) and (max-width: 1023px) {}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+}
 
 /* Labtop screen size */
-@media screen and (min-width: 1024px) {}
+@media screen and (min-width: 1024px) {
+}

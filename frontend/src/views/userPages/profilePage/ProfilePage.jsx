@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import './Profile.scss';
+import './ProfilePage.scss';
 import { useSelector } from 'react-redux';
 import UserProfile from '../../../components/user/userProfile/UserProfile';
 import Header from '../../../components/userLayout/header/Header';
 import ProfileSidebar from '../../../components/user/profileSidebar/ProfileSidebar';
 
-const Profile = () => {
+const ProfilePage = () => {
   // State  variables
   const { currentUser, loading } = useSelector((state) => state.user);
   const [active, setActive] = useState(1);
+  const time = Date.now() +  10 * 10 * 60 * 1000;
+  console.log("Time =", time)
 
   return (
     <main className="profile-page">
@@ -30,4 +32,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfilePage;

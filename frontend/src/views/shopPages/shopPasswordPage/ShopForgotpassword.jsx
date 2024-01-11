@@ -4,12 +4,12 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { Helmet } from 'react-helmet-async';
 import { MdEmail } from 'react-icons/md';
-import './Password.scss';
+import './ShopPassword.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { validEmail } from '../../../utils/validators/Validate.js';
 import { API } from '../../../utils/security/secreteKey.js';
 
-const Forgotpassword = () => {
+const ShopForgotpassword = () => {
   const navigate = useNavigate();
   const { loading, error, currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const Forgotpassword = () => {
     }
 
     try {
-      const { data } = await axios.post(`${API}/auths/forgot-password`, {
+      const { data } = await axios.post(`${API}/shops/shop-forgot-password`, {
         email,
       });
       toast.success(data.message);
@@ -76,4 +76,4 @@ const Forgotpassword = () => {
   );
 };
 
-export default Forgotpassword;
+export default ShopForgotpassword;

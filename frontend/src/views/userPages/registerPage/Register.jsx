@@ -6,6 +6,7 @@ import { MdEmail } from 'react-icons/md';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible } from 'react-icons/ai';
+import { IoClose } from 'react-icons/io5';
 import { HiOutlineEye } from 'react-icons/hi';
 import { toast } from 'react-toastify';
 import { Helmet } from 'react-helmet-async';
@@ -46,9 +47,16 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  console.log('Image=', image);
+
   // Update image
   const updateImage = (e) => {
     setImage(e.target.files[0]);
+  };
+
+  // Deleting uploading image
+  const deleteUploadingImage = () => {
+    setImage(image.name === '');
   };
 
   // Update input data
@@ -247,7 +255,7 @@ const Register = () => {
               <span className="input-highlight"></span>
             </div>
 
-            <div className="input-container">
+            <div className="file-container">
               <RiLockPasswordFill className="icon" />
               <input
                 type="file"
@@ -256,6 +264,19 @@ const Register = () => {
                 onChange={updateImage}
                 className="input-field"
               />
+              <label htmlFor="image" className="file-label">
+                {image ? (
+                  <span className="uploading-image">
+                    {image.name}{' '}
+                    <IoClose
+                      onClick={deleteUploadingImage}
+                      className="image-close-icon"
+                    />
+                  </span>
+                ) : (
+                  'Upload Photo'
+                )}
+              </label>
             </div>
 
             <div className="register-consent">
@@ -265,7 +286,7 @@ const Register = () => {
                 id="agree"
                 checked={agree}
                 onChange={updateChange}
-                className="register-consent-input"
+                className="register-consent-checkbox"
               />
               <span className="accept">I accept</span>
               <NavLink className={'terms-of-user'}> Terms of Use</NavLink>

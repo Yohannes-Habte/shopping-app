@@ -67,7 +67,7 @@ const AllShopEvents = () => {
     {
       field: 'name',
       headerName: 'Name',
-      minWidth: 180,
+      minWidth: 150,
       flex: 1.4,
     },
     {
@@ -88,14 +88,14 @@ const AllShopEvents = () => {
       field: 'sold',
       headerName: 'Sold out',
       type: 'number',
-      minWidth: 130,
+      minWidth: 100,
       flex: 0.6,
     },
     {
       field: 'Preview',
       flex: 0.8,
       minWidth: 100,
-      headerName: '',
+      headerName: 'Preview',
       type: 'number',
       sortable: false,
       renderCell: (params) => {
@@ -114,7 +114,7 @@ const AllShopEvents = () => {
       field: 'Delete',
       flex: 0.8,
       minWidth: 120,
-      headerName: '',
+      headerName: 'Delete',
       type: 'number',
       sortable: false,
       renderCell: (params) => {

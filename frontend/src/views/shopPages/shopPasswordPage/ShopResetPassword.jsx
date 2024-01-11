@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { AiFillEyeInvisible } from 'react-icons/ai';
 import { HiOutlineEye } from 'react-icons/hi';
-import './Password.scss';
+import './ShopPassword.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { validPassword } from '../../../utils/validators/Validate';
 import { API } from '../../../utils/security/secreteKey';
 
-const ResetPassword = () => {
+const ShopResetPassword = () => {
   const navigate = useNavigate();
   const { token } = useParams();
 
@@ -59,7 +59,7 @@ const ResetPassword = () => {
     }
 
     try {
-      await axios.patch(`${API}/auths/reset-password/${token}`, {
+      await axios.patch(`${API}/shops/shop-reset-password/${token}`, {
         password,
         token,
       });
@@ -128,4 +128,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ShopResetPassword;

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 const { Schema } = mongoose;
 
@@ -57,8 +58,9 @@ const userSchema = new Schema(
     role: { type: String, default: 'customer', enum: ['customer', 'admin'] },
     agree: { type: Boolean, default: false, required: true },
     comments: [],
-    resetPasswordToken: String,
-    resetPasswordTime: Date,
+    passwordResetToken: { type: String },
+    forgotPasswordChangedAt: Date,
+    passwordResetTokenExpires: Date,
   },
   { timestamps: true }
 );
@@ -74,6 +76,26 @@ userSchema.pre('save', async function (next) {
     return next(err);
   }
 });
+
+// Generate randomly set token for the forgot and reset password using instance methods
+// createResetpasswordToken is a variable name, which stores what is coded inside it.
+
+userSchema.methods.createResetpasswordToken = function () {
+  // Create reset token
+  let resetToken = crypto.randomBytes(32).toString('hex');
+
+  // Hash token before saving to DB
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  this.passwordResetToken = hashedToken;
+  this.passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
+
+  // The user gets the decrypted reset token therefore we return resetToken. However, what is stored in the database is the encrypted reset token to block hakers from hacking user account
+  return resetToken;
+};
 
 // User Model
 const User = mongoose.model('User', userSchema);

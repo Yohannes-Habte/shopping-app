@@ -128,7 +128,7 @@ const AllCoupons = () => {
     {
       field: 'name',
       headerName: 'Coupon Code',
-      minWidth: 180,
+      minWidth: 100,
       flex: 1.4,
     },
     {
@@ -139,9 +139,9 @@ const AllCoupons = () => {
     },
     {
       field: 'Delete',
+      headerName: 'Delete',
       flex: 0.8,
       minWidth: 120,
-      headerName: '',
       type: 'number',
       sortable: false,
       renderCell: (params) => {

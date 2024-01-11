@@ -2,6 +2,8 @@ import createError from 'http-errors';
 import Shop from '../models/shopModel.js';
 import bcrypt from 'bcryptjs';
 import sellerToken from '../middleware/shopToken.js';
+import shopSendEmail from '../utils/shopSendEmail.js';
+import crypto from 'crypto';
 
 //=========================================================================
 // Create a seller
@@ -25,7 +27,7 @@ export const createShop = async (req, res, next) => {
     }
 
     // New seller or new shop
-    const newSeller = new Shop({
+    const shop = new Shop({
       name: name,
       email: email,
       password: password,
@@ -38,13 +40,13 @@ export const createShop = async (req, res, next) => {
 
     // Save the new seller in the database
     try {
-      await newSeller.save();
+      await shop.save();
     } catch (error) {
       return next(createError(500, 'New seller could not be saved'));
     }
 
     // Generate Seller token
-    const registerShopToken = sellerToken(newSeller._id);
+    const registerShopToken = sellerToken(shop._id);
     // Response
     return res
       .cookie('shopToken', registerShopToken, {
@@ -55,7 +57,7 @@ export const createShop = async (req, res, next) => {
         secure: true,
       })
       .status(201)
-      .json({ success: ture, shop: newSeller });
+      .json({ success: true, shop: shop });
   } catch (error) {
     console.log(error);
     return next(
@@ -125,6 +127,114 @@ export const sellerLogout = async (req, res, next) => {
     });
   } catch (error) {
     next(createError(500, 'Seller could not logout. Please try again!'));
+  }
+};
+
+//=========================================================================
+// shop forgot password
+//=========================================================================
+export const shopForgotPassword = async (req, res, next) => {
+  try {
+    // Get a shop using its email
+    const shop = await Shop.findOne({ email: req.body.email });
+    if (!shop) {
+      return next(createError(400, 'Email does not exist! Please try again!'));
+    }
+
+    // Generate a random reset token
+    const resetToken = shop.createResetpasswordToken();
+
+    // Save the update
+    await shop.save({ validateBeforeSave: false });
+
+    const resetUrl = `${process.env.SERVER_URL}/shop-reset-password/${resetToken}`;
+
+    const message = `
+    <h2> Hello ${shop.name} </h2>
+    <p> Please click on the link below to reset your password </p>
+    <p> This reset link is valid only for 10 minutes. </p>
+    <a href=${resetUrl} clicktracking=off> ${resetUrl} </a>
+    <p> Best regards, </p>
+    <p> Customer Service Team </p>
+    `;
+
+    const subject = 'Password Reset';
+    const send_to = shop.email;
+    const sent_from = process.env.EMAIL_SENDER;
+
+    try {
+      await shopSendEmail({
+        email: send_to,
+        subject: subject,
+        message: message,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: 'Reset password link has been sent to the your email',
+      });
+    } catch (error) {
+      user.passwordResetToken = undefined;
+      user.passwordResetTokenExpires = undefined;
+      user.save({ validateBeforeSave: false });
+      console.log(error);
+      return next(createError(500, 'Error sending password reset email!'));
+    }
+  } catch (error) {
+    console.log(error);
+    return next(createError(500, 'Forgotten password not reset!'));
+  }
+};
+
+//=========================================================================
+// Shop rest forgot password
+//=========================================================================
+export const resetForgotShopPassword = async (req, res, next) => {
+  const token = req.params.token;
+
+  const encryptedToken = crypto
+    .createHash('sha256')
+    .update(token)
+    .digest('hex');
+
+  try {
+    const shop = await Shop.findOne({
+      passwordResetToken: encryptedToken,
+      passwordResetTokenExpires: { $gt: Date.now() },
+    });
+
+    if (!shop) {
+      res.status(400).send('Token is invalid or it is expired!');
+    }
+
+    // If shop exist, rest its password
+    shop.password = req.body.password;
+    shop.passwordResetToken = undefined;
+    shop.passwordResetTokenExpires = undefined;
+    shop.forgotPasswordChangedAt = Date.now();
+
+    // Save changes
+    shop.save();
+
+    const { password, role, ...rest } = shop._doc;
+
+    // generate login shop token
+    const shopLoginToken = sellerToken(shop._id);
+
+    return res
+      .cookie('ushopToken', shopLoginToken, {
+        path: '/',
+        httpOnly: true,
+        expires: new Date(Date.now() + 60 * 60 * 1000),
+        sameSite: 'none',
+        secure: true,
+      })
+      .status(200)
+      .json({ success: true, shop: rest });
+  } catch (error) {
+    next(
+      createError(500, 'The password has not been reset! Please try again!')
+    );
   }
 };
 

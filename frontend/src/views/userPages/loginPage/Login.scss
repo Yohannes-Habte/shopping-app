@@ -5,12 +5,13 @@
   @include page;
 
   .login-container {
-    width: $laptop;
-    margin: 1rem auto;
+    width: $mobile;
+    margin: auto;
     @include shadow3;
 
     .login-title {
       @include title;
+      font-size: $afs;
     }
 
     .login-icon-container {
@@ -86,6 +87,7 @@
 
         .login-checkbox-forget-password {
           display: flex;
+          flex-direction: column;
           align-items: center;
           margin-bottom: 2rem;
 
@@ -173,6 +175,7 @@
           .login-checkbox-forget-password {
             width: 100%;
             display: flex;
+            flex-direction: row;
             justify-content: space-between;
             margin-bottom: 1rem;
 
@@ -186,7 +189,7 @@
   }
 }
 
-/* Labtop screen size */
+/* Laptop screen size */
 @media screen and (min-width: 1024px) {
   .lagin-page {
     @include page;
@@ -282,12 +285,17 @@
           .login-checkbox-forget-password {
             width: 100%;
             display: flex;
+            flex-direction: row;
             justify-content: space-between;
             margin-bottom: 1rem;
 
             .login-checkbox-keep-signed-in {
               margin-top: 1rem;
             }
+          }
+
+          .login-button {
+            @include button3;
           }
         }
       }

@@ -147,8 +147,8 @@
     }
 
     // Button
-    .seller-login-button {
-      @include button1;
+    .shop-login-button {
+      @include button3;
       font-size: $one;
     }
 
@@ -175,7 +175,7 @@
 /* Tablet screen size */
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .shop-login-wrapper {
-     @include tabletDashboardScreen;
+    @include tabletDashboardScreen;
 
     .title {
       @include title;
@@ -320,7 +320,7 @@
       }
 
       // Button
-      .seller-login-button {
+      .shop-login-button {
         @include button1;
         font-size: $one;
       }
@@ -491,8 +491,8 @@
       }
 
       // Button
-      .seller-login-button {
-        @include button1;
+      .shop-login-button {
+        @include button3;
       }
 
       // Have no account

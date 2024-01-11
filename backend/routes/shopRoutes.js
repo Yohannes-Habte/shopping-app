@@ -5,7 +5,9 @@ import {
   getAllShops,
   getShop,
   loginSeller,
+  resetForgotShopPassword,
   sellerLogout,
+  shopForgotPassword,
   updatePaymentMethods,
   updateShopProfile,
 } from '../controllers/shopController.js';
@@ -36,6 +38,8 @@ shopRouter.post(
 );
 shopRouter.post('/login-shop', loginSeller);
 shopRouter.get('/logout-shop', sellerLogout);
+shopRouter.post('/shop-forgot-password', shopForgotPassword);
+shopRouter.patch('/shop-reset-password/:token', resetForgotShopPassword);
 shopRouter.put('/update-shop-profile', authSeller, updateShopProfile);
 shopRouter.put('/update-payment-methods', authSeller, updatePaymentMethods);
 shopRouter.delete('/delete-payment-method', authSeller, deleteWithdrawMethod);

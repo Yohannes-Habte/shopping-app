@@ -2,7 +2,12 @@
 @import '../../styles/Mixins.scss';
 
 .blog-container {
-@include laptopPageContainer;
+  @include laptopPageContainer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $section-bg;
+  @include shadow3;
 
   .blog-title {
     @include title;

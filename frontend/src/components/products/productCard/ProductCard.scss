@@ -5,6 +5,10 @@
   position: relative;
   @include shadow3;
 
+  .product-card-link {
+    color: $black;
+  }
+
   .image-container {
     .image {
       width: 20rem;
@@ -30,8 +34,8 @@
       font-size: $afs;
     }
     .old-price {
-        color: $red;
-        text-decoration: line-through;
+      color: $red;
+      text-decoration: line-through;
     }
 
     .sold-product {

@@ -17,6 +17,7 @@
   .best-deals-container {
     .subTitle {
       @include subTitle;
+      font-size: $aafs;
     }
 
     .product-wrapper {
@@ -33,6 +34,7 @@
   .best-deals-container {
     .subTitle {
       @include subTitle;
+      font-size: $aafs;
     }
 
     .product-wrapper {

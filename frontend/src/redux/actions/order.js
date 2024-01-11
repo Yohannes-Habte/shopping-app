@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { API } from '../../utils/security/secreteKey';
 
 // All shops orders
 export const getAllOrdersOfAdmin = () => async (dispatch) => {
@@ -7,7 +8,7 @@ export const getAllOrdersOfAdmin = () => async (dispatch) => {
       type: 'adminOrdersRequest',
     });
 
-    const { data } = await axios.get(`http://localhost:5000/api/orders`, {
+    const { data } = await axios.get(`${API}/orders`, {
       withCredentials: true,
     });
 

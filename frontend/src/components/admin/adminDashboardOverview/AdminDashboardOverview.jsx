@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AdminDashboardOverview.scss';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,23 +8,47 @@ import { Link } from 'react-router-dom';
 import { FaCartShopping } from 'react-icons/fa6';
 import { getAllOrdersOfAdmin } from '../../../redux/actions/order';
 import { getAllSellers } from '../../../redux/actions/seller';
+import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey';
 
 const AdminDashboardOverview = () => {
+  // Global state variables
   const dispatch = useDispatch();
-
   const { adminOrders, adminOrderLoading } = useSelector(
     (state) => state.order
   );
   const { sellers } = useSelector((state) => state.seller);
+  const [orders, setOrders] = useState([]);
+  const [shops, setShops] = useState([]);
 
   useEffect(() => {
     dispatch(getAllOrdersOfAdmin());
     dispatch(getAllSellers());
   }, []);
 
+  useEffect(() => {
+    const allShopsOrders = async () => {
+      try {
+        const { data } = await axios.get(`${API}/orders`);
+        setOrders(data.orders);
+      } catch (error) {}
+    };
+    allShopsOrders();
+  }, []);
+
+  useEffect(() => {
+    const allShops = async () => {
+      try {
+        const { data } = await axios.get(`${API}/shops`);
+        setShops(data.shops);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    allShops();
+  }, []);
   const adminEarning =
-    adminOrders &&
-    adminOrders.reduce((acc, item) => acc + item.totalPrice * 0.1, 0);
+    orders && orders.reduce((acc, item) => acc + item.totalPrice * 0.1, 0);
 
   const adminBalance = adminEarning?.toFixed(2);
 
@@ -34,19 +58,19 @@ const AdminDashboardOverview = () => {
     {
       field: 'status',
       headerName: 'Status',
-      minWidth: 130,
+      minWidth: 70,
       flex: 0.7,
       cellClassName: (params) => {
-        return params.getValue(params.id, 'status') === 'Delivered'
-          ? 'greenColor'
-          : 'redColor';
+        // return params.getValue(params.id, 'status') === 'Delivered'
+        //   ? 'greenColor'
+        //   : 'redColor';
       },
     },
     {
-      field: 'itemsQty',
-      headerName: 'Items Qty',
+      field: 'quantity',
+      headerName: 'Quantity',
       type: 'number',
-      minWidth: 130,
+      minWidth: 70,
       flex: 0.7,
     },
 
@@ -67,14 +91,14 @@ const AdminDashboardOverview = () => {
   ];
 
   const row = [];
-  adminOrders &&
-    adminOrders.forEach((item) => {
+  orders &&
+    orders.forEach((order) => {
       row.push({
-        id: item._id,
-        itemsQty: item?.cart?.reduce((acc, item) => acc + item.qty, 0),
-        total: item?.totalPrice + ' $',
-        status: item?.status,
-        createdAt: item?.createdAt.slice(0, 10),
+        id: order._id,
+        quantity: order?.cart?.reduce((acc, item) => acc + item.qty, 0),
+        total: `$${order?.totalPrice}`,
+        status: order?.status,
+        createdAt: order?.createdAt.slice(0, 10),
       });
     });
 
@@ -99,7 +123,7 @@ const AdminDashboardOverview = () => {
                 <FaShopSlash />
                 <h3 className={`subTitle`}>All Sellers</h3>
               </aside>
-              <h5 className="outcome">{sellers && sellers.length}</h5>
+              <h5 className="outcome">{shops && shops.length}</h5>
               <Link to="/admin-shops">
                 <h5 className="view">View Sellers</h5>
               </Link>
@@ -110,8 +134,8 @@ const AdminDashboardOverview = () => {
                 <FaCartShopping />
                 <h3 className={`subTitle`}>All Orders</h3>
               </aside>
-              <h5 className="outcome">{adminOrders && adminOrders.length}</h5>
-              <Link to="/admin-orders" className='link'>
+              <h5 className="outcome">{orders && orders.length}</h5>
+              <Link to="/admin-orders" className="link">
                 <h5 className="view">View Orders</h5>
               </Link>
             </article>

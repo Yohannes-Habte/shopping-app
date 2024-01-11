@@ -1,12 +1,12 @@
 @import '../../../styles/Variables.scss';
 @import '../../../styles/Mixins.scss';
 
-.lagin-page {
+.register-page {
   @include page;
 
   .register-container {
-    width: $laptop;
-    margin: 1rem auto;
+    width: $mobile;
+    margin: auto;
     @include shadow3;
 
     .error-message {
@@ -17,15 +17,17 @@
 
     .register-title {
       @include title;
+      font-size: $afs;
     }
 
-    .register-icon-container {
-      width: 24%;
-      margin: auto;
-      .register-icon {
-        align-items: center;
-        font-size: 4rem;
-        padding-top: 1rem;
+    .image-container {
+      @include flexCenter;
+
+      .image {
+        width: 3rem;
+        height: 3rem;
+        object-fit: cover;
+        border-radius: 50%;
       }
     }
 
@@ -96,47 +98,79 @@
           }
         }
 
-        .register-checkbox-forget-password {
-          display: flex;
-          align-items: center;
-          margin-bottom: 2rem;
+        .file-container {
+          position: relative;
+          @include inputContainer;
+          z-index: 1;
 
-          .register-checkbox-keep-signed-in {
-            width: 100%;
-            display: flex;
-            margin-top: 0.3rem;
+          .input-field {
+            display: none;
+          }
 
-            .register-checkbox {
-              height: 1.2rem;
-              width: 1.6rem;
+          .file-label {
+            @include inputField;
+            cursor: pointer;
+
+            .uploading-image {
               display: flex;
+              flex-direction: row;
               align-items: center;
-            }
-
-            & span {
-              font-size: 1.2rem;
+              gap: 1rem;
+              z-index: 999;
+              .image-close-icon {
+                @include deleteIcon;
+                font-size: $one;
+              }
             }
           }
 
-          .forget-password {
-            width: $laptop;
-            display: flex;
-            align-items: center;
+          .icon {
+            position: absolute;
+            top: 1.1rem;
+            left: 0.5rem;
+            font-size: 1rem;
+            color: $green;
+          }
+        }
+
+        .register-consent {
+          display: flex;
+          flex-direction: row;
+          margin-bottom: 1rem;
+
+          .register-consent-checkbox {
+            margin-right: 0.5rem;
           }
 
-          & a {
-            margin-top: 1rem;
-            font-size: 1.2rem;
+          // styling the checkbox
+          .register-consent-checkbox[type='checkbox'] {
+            width: 20px;
+            height: 20px;
+          }
+
+          .accept {
+            font-size: $afs;
+          }
+
+          .terms-of-user {
+            font-weight: $afw;
             color: $blue;
+            padding-left: 0.5rem;
+            &:hover {
+              color: $tomato;
+            }
           }
         }
 
         .register-button {
-          @include button2;
+          @include button3;
         }
 
         .haveAccount {
           font-weight: $afw;
+          display: flex;
+          flex-direction: row;
+          gap: 0.5rem;
 
           .link-to {
             font-weight: $aafw;
@@ -296,23 +330,58 @@
             }
           }
 
+          .file-container {
+            position: relative;
+            @include inputContainer;
+            z-index: 1;
+
+            .input-field {
+              display: none;
+            }
+
+            .file-label {
+              @include inputField;
+              cursor: pointer;
+
+              .uploading-image {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+                z-index: 999;
+                .image-close-icon {
+                  @include deleteIcon;
+                  font-size: $one;
+                }
+              }
+            }
+
+            .icon {
+              position: absolute;
+              top: 1.1rem;
+              left: 0.5rem;
+              font-size: 1rem;
+              color: $green;
+            }
+          }
+
           .register-consent {
             display: flex;
             flex-direction: row;
             margin-bottom: 1rem;
 
-            .register-consent-input {
-              margin-right: 1rem;
+            .register-consent-checkbox {
+              margin-right: 0.5;
             }
 
             // styling the checkbox
-            .register-consent-input[type='checkbox'] {
-              width: 30px;
+            .register-consent-checkbox[type='checkbox'] {
+              width: 20px;
               height: 20px;
             }
 
             .accept {
-              font-size: 1.3rem;
+              font-size: $afs;
             }
 
             .terms-of-user {
@@ -331,6 +400,9 @@
 
           .haveAccount {
             font-weight: $afw;
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
 
             .link-to {
               font-weight: $aafw;

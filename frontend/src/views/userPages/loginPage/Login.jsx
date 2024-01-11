@@ -166,7 +166,7 @@ const Login = () => {
                 <span className="keep-me-login">Keep me signed in</span>
               </div>
               <div className="forget-password">
-                <Link className="link" to={'/forget-password'}>
+                <Link className="link" to={'/forgot-password'}>
                   Forgot your password?
                 </Link>
               </div>

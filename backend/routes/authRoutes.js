@@ -3,7 +3,9 @@ import {
   changeUserPassword,
   createAccount,
   deleteAccount,
+  forgotPassword,
   loginUser,
+  resetForgotPassword,
   updateUserProfile,
   userLogout,
 } from '../controllers/authController.js';
@@ -24,6 +26,8 @@ authRouter.post(
   createAccount
 );
 authRouter.post('/login', loginUser);
+authRouter.post('/forgot-password', forgotPassword);
+authRouter.patch('/reset-password/:token', resetForgotPassword);
 authRouter.put('/update-user-profile', updateUserProfile);
 authRouter.put('/:id/change-user-password', changeUserPassword);
 authRouter.get('/logout/:id', userLogout);

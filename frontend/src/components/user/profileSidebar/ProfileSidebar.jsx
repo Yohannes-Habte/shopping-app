@@ -136,15 +136,6 @@ const ProfileSidebar = ({ active, setActive }) => {
         <span className={active === 7 ? 'active' : 'passive'}>Address</span>
       </div>
 
-      {/* User inbox */}
-      <div className="tab-box track-order" onClick={() => setActive(8)}>
-        <MdOutlineTrackChanges
-          title="User Inbox"
-          className={active === 8 ? 'active-icon' : 'passive-icon'}
-        />
-        <span className={active === 8 ? 'active' : 'passive'}>User Inbox</span>
-      </div>
-
       {/* Admin dashboar section */}
       {currentUser && currentUser?.role === 'admin' && (
         <Link to="/admin/dashboard">

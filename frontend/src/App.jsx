@@ -6,8 +6,8 @@ import Home from './views/homePage/Home';
 import EventsPage from './views/eventsPage/EventsPage';
 import BestSellings from './views/bestSellingpage/BestSellings';
 import Contact from './views/contactPage/Contact';
-import NotFound from './views/userPages/notFound/NotFound';
-import Profile from './views/userPages/profilePage/Profile';
+import NotFound from './views/notFound/NotFound';
+import ProfilePage from './views/userPages/profilePage/ProfilePage';
 import Forgotpassword from './views/userPages/passwordPage/Forgotpassword';
 import ResetPassword from './views/userPages/passwordPage/ResetPassword';
 import SellerProtectedRoute from './protectedRoutes/SellerProtectedRoute';
@@ -49,6 +49,9 @@ import AdminDashboardOrders from './views/adminPages/adminDashboardOrders/AdminD
 import AdminDashboardProducts from './views/adminPages/adminDashboardProducts/AdminDashboardProducts';
 import AdminDashboardEvents from './views/adminPages/adminDashboardEvents/AdminDashboardEvents';
 import AdminDashboardWithdraws from './views/adminPages/adminDashboardWithdraws/AdminDashboardWithdraws';
+import ShopForgotpassword from './views/shopPages/shopPasswordPage/ShopForgotpassword';
+import ShopResetPassword from './views/shopPages/shopPasswordPage/ShopResetPassword';
+
 
 const App = () => {
   const [stripeApikey, setStripeApiKey] = useState('');
@@ -89,23 +92,22 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<Forgotpassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productID" element={<SingleProduct />} />
           <Route path="/best-sellings" element={<BestSellings />} />
           <Route path="/events" element={<EventsPage />} />
-          <Route path="/shop/preview/:id" element={<ShopDetailsPage />} />
-          <Route path="/order/success" element={<OrderSuccess />} />
 
           {/* User Pages */}
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/order/success" element={<OrderSuccess />} />
+          <Route path="/forgot-password" element={<Forgotpassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route
             path="/profile"
             element={
               <UserProtectedRoute>
-                <Profile />
+                <ProfilePage />
               </UserProtectedRoute>
             }
           />
@@ -147,23 +149,11 @@ const App = () => {
           />
 
           {/* Shope Pages */}
-          <Route
-            path="/login-shop"
-            element={
-              <UserProtectedRoute>
-                <ShopLoginPage />
-              </UserProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/create-shop"
-            element={
-              <UserProtectedRoute>
-                <CreateNewShop />
-              </UserProtectedRoute>
-            }
-          />
+          <Route path="/create-shop" element={<CreateNewShop />} />
+          <Route path="/login-shop" element={<ShopLoginPage />} />
+          <Route path="/shop-forgot-password" element={<ShopForgotpassword />} />
+          <Route path="/shop-reset-password/:token" element={<ShopResetPassword />} />
+          <Route path="/shop/preview/:id" element={<ShopDetailsPage />} />
 
           <Route
             path="/dashboard-create-product"
@@ -202,7 +192,7 @@ const App = () => {
           />
 
           <Route
-            path="dashboard-coupouns"
+            path="/dashboard-coupouns"
             element={
               <SellerProtectedRoute>
                 <ShopAllCoupons />

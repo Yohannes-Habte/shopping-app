@@ -16,16 +16,17 @@
       align-items: center;
       gap: 0.5rem;
 
-      .active-tab-icon {
-        .icon {
-          font-size: $aafs;
+      .passive-icon-status {
+        .admin-icon {
+          font-size: $afs;
+          color: $green;
         }
       }
 
-      .passive-tab-icon {
-        .icon {
+      .active-icon-status {
+        .admin-icon {
           font-size: $afs;
-          color: $black;
+          color: red;
         }
       }
 

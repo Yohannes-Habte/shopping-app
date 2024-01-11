@@ -141,7 +141,7 @@
 
     // Send button
     .create-shop-btn {
-      @include button1;
+      @include button3;
       font-size: $one;
     }
 
@@ -283,7 +283,7 @@
 
       // Send button
       .create-shop-btn {
-        @include button1;
+        @include button3;
         font-size: $one;
       }
 
@@ -430,7 +430,7 @@
 
       // Send button
       .create-shop-btn {
-        @include button1;
+        @include button3;
       }
 
       // Already have an acount

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 const { Schema } = mongoose;
 
@@ -28,13 +29,14 @@ const shopSchema = new Schema(
         updatedAt: { type: Date },
       },
     ],
-    resetPasswordToken: String,
-    resetPasswordTime: Date,
+    passwordResetToken: { type: String },
+    forgotPasswordChangedAt: Date,
+    passwordResetTokenExpires: Date,
   },
   { timestamps: true }
 );
 
-// Pre save
+// Pre save for hashed password
 shopSchema.pre('save', async function (next) {
   try {
     if (!this.isModified('password')) return next();
@@ -45,6 +47,21 @@ shopSchema.pre('save', async function (next) {
     return next(err);
   }
 });
+
+// Pre save for rest forgot password
+shopSchema.methods.createResetpasswordToken = function () {
+  let resetToken = crypto.randomBytes(32).toString('hex');
+
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  this.passwordResetToken = hashedToken;
+  this.passwordResetTokenExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
 
 const Shop = mongoose.model('Shop', shopSchema);
 export default Shop;

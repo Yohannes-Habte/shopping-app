@@ -79,15 +79,11 @@ const ShopLogin = () => {
       };
       const { data } = await axios.post(`${API}/shops/login-shop`, loginUser);
 
-      if (data.shop.success === false) {
-        dispatch(loginSellerFailure(data.shop.message));
-        return;
-      }
       dispatch(loginSellerSuccess(data.shop));
       // Reset
       reset();
     } catch (error) {
-      dispatch(loginSellerFailure(error.response.data.shop.message));
+      dispatch(loginSellerFailure(error.response.data.message));
     }
   };
 
@@ -162,17 +158,13 @@ const ShopLogin = () => {
           </div>
 
           <div className="forgot-password-wrapper">
-            <Link className="link" to={'/forget-password'}>
+            <Link className="link" to={'/shop-forgot-password'}>
               Forgot your password?
             </Link>
           </div>
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="seller-login-button"
-        >
+        <button type="submit" disabled={loading} className="shop-login-button">
           {loading && <ButtonLoader />}
           {loading && <span>Loading...</span>}
           {!loading && <span>Log In</span>}

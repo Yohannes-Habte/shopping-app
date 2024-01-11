@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import globalErrorHandler from './middleware/globalErrorHandler.js';
-import shopRouter from './routes/shopeRoutes.js';
+import shopRouter from './routes/shopRoutes.js';
 import conversationRouter from './routes/conversationRoutes.js';
 import couponRouter from './routes/couponRoutes.js';
 import eventRouter from './routes/eventRoutes.js';

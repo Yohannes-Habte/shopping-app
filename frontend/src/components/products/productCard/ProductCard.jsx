@@ -74,6 +74,7 @@ const ProductCard = ({ product, isEvent }) => {
               ? `/products/${product._id}?isEvent=true`
               : `/products/${product._id}`
           }
+          className="product-card-link"
         >
           <img
             src={`${product.images && product.images}`}
@@ -83,7 +84,10 @@ const ProductCard = ({ product, isEvent }) => {
         </Link>
       </figure>
 
-      <Link to={`/shop/preview/${product?.shop._id}`}>
+      <Link
+        to={`/shop/preview/${product?.shop._id}`}
+        className="product-card-link"
+      >
         <h3 className="subTitle"> {product.shop.name} </h3>
       </Link>
 
@@ -93,6 +97,7 @@ const ProductCard = ({ product, isEvent }) => {
             ? `/products/${product._id}?isEvent=true`
             : `/products/${product._id}`
         }
+        className="product-card-link"
       >
         <h4 className="product-name">
           {product.name.length > 40

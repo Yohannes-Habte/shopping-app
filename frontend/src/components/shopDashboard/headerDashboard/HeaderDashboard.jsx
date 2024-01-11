@@ -55,7 +55,7 @@ const HeaderDashboard = ({ isOwner }) => {
 
       {/* Links to various pages */}
       <span className="dashboard-header-icons">
-        <NavLink to="/dashboard/cupouns" className={active}>
+        <NavLink to="/dashboard-coupouns" className={active}>
           <AiOutlineGift className="header-dashboard-icon" title="Coupons" />
         </NavLink>
 
