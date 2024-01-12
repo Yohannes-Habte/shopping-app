@@ -105,9 +105,10 @@
 // Four types of buttons
 @mixin googleButton {
   width: 100%;
+  background-color: $google-button-bg;
   margin: 1rem 0;
   padding: 0.5rem 1rem;
-  border: 1px solid $yellow;
+  border: 1px solid $green;
   font-weight: $aafs;
   font-size: $afs;
   border-radius: $radius;
@@ -115,7 +116,7 @@
   transition: 0.5s;
 
   &:hover {
-    background-color: $button-hover;
+    background-color: $google-button-hover;
     color: $red;
   }
 }

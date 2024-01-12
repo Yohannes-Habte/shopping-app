@@ -58,6 +58,72 @@ export const createAccount = async (req, res, next) => {
 };
 
 //=========================================================================
+// Google register and login for a user
+//=========================================================================
+export const googleRegisterLogin = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    // If user exist, the user will log in
+    if (user) {
+      const googleLoginToken = userToken(user._id);
+      const { password, role, ...otherDetails } = user._doc;
+
+      return res
+        .cookie('user_token', googleLoginToken, {
+          path: '/',
+          httpOnly: true,
+          expires: new Date(Date.now() + 1000 * 3600),
+          sameSite: 'none',
+          secure: true,
+        })
+        .status(200)
+        .json({ success: true, user: otherDetails });
+    } else {
+      // If user does not exist, the user will sign up
+      const generatepassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+
+      const hashedPassword = bcrypt.hashSync(generatepassword, 12);
+
+      const newUser = new User({
+        name:
+          req.body.name.split(' ').join('').toLowerCase() +
+          Math.random().toString(36).slice(-4),
+        email: req.body.email,
+        password: hashedPassword,
+        image: req.body.image,
+        agree: req.body.agree,
+      });
+      console.log('new User', newUser);
+
+      try {
+        await newUser.save();
+      } catch (error) {
+        next(createError(500, 'User could not save!'));
+      }
+
+      const googleLoginSignup = userToken(newUser._id);
+      const { password, role, ...otherDetails } = newUser._doc;
+
+      return res
+        .cookie('user_token', googleLoginSignup, {
+          path: '/',
+          httpOnly: true,
+          expires: new Date(Date.now() + 1000 * 3600),
+          sameSite: 'none',
+          secure: true,
+        })
+        .status(200)
+        .json({ success: true, user: otherDetails });
+    }
+  } catch (error) {
+    console.log(error);
+    next(createError(500, 'User could not sign up or login using google!'));
+  }
+};
+
+//=========================================================================
 // Login user
 //=========================================================================
 

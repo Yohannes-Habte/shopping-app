@@ -18,6 +18,7 @@ import { validEmail, validPassword } from '../../../utils/validators/Validate';
 import { toast } from 'react-toastify';
 import ButtonLoader from '../../../utils/loader/ButtonLoader';
 import { API } from '../../../utils/security/secreteKey';
+import GoogleSignupLogin from '../../../components/userLayout/googleRegisterLongin/GoogleSignupLogin';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -183,12 +184,15 @@ const Login = () => {
               {!loading && <span>Log In</span>}
             </button>
 
+            <GoogleSignupLogin login={'login'} />
+
             <p className="haveNoAccount">
               Don't have an account?{' '}
               <NavLink to="/register" className={'link-to'}>
                 Sign Up
               </NavLink>
             </p>
+
           </form>
         </fieldset>
       </section>

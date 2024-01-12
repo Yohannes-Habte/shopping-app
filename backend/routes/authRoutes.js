@@ -4,6 +4,7 @@ import {
   createAccount,
   deleteAccount,
   forgotPassword,
+  googleRegisterLogin,
   loginUser,
   resetForgotPassword,
   updateUserProfile,
@@ -25,6 +26,7 @@ authRouter.post(
   checkValidation,
   createAccount
 );
+authRouter.post('/google', googleRegisterLogin);
 authRouter.post('/login', loginUser);
 authRouter.post('/forgot-password', forgotPassword);
 authRouter.patch('/reset-password/:token', resetForgotPassword);

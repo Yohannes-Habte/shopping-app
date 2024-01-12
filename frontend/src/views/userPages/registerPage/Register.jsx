@@ -22,6 +22,7 @@ import {
   cloud_name,
   upload_preset,
 } from '../../../utils/security/secreteKey.js';
+import GoogleSignupLogin from '../../../components/userLayout/googleRegisterLongin/GoogleSignupLogin.jsx';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -302,6 +303,9 @@ const Register = () => {
               {loading && <span> Loading...</span>}
               {!loading && <span>Sign Up</span>}
             </button>
+
+            <GoogleSignupLogin signup={'signup'} />
+
             <p className="haveAccount">
               Already have an account?
               <NavLink to="/login" className={'link-to'}>
