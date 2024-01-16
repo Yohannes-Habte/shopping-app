@@ -106,9 +106,31 @@ export const deleteUserAddress = async (req, res, next) => {
     // Update user data (address)
     res.status(200).json(user);
   } catch (error) {
-    console.log(error);
     next(
       createError(500, 'The address could not be deleted! Please try again!')
     );
+  }
+};
+
+//====================================================================
+// Delete user by admin
+//====================================================================
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return next(createError(404, 'User does not exist!'));
+    }
+
+    await User.findByIdAndDelete(req.params.id);
+
+    res.status(201).json({
+      success: true,
+      message: 'User deleted successfully!',
+    });
+  } catch (error) {
+    next(createError(500, 'User could not be deleted! Please try again!'));
   }
 };

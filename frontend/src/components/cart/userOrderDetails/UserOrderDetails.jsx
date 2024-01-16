@@ -235,9 +235,7 @@ const UserOrderDetails = () => {
       <div className="shipping-paymentinfo-refund-container">
         <article className="shipping-address">
           <h4 className="subTitle">Shipping Address:</h4>
-          <p className="address">
-            {`${order?.shippingAddress?.address1} / ${order?.shippingAddress?.address2}`}
-          </p>
+          <p className="address">{`${order?.shippingAddress?.address}`}</p>
           <p className="address">{order?.shippingAddress?.country}</p>
           <p className="address">{order?.shippingAddress?.state}</p>
           <p className="address">{order?.shippingAddress?.city}</p>

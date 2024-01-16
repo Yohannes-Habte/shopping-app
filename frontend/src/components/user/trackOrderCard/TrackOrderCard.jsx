@@ -44,7 +44,7 @@ const TrackOrderCard = ({ user, shop, order }) => {
       <article className="shoppping-address">
         <h3 className="subTitle"> Shopping address</h3>
         <p className="address"> {user?.name}, </p>
-        <p className="address"> {order?.shippingAddress?.address1}, </p>
+        <p className="address"> {order?.shippingAddress?.address}, </p>
         <p className="address">
           {order?.shippingAddress?.zipCode} {order?.shippingAddress?.city}{' '}
         </p>

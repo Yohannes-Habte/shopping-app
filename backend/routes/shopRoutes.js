@@ -1,6 +1,8 @@
 import express from 'express';
 import {
   createShop,
+  deleteAllShops,
+  deleteSingleShop,
   deleteWithdrawMethod,
   getAllShops,
   getShop,
@@ -45,8 +47,8 @@ shopRouter.put('/update-payment-methods', authSeller, updatePaymentMethods);
 shopRouter.delete('/delete-payment-method', authSeller, deleteWithdrawMethod);
 shopRouter.get('/shop/:id', getShop);
 shopRouter.get('/', getAllShops);
-shopRouter.delete('/delete-shop/:id', authAdmin, getAllShops);
-shopRouter.delete('/delete-all-shops', authAdmin, getAllShops);
+shopRouter.delete('/delete-shop/:id', deleteSingleShop);
+shopRouter.delete('/delete-all-shops', authAdmin, deleteAllShops);
 
 // Export shop Router
 export default shopRouter;

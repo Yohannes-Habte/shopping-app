@@ -83,13 +83,16 @@ const AllShopsEvents = () => {
     });
 
   return (
-    <DataGrid
-      rows={row}
-      columns={columns}
-      pageSize={10}
-      disableSelectionOnClick
-      autoHeight
-    />
+    <section className="all-events-container">
+      <h3 className="all-events-title">List of Events</h3>
+      <DataGrid
+        rows={row}
+        columns={columns}
+        pageSize={10}
+        disableSelectionOnClick
+        autoHeight
+      />
+    </section>
   );
 };
 

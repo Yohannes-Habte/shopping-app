@@ -5,60 +5,64 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AiFillDelete } from 'react-icons/ai';
-import { MdOutlineClose } from 'react-icons/md';
 import { API } from '../../../utils/security/secreteKey';
+import { IoClose } from 'react-icons/io5';
 
 const AllShopsUsers = () => {
   const dispatch = useDispatch();
   // const { users } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const [userId, setUserId] = useState('');
+  const [users, setUsers] = useState([]);
 
-  const [users, setUser] = useState([]);
+  // Get all users for all shops
+  const allUsers = async () => {
+    try {
+      const { data } = await axios.get(`${API}/users`);
+      setUsers(data.users);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  // Display users on the browser
   useEffect(() => {
-    const allOrders = async () => {
-      try {
-        const { data } = await axios.get(`${API}/users`);
-        setUser(data.users);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    allOrders();
+    allUsers();
   }, []);
 
+  // Delete a user
   const handleDelete = async (id) => {
-    await axios
-      .delete(`${API}/users/delete-user/${id}`)
-      .then((res) => {
-        toast.success(res.data.message);
-      });
+    try {
+      const { data } = await axios.delete(`${API}/users/delete-user/${id}`);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
 
-    dispatch('getAllUsers'());
+    allUsers();
   };
 
   const columns = [
-    { field: 'id', headerName: 'User ID', minWidth: 150, flex: 0.7 },
+    { field: 'id', headerName: 'User ID', minWidth: 250, flex: 0.7 },
 
     {
       field: 'name',
       headerName: 'name',
-      minWidth: 130,
+      minWidth: 200,
       flex: 0.7,
     },
     {
       field: 'email',
       headerName: 'Email',
       type: 'text',
-      minWidth: 130,
+      minWidth: 200,
       flex: 0.7,
     },
     {
       field: 'role',
       headerName: 'User Role',
       type: 'text',
-      minWidth: 130,
+      minWidth: 200,
       flex: 0.7,
     },
 
@@ -66,14 +70,14 @@ const AllShopsUsers = () => {
       field: 'joinedAt',
       headerName: 'joinedAt',
       type: 'text',
-      minWidth: 130,
+      minWidth: 200,
       flex: 0.8,
     },
 
     {
       field: ' ',
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       headerName: 'Delete User',
       type: 'number',
       sortable: false,
@@ -100,8 +104,8 @@ const AllShopsUsers = () => {
     });
 
   return (
-    <section className="">
-      <h3 className="">All Users</h3>
+    <section className="all-users-wrapper">
+      <h3 className="all-users-title">All Users</h3>
 
       <DataGrid
         rows={row}
@@ -112,21 +116,23 @@ const AllShopsUsers = () => {
       />
 
       {open && (
-        <article className="">
-          <MdOutlineClose onClick={() => setOpen(false)} />
+        <article className="user-delete-confirmation-wrapper">
+          <IoClose className="delete-icon" onClick={() => setOpen(false)} />
 
-          <h3 className="">Are you sure you want delete this user?</h3>
-          <div className="">
-            <span className={``} onClick={() => setOpen(false)}>
+          <h3 className="you-want-delete-user">
+            Are you sure you want delete this user?
+          </h3>
+          <aside className="cancel-or-confirm-delete">
+            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
               cancel
-            </span>
-            <span
-              className={``}
+            </p>
+            <h3
+              className={`confirm-delete`}
               onClick={() => setOpen(false) || handleDelete(userId)}
             >
               confirm
-            </span>
-          </div>
+            </h3>
+          </aside>
         </article>
       )}
     </section>

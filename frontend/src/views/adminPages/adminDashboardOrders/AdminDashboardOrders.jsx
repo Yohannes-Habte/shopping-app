@@ -6,6 +6,8 @@ import AdminSidebar from '../../../components/admin/adminSidebar/AdminSidebar';
 import AdminHeader from '../../../components/admin/adminHeader/AdminHeader';
 import { getAllOrdersOfAdmin } from '../../../redux/actions/order';
 import axios from 'axios';
+import { API } from '../../../utils/security/secreteKey';
+import { toast } from 'react-toastify';
 
 const AdminDashboardOrders = () => {
   const dispatch = useDispatch();
@@ -16,20 +18,21 @@ const AdminDashboardOrders = () => {
 
   const [orders, setOrders] = useState([]);
 
+  // Get all orders
   useEffect(() => {
     const allOrders = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/api/orders`);
+        const { data } = await axios.get(`${API}/orders`);
         setOrders(data.orders);
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.message);
       }
     };
     allOrders();
   }, []);
 
   const columns = [
-    { field: 'id', headerName: 'Order ID', minWidth: 150, flex: 0.7 },
+    { field: 'id', headerName: 'Order ID', minWidth: 200, flex: 0.7 },
 
     {
       field: 'status',
@@ -44,7 +47,7 @@ const AdminDashboardOrders = () => {
     },
     {
       field: 'itemsQty',
-      headerName: 'Items Qty',
+      headerName: 'Order Quantity',
       type: 'number',
       minWidth: 130,
       flex: 0.7,
@@ -84,14 +87,15 @@ const AdminDashboardOrders = () => {
         <h1 className="admin-dashboard-orders-page-title">Shops Orders</h1>
         <div className="wrapper">
           <AdminSidebar />
-
-          <DataGrid
-            rows={row}
-            columns={columns}
-            pageSize={4}
-            disableSelectionOnClick
-            autoHeight
-          />
+          <div className="orders-table">
+            <DataGrid
+              rows={row}
+              columns={columns}
+              pageSize={4}
+              disableSelectionOnClick
+              autoHeight
+            />
+          </div>
         </div>
       </section>
     </main>

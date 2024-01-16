@@ -35,7 +35,7 @@ export const createWithdrawMoney = async (req, res, next) => {
       return next(
         createError(
           500,
-          'Withdraw money request is not send to seller email! Please try again!'
+          'Withdraw request is not send to seller email! Please try again!'
         )
       );
     }
@@ -60,12 +60,7 @@ export const createWithdrawMoney = async (req, res, next) => {
       withdraw,
     });
   } catch (error) {
-    next(
-      createError(
-        500,
-        'Withdraw money request is not created! Please try again!'
-      )
-    );
+    next(createError(500, 'Withdraw money request is not created! Try again!'));
   }
 };
 //====================================================================
@@ -74,19 +69,16 @@ export const createWithdrawMoney = async (req, res, next) => {
 
 export const getAllWithdrawRequests = async (req, res, next) => {
   try {
-    const withdraws = await Withdraw.find().sort({ createdAt: -1 });
+    const withdraws = await Withdraw.find().sort({
+      createdAt: -1,
+    });
 
     res.status(200).json({
       success: true,
-      withdraws,
+      withdraws: withdraws,
     });
   } catch (error) {
-    next(
-      createError(
-        500,
-        'Admin could not access withdraw requests! Please try again!'
-      )
-    );
+    next(createError(500, 'Admin could not access all withdraw requests!'));
   }
 };
 
@@ -119,7 +111,7 @@ export const updateMoneyWithdrawRequest = async (req, res, next) => {
     seller.transections = [...seller.transections, transection];
 
     await seller.save();
-    await withdraw.save()
+    await withdraw.save();
 
     // Email Contents
     const message = `
@@ -128,7 +120,7 @@ export const updateMoneyWithdrawRequest = async (req, res, next) => {
       <p> Best regards, </p>
       <p> Customer Service Team </p>
       `;
-      
+
     const subject = 'Payment Confirmation';
     const send_to = req.seller.email;
 

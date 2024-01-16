@@ -4,28 +4,45 @@ import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { BsPencil } from 'react-icons/bs';
 import { toast } from 'react-toastify';
-import { MdOutlineClose } from 'react-icons/md';
 import { API } from '../../../utils/security/secreteKey';
+import { IoClose } from 'react-icons/io5';
 
 const AllShopsWithdraws = () => {
-  const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [withdrawData, setWithdrawData] = useState();
   const [withdrawStatus, setWithdrawStatus] = useState('Processing');
-
   const [withdraws, setWithdraws] = useState([]);
 
+  // Get all shops withdraws
   useEffect(() => {
     const allWithdraws = async () => {
       try {
         const { data } = await axios.get(`${API}/wthdraws`);
         setWithdraws(data.withdraws);
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.message);
       }
     };
     allWithdraws();
   }, []);
+
+  // Delete a single shop withdraw
+  const handleSubmit = async () => {
+    try {
+      const withdrawRequest = {
+        sellerId: withdrawData.shopId,
+      };
+      const { data } = await axios.put(
+        `${API}/wthdraws/update/${withdrawData.id}`,
+        withdrawRequest
+      );
+      toast.success('Withdraw request updated successfully!');
+      setWithdraws(data.withdraws);
+      setOpen(false);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   const columns = [
     { field: 'id', headerName: 'Withdraw Id', minWidth: 150, flex: 0.7 },
@@ -79,23 +96,9 @@ const AllShopsWithdraws = () => {
     },
   ];
 
-  const handleSubmit = async () => {
-    await axios
-      .put(
-        `withdraw/update-withdraw-request/${withdrawData.id}`,
-        {
-          sellerId: withdrawData.shopId,
-        },
-        { withCredentials: true }
-      )
-      .then((res) => {
-        toast.success('Withdraw request updated successfully!');
-        setData(res.data.withdraws);
-        setOpen(false);
-      });
-  };
-
   const row = [];
+
+  console.log('withdraws =', withdraws);
 
   withdraws &&
     withdraws.forEach((withdraw) => {
@@ -109,8 +112,8 @@ const AllShopsWithdraws = () => {
       });
     });
   return (
-    <article className="">
-      <h2> Shops Withdraws</h2>
+    <article className="admin-withdraws-container">
+      <h2 className="admin-withdraws-title"> Shops Withdraws</h2>
       <DataGrid
         rows={row}
         columns={columns}
@@ -120,22 +123,26 @@ const AllShopsWithdraws = () => {
       />
 
       {open && (
-        <section className="">
-          <MdOutlineClose onClick={() => setOpen(false)} />
+        <section className="admin-update-withdraw-status-wrapper">
+          <IoClose className="close-icon" onClick={() => setOpen(false)} />
 
-          <h1 className="">Update Withdraw status</h1>
+          <h3 className="update-withdraw-status">Update Withdraw status</h3>
 
-          <select
+          <section
             name=""
             id=""
             onChange={(e) => setWithdrawStatus(e.target.value)}
-            className=""
+            className="section-field"
           >
             <option value={withdrawStatus}>{withdrawData.status}</option>
             <option value={withdrawStatus}>Succeed</option>
-          </select>
+          </section>
 
-          <button type="submit" className={``} onClick={handleSubmit}>
+          <button
+            type="submit"
+            className={`admin-update-withdraw-btn`}
+            onClick={handleSubmit}
+          >
             Update
           </button>
         </section>

@@ -141,7 +141,7 @@ const ShopOrderDetails = () => {
           <p className="address">
             Street:
             <span className="addrress-span">
-              {data?.shippingAddress.address1}
+              {data?.shippingAddress.address}
             </span>
           </p>
           <p className="address">

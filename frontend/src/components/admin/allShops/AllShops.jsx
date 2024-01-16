@@ -18,24 +18,29 @@ const AllShops = () => {
 
   const [shops, setShops] = useState([]);
 
+  // Get all shops
+  const allShops = async () => {
+    try {
+      const { data } = await axios.get(`${API}/shops`);
+      setShops(data.shops);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const allShops = async () => {
-      try {
-        const { data } = await axios.get(`${API}/shops`);
-        setShops(data.shops);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     allShops();
   }, []);
 
+  // Delete a shop
   const handleDelete = async (id) => {
-    await axios.delete(`${API}/shops/delete-seller/${id}`).then((res) => {
-      toast.success(res.data.message);
-    });
-
-    dispatch('getAllSellers'());
+    try {
+      const { data } = await axios.delete(`${API}/shops/delete-shop/${id}`);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+    allShops();
   };
 
   const columns = [
@@ -44,21 +49,21 @@ const AllShops = () => {
     {
       field: 'name',
       headerName: 'name',
-      minWidth: 130,
+      minWidth: 200,
       flex: 0.7,
     },
     {
       field: 'email',
       headerName: 'Email',
       type: 'text',
-      minWidth: 130,
+      minWidth: 200,
       flex: 0.7,
     },
     {
-      field: 'address',
-      headerName: 'Seller Address',
+      field: 'shopAddress',
+      headerName: 'Shop Address',
       type: 'text',
-      minWidth: 130,
+      minWidth: 200,
       flex: 0.7,
     },
 
@@ -66,13 +71,13 @@ const AllShops = () => {
       field: 'joinedAt',
       headerName: 'joinedAt',
       type: 'text',
-      minWidth: 130,
+      minWidth: 100,
       flex: 0.8,
     },
     {
       field: '  ',
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       headerName: 'Preview Shop',
       type: 'number',
       sortable: false,
@@ -87,7 +92,7 @@ const AllShops = () => {
     {
       field: ' ',
       flex: 1,
-      minWidth: 150,
+      minWidth: 100,
       headerName: 'Delete Seller',
       type: 'number',
       sortable: false,
@@ -109,13 +114,13 @@ const AllShops = () => {
         name: shop?.name,
         email: shop?.email,
         joinedAt: shop.createdAt.slice(0, 10),
-        address: shop.address,
+        shopAddress: shop.shopAddress,
       });
     });
 
   return (
     <section className="all-shops-wrapper">
-      <h3 className="">All Users</h3>
+      <h3 className="all-shops-title">List of Shops</h3>
 
       <DataGrid
         rows={row}
@@ -126,16 +131,18 @@ const AllShops = () => {
       />
 
       {open && (
-        <article className="">
-          <IoClose onClick={() => setOpen(false)} />
+        <article className="shop-delete-confirmation-wrapper">
+          <IoClose className="delete-icon" onClick={() => setOpen(false)} />
 
-          <h3 className="">Are you sure you want delete this user?</h3>
-          <aside className="">
-            <p className={``} onClick={() => setOpen(false)}>
+          <h3 className="you-want-delete-shop">
+            Are you sure you want delete this shop?
+          </h3>
+          <aside className="cancel-or-confirm-delete">
+            <p className={`cancel-delete`} onClick={() => setOpen(false)}>
               cancel
             </p>
             <h3
-              className={``}
+              className={`confirm-delete`}
               onClick={() => setOpen(false) || handleDelete(userId)}
             >
               confirm

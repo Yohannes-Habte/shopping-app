@@ -51,10 +51,10 @@ const AllShopsProducts = () => {
       flex: 0.6,
     },
     {
-      field: 'Preview',
+      field: 'preview',
       flex: 0.8,
       minWidth: 100,
-      headerName: '',
+      headerName: 'Preview',
       type: 'number',
       sortable: false,
       renderCell: (params) => {
@@ -83,13 +83,16 @@ const AllShopsProducts = () => {
     });
 
   return (
-    <DataGrid
-      rows={row}
-      columns={columns}
-      pageSize={10}
-      disableSelectionOnClick
-      autoHeight
-    />
+    <section className="all-products-container">
+      <h3 className="all-products-title">List of Products</h3>
+      <DataGrid
+        rows={row}
+        columns={columns}
+        pageSize={10}
+        disableSelectionOnClick
+        autoHeight
+      />
+    </section>
   );
 };
 

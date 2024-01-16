@@ -29,8 +29,8 @@ withdrawRouter.put(
   updateMoneyWithdrawRequest
 );
 withdrawRouter.get('/', getAllWithdrawRequests);
-withdrawRouter.delete('/:id', authAdmin, deleteMoneyWithdrawRequest);
-withdrawRouter.delete('/', authAdmin, deleteAllMoneyWithdraws);
+withdrawRouter.delete('/:id', deleteMoneyWithdrawRequest);
+withdrawRouter.delete('/', deleteAllMoneyWithdraws);
 
 // Export withdraw Router
 export default withdrawRouter;
