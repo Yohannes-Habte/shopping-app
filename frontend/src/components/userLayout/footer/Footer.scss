@@ -3,6 +3,7 @@
 
 .footer {
   background-color: $footer-bg5;
+  padding: 1rem 0;
   .subscription {
     display: flex;
     flex-direction: column;
@@ -83,12 +84,75 @@
       }
     }
   }
+
+  .footer-sections-container {
+    width: $laptop;
+    margin: 1rem auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+
+    .footer-sitemap,
+    .footer-company,
+    .footer-social,
+    .footer-contact {
+      padding: 0 0.5rem;
+
+      .footer-subTitle {
+        @include subTitle;
+      }
+
+      .footer-items {
+        font-size: $one;
+
+        .footer-item {
+          line-height: $afs;
+          padding: 0 0.5rem;
+
+          .ActiveLink {
+            color: $red;
+            font-size: $one;
+          }
+
+          .passiveLink {
+            color: $black;
+            font-size: $one;
+          }
+
+          .footer-icon {
+            font-size: $aafs;
+            margin-right: 0.5rem;
+            color: $black;
+
+            &:hover {
+              color: $red;
+            }
+          }
+
+          & a {
+            display: flex;
+            align-items: center;
+
+            &:hover {
+              color: $red;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .copyright {
+    padding: 1rem 0 0 0.5rem;
+  }
 }
 
 /* Tablet screen size */
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .footer {
     background-color: $footer-bg5;
+
     .subscription {
       display: flex;
       flex-direction: row;
@@ -169,6 +233,62 @@
 
         .subscribe-btn {
           @include button4;
+        }
+      }
+    }
+
+    .footer-sections-container {
+      width: $laptop;
+      margin: 1rem auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 0.5rem;
+      row-gap: 0.5rem;
+
+      .footer-sitemap,
+      .footer-company,
+      .footer-social,
+      .footer-contact {
+        padding: 0 0.5rem;
+
+        .footer-subTitle {
+          @include subTitle;
+        }
+
+        .footer-items {
+          font-size: $afs;
+
+          .footer-item {
+            line-height: $aafs;
+            padding: 0 0.5rem;
+
+            .ActiveLink {
+              color: $red;
+            }
+
+            .passiveLink {
+              color: $black;
+            }
+
+            .footer-icon {
+              font-size: $afs;
+              margin-right: 0.5rem;
+              color: $black;
+
+              &:hover {
+                color: $red;
+              }
+            }
+
+            & a {
+              display: flex;
+              align-items: center;
+
+              &:hover {
+                color: $red;
+              }
+            }
+          }
         }
       }
     }
@@ -259,6 +379,62 @@
 
         .subscribe-btn {
           @include button4;
+        }
+      }
+    }
+
+    .footer-sections-container {
+      width: $laptop;
+      margin: 1rem auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 0.5rem;
+      row-gap: 0.5rem;
+
+      .footer-sitemap,
+      .footer-company,
+      .footer-social,
+      .footer-contact {
+        padding: 0 0.5rem;
+
+        .footer-subTitle {
+          @include subTitle;
+        }
+
+        .footer-items {
+          font-size: $afs;
+
+          .footer-item {
+            line-height: $aafs;
+            padding: 0 0.5rem;
+
+            .ActiveLink {
+              color: $red;
+            }
+
+            .passiveLink {
+              color: $black;
+            }
+
+            .footer-icon {
+              font-size: $afs;
+              margin-right: 0.5rem;
+              color: $black;
+
+              &:hover {
+                color: $red;
+              }
+            }
+
+            & a {
+              display: flex;
+              align-items: center;
+
+              &:hover {
+                color: $red;
+              }
+            }
+          }
         }
       }
     }

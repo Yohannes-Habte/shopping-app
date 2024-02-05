@@ -88,7 +88,7 @@ const ProductCard = ({ product, isEvent }) => {
         to={`/shop/preview/${product?.shop._id}`}
         className="product-card-link"
       >
-        <h3 className="subTitle"> {product.shop.name} </h3>
+        <h3 className="shop-name"> {product.shop.name} </h3>
       </Link>
 
       <Link
@@ -113,7 +113,7 @@ const ProductCard = ({ product, isEvent }) => {
         <Ratings averageRating={product?.ratings} />
 
         <article className="product-price-wrapper">
-          <h5 className={`subTitle`}>
+          <h5 className={`price`}>
             Current Price{' '}
             <span className="current-price">
               $

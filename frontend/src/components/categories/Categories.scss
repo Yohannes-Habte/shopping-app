@@ -8,8 +8,8 @@
   gap: 1rem;
 
   .category-wrapper {
-   display: grid;
-   grid-template-columns: 20% 80%;
+    display: grid;
+    grid-template-columns: 20% 80%;
 
     .icon {
       font-size: 3rem;
@@ -17,12 +17,13 @@
     }
 
     .title-paragraph {
-      .sub-title {
-        font-size: $afs;
+      .category-title {
+        @include subTitle;
+        font-size: $one;
       }
 
       .paragraph {
-        font-size: $afs;
+        font-size: $one;
       }
     }
   }
@@ -51,11 +52,12 @@
 
       .title-paragraph {
         .sub-title {
-          font-size: $afs;
+          @include subTitle;
+          font-size: $one;
         }
 
         .paragraph {
-          font-size: $afs;
+          font-size: $one;
         }
       }
     }
@@ -85,12 +87,13 @@
       }
 
       .title-paragraph {
-        .sub-title {
-          font-size: $afs;
+        .category-title {
+          @include subTitle;
+          font-size: $one;
         }
 
         .paragraph {
-          font-size: $afs;
+          font-size: $one;
         }
       }
     }

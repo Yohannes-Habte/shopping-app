@@ -121,7 +121,7 @@ const AdminDashboardOverview = () => {
             <article className="box">
               <aside className="icon-subTitle">
                 <FaShopSlash />
-                <h3 className={`subTitle`}>All Sellers</h3>
+                <h3 className={`subTitle`}>All Shops</h3>
               </aside>
               <h5 className="outcome">{shops && shops.length}</h5>
               <Link to="/admin-shops">

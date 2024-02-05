@@ -23,11 +23,13 @@ withdrawRouter.post(
   checkValidation,
   createWithdrawMoney
 );
+
 withdrawRouter.put(
   '/update-withdraw-request/:id',
   authAdmin,
   updateMoneyWithdrawRequest
 );
+
 withdrawRouter.get('/', getAllWithdrawRequests);
 withdrawRouter.delete('/:id', deleteMoneyWithdrawRequest);
 withdrawRouter.delete('/', deleteAllMoneyWithdraws);

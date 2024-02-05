@@ -19,7 +19,7 @@ export const createWithdrawMoney = async (req, res, next) => {
      <p> Customer Service Team </p>
      `;
     const subject = 'Withdraw Request';
-    const send_to = seller.email;
+    const send_to = "uhytmsb@gmail.com"
 
     try {
       await sendEmail({
@@ -48,6 +48,7 @@ export const createWithdrawMoney = async (req, res, next) => {
 
     // Update shop or seller available balance after the withdraw money has been successful
     const shop = await Shop.findById(req.shop._id);
+    console.log("Shop", shop)
 
     shop.availableBalance = shop.availableBalance - amount;
 

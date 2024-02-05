@@ -10,7 +10,7 @@ const Categories = () => {
       <article className="category-wrapper">
         <MdLocalShipping className="icon" />
         <div className='title-paragraph'>
-          <h3 className="sub-title">Free Shipping</h3>
+          <h3 className="category-title">Free Shipping</h3>
           <p className="paragraph">From all orders over $100</p>
         </div>
       </article>
@@ -19,7 +19,7 @@ const Categories = () => {
         <TbDiscountCheckFilled className="icon" />
 
         <div className='title-paragraph'>
-          <h3 className="sub-title">Daily Surprise Offers</h3>
+          <h3 className="category-title">Daily Surprise Offers</h3>
           <p className="paragraph">Save up to 20% off</p>
         </div>
       </article>
@@ -27,7 +27,7 @@ const Categories = () => {
       <article className="category-wrapper">
         <RiPriceTagFill className="icon" />
         <div className='title-paragraph'>
-          <h3 className="sub-title">Affordable Prices</h3>
+          <h3 className="category-title">Affordable Prices</h3>
           <p className="paragraph">Get Factor direct price</p>
         </div>
       </article>
@@ -35,7 +35,7 @@ const Categories = () => {
       <article className="category-wrapper">
         <RiSecurePaymentLine className="icon" />
         <div className='title-paragraph'>
-          <h3 className="sub-title">Securre Payments</h3>
+          <h3 className="category-title">Secure Payments</h3>
           <p className="paragraph">100% protected payments</p>
         </div>
       </article>
