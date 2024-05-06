@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
 import { MdEmojiEvents } from 'react-icons/md';
 import { FaAddressCard, FaPhoneVolume, FaUpload } from 'react-icons/fa';
 import { FaAudioDescription } from 'react-icons/fa';
-import { RiFileZipFill } from 'react-icons/ri';
 import {
   updateSellerFilure,
   updateSellerStart,

@@ -4,7 +4,6 @@ import { Country, State, City } from 'country-state-city';
 import { FaAddressCard, FaPhoneSquareAlt, FaUserTie } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 import { RiFileZipFill } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const Shipping = ({

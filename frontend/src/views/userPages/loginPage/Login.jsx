@@ -87,7 +87,7 @@ const Login = () => {
       const { data } = await axios.post(`${API}/auths/login`, loginUser);
 
       if (data.success === false) {
-        dispatch(loginSuccess(data.user.message));
+        dispatch(loginFailure(data.user.message));
         return;
       }
 

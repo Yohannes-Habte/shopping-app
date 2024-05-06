@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './CreateEvent.scss';
 import { AiFillTags } from 'react-icons/ai';
 import { BiSolidCategoryAlt } from 'react-icons/bi';
@@ -24,6 +24,7 @@ import {
 
 const CreateEvent = () => {
   const navigate = useNavigate();
+  const startingDateRef = useRef();
 
   // Global state variables
   const { currentSeller } = useSelector((state) => state.seller);
@@ -46,12 +47,10 @@ const CreateEvent = () => {
   const handleStartDateChange = (e) => {
     const startDate = new Date(e.target.value);
     const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
+    const minEndDateISO = minEndDate.toISOString().slice(0, 10);
     setStartDate(startDate);
     setEndDate(null);
-    document.getElementById('endDate').min = minEndDate.toISOString.slice(
-      0,
-      10
-    );
+    startingDateRef.current.name = minEndDateISO;
   };
 
   // Handle end date change
@@ -298,7 +297,7 @@ const CreateEvent = () => {
             type="date"
             name="startDate"
             id="startDate"
-            required
+            ref={startingDateRef}
             value={startDate ? startDate.toISOString().slice(0, 10) : ''}
             onChange={handleStartDateChange}
             min={today}

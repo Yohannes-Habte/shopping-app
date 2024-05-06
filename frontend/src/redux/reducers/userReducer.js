@@ -99,8 +99,7 @@ const userReducer = createSlice({
       state.addressLoading = true;
     },
     deleteUserAddressSuccess: (state, action) => {
-      state.Filure = false;
-      // state.successMessage = action.payload.successMessage;
+      state.addressLoading = false;
       state.currentUser = action.payload;
     },
     deleteUserAddressFilure: (state, action) => {
