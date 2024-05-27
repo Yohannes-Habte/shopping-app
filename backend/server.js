@@ -32,7 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', express.static('uploads')); // image upload using multer
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'http://shopping-app.vercel.app'],
+    origin: ['http://localhost:3000', 'https://shopping-app.onrender.com'],
     credentials: true, // to send token from the backend to the frontend
   })
 );

@@ -28,7 +28,7 @@ const Header = () => {
   const { currentSeller } = useSelector((state) => state.seller);
   const { products } = useSelector((state) => state.product);
   const { cart } = useSelector((state) => state.cart);
-  const { wishList } = useSelector((state) => state.wishList);
+  const { wishList } = useSelector((state) => state.wishList); 
 
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ const Header = () => {
 
   // Displaying product data
   useEffect(() => {
-    const fetachAllProducts = async () => {
+    const fetchAllProducts = async () => {
       try {
         const { data } = await axios.get(`http://localhost:5000/api/products`);
 
@@ -52,7 +52,7 @@ const Header = () => {
         console.log(error);
       }
     };
-    fetachAllProducts();
+    fetchAllProducts();
   }, []);
 
   // Handle search submit
